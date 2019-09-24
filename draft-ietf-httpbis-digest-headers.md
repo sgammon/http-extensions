@@ -812,6 +812,13 @@ integrity at transport layer that protects HTTP header fields.
 
 A `Digest` header field using NOT RECOMMENDED digest-algorithms SHOULD NOT be used in signatures.
 
+## Relation with validators
+
+`Digest` field-value may be cached by intermediaries.
+
+`Validators` like `Last-Modified` and `ETag`
+or other caching header fields
+may indicate the freshness of the conveyed representation.
 
 ## Message Truncation
 
