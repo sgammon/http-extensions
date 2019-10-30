@@ -9,6 +9,7 @@ jobs:
       - run:
           name: "Print Configuration"
           command: |
+            git -C lib rev-parse
             xml2rfc --version
             gem list -q kramdown-rfc2629
             echo -n 'mmark '; mmark --version
