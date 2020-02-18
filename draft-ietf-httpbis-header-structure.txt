@@ -5,8 +5,8 @@
 HTTP Working Group                                         M. Nottingham
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               P-H. Kamp
-Expires: August 15, 2020                       The Varnish Cache Project
-                                                       February 12, 2020
+Expires: August 21, 2020                       The Varnish Cache Project
+                                                       February 18, 2020
 
 
                       Structured Headers for HTTP
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 1]
+Nottingham & Kamp        Expires August 21, 2020                [Page 1]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -63,7 +63,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 15, 2020.
+   This Internet-Draft will expire on August 21, 2020.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 2]
+Nottingham & Kamp        Expires August 21, 2020                [Page 2]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -143,15 +143,15 @@ Internet-Draft         Structured Headers for HTTP         February 2020
      D.3.  Since draft-ietf-httpbis-header-structure-13  . . . . . .  36
      D.4.  Since draft-ietf-httpbis-header-structure-12  . . . . . .  36
      D.5.  Since draft-ietf-httpbis-header-structure-11  . . . . . .  36
-     D.6.  Since draft-ietf-httpbis-header-structure-10  . . . . . .  36
+     D.6.  Since draft-ietf-httpbis-header-structure-10  . . . . . .  37
      D.7.  Since draft-ietf-httpbis-header-structure-09  . . . . . .  37
      D.8.  Since draft-ietf-httpbis-header-structure-08  . . . . . .  37
-     D.9.  Since draft-ietf-httpbis-header-structure-07  . . . . . .  37
+     D.9.  Since draft-ietf-httpbis-header-structure-07  . . . . . .  38
      D.10. Since draft-ietf-httpbis-header-structure-06  . . . . . .  38
      D.11. Since draft-ietf-httpbis-header-structure-05  . . . . . .  38
      D.12. Since draft-ietf-httpbis-header-structure-04  . . . . . .  38
-     D.13. Since draft-ietf-httpbis-header-structure-03  . . . . . .  38
-     D.14. Since draft-ietf-httpbis-header-structure-02  . . . . . .  38
+     D.13. Since draft-ietf-httpbis-header-structure-03  . . . . . .  39
+     D.14. Since draft-ietf-httpbis-header-structure-02  . . . . . .  39
      D.15. Since draft-ietf-httpbis-header-structure-01  . . . . . .  39
      D.16. Since draft-ietf-httpbis-header-structure-00  . . . . . .  39
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  39
@@ -165,7 +165,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 3]
+Nottingham & Kamp        Expires August 21, 2020                [Page 3]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -221,7 +221,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 4]
+Nottingham & Kamp        Expires August 21, 2020                [Page 4]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -277,7 +277,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 5]
+Nottingham & Kamp        Expires August 21, 2020                [Page 5]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -333,7 +333,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 6]
+Nottingham & Kamp        Expires August 21, 2020                [Page 6]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -389,7 +389,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 7]
+Nottingham & Kamp        Expires August 21, 2020                [Page 7]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -445,7 +445,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 8]
+Nottingham & Kamp        Expires August 21, 2020                [Page 8]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -501,7 +501,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020                [Page 9]
+Nottingham & Kamp        Expires August 21, 2020                [Page 9]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -557,7 +557,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 10]
+Nottingham & Kamp        Expires August 21, 2020               [Page 10]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -613,7 +613,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 11]
+Nottingham & Kamp        Expires August 21, 2020               [Page 11]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -669,7 +669,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 12]
+Nottingham & Kamp        Expires August 21, 2020               [Page 12]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -725,7 +725,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 13]
+Nottingham & Kamp        Expires August 21, 2020               [Page 13]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -781,7 +781,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 14]
+Nottingham & Kamp        Expires August 21, 2020               [Page 14]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -837,7 +837,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 15]
+Nottingham & Kamp        Expires August 21, 2020               [Page 15]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -893,7 +893,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 16]
+Nottingham & Kamp        Expires August 21, 2020               [Page 16]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -949,7 +949,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 17]
+Nottingham & Kamp        Expires August 21, 2020               [Page 17]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 18]
+Nottingham & Kamp        Expires August 21, 2020               [Page 18]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 19]
+Nottingham & Kamp        Expires August 21, 2020               [Page 19]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 20]
+Nottingham & Kamp        Expires August 21, 2020               [Page 20]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 21]
+Nottingham & Kamp        Expires August 21, 2020               [Page 21]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 22]
+Nottingham & Kamp        Expires August 21, 2020               [Page 22]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 23]
+Nottingham & Kamp        Expires August 21, 2020               [Page 23]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 24]
+Nottingham & Kamp        Expires August 21, 2020               [Page 24]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 25]
+Nottingham & Kamp        Expires August 21, 2020               [Page 25]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 26]
+Nottingham & Kamp        Expires August 21, 2020               [Page 26]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 27]
+Nottingham & Kamp        Expires August 21, 2020               [Page 27]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1565,7 +1565,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 28]
+Nottingham & Kamp        Expires August 21, 2020               [Page 28]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 29]
+Nottingham & Kamp        Expires August 21, 2020               [Page 29]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 30]
+Nottingham & Kamp        Expires August 21, 2020               [Page 30]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 31]
+Nottingham & Kamp        Expires August 21, 2020               [Page 31]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 32]
+Nottingham & Kamp        Expires August 21, 2020               [Page 32]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1845,7 +1845,7 @@ B.1.  Why not JSON?
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 33]
+Nottingham & Kamp        Expires August 21, 2020               [Page 33]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1901,7 +1901,7 @@ Appendix C.  Implementation Notes
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 34]
+Nottingham & Kamp        Expires August 21, 2020               [Page 34]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
@@ -1911,6 +1911,11 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    languages have native types that map to the other types well, it may
    be necessary to create a wrapper "token" object or use a parameter on
    functions to assure that these types remain separate.
+
+   The serialisation algorithm is defined in a way that it is not
+   strictly limited to the data types defined in Section 3 in every
+   case.  For example, Decimals are designed to take broader input and
+   round to allowed values.
 
 Appendix D.  Changes
 
@@ -1926,6 +1931,8 @@ D.1.  Since draft-ietf-httpbis-header-structure-15
    o  String length requirements apply to decoded strings (#1051).
 
    o  Correctly round decimals in serialisation (#1043).
+
+   o  Clarify input to serialisation algorithm (#1055).
 
 D.2.  Since draft-ietf-httpbis-header-structure-14
 
@@ -1946,6 +1953,15 @@ D.2.  Since draft-ietf-httpbis-header-structure-14
 
    o  Change Floats to fixed-precision Decimals (#982).
 
+
+
+
+
+Nottingham & Kamp        Expires August 21, 2020               [Page 35]
+
+Internet-Draft         Structured Headers for HTTP         February 2020
+
+
    o  Round the fractional component of decimal, rather than truncating
       it (#982).
 
@@ -1953,14 +1969,6 @@ D.2.  Since draft-ietf-httpbis-header-structure-14
       their values, rather than failing (#997).
 
    o  Allow "." in key (#1027).
-
-
-
-
-Nottingham & Kamp        Expires August 15, 2020               [Page 35]
-
-Internet-Draft         Structured Headers for HTTP         February 2020
-
 
    o  Check first character of key in serialisation (#1037).
 
@@ -2000,6 +2008,16 @@ D.5.  Since draft-ietf-httpbis-header-structure-11
 
    o  Allow dictionary members to have parameters (#842).
 
+
+
+
+
+
+Nottingham & Kamp        Expires August 21, 2020               [Page 36]
+
+Internet-Draft         Structured Headers for HTTP         February 2020
+
+
 D.6.  Since draft-ietf-httpbis-header-structure-10
 
    o  Update abstract (#799).
@@ -2010,13 +2028,6 @@ D.6.  Since draft-ietf-httpbis-header-structure-10
       string (#790).
 
    o  Allow empty dictionaries and lists (#781).
-
-
-
-Nottingham & Kamp        Expires August 15, 2020               [Page 36]
-
-Internet-Draft         Structured Headers for HTTP         February 2020
-
 
    o  Change parameterized lists to have primary items (#797).
 
@@ -2055,6 +2066,14 @@ D.8.  Since draft-ietf-httpbis-header-structure-08
 
    o  Rename Identifier to Token (#725).
 
+
+
+
+Nottingham & Kamp        Expires August 21, 2020               [Page 37]
+
+Internet-Draft         Structured Headers for HTTP         February 2020
+
+
    o  Add implementation guidance (#727).
 
 D.9.  Since draft-ietf-httpbis-header-structure-07
@@ -2065,14 +2084,6 @@ D.9.  Since draft-ietf-httpbis-header-structure-07
       specification (#671).
 
    o  Changed "mapping" to "map" for #671.
-
-
-
-
-Nottingham & Kamp        Expires August 15, 2020               [Page 37]
-
-Internet-Draft         Structured Headers for HTTP         February 2020
-
 
    o  Don't fail if byte sequences aren't "=" padded (#658).
 
@@ -2112,6 +2123,13 @@ D.12.  Since draft-ietf-httpbis-header-structure-04
 
    o  Refine number parsing.
 
+
+
+Nottingham & Kamp        Expires August 21, 2020               [Page 38]
+
+Internet-Draft         Structured Headers for HTTP         February 2020
+
+
 D.13.  Since draft-ietf-httpbis-header-structure-03
 
    o  Strengthen language around failure handling.
@@ -2121,14 +2139,6 @@ D.14.  Since draft-ietf-httpbis-header-structure-02
    o  Split Numbers into Integers and Floats.
 
    o  Define number parsing.
-
-
-
-
-Nottingham & Kamp        Expires August 15, 2020               [Page 38]
-
-Internet-Draft         Structured Headers for HTTP         February 2020
-
 
    o  Tighten up binary parsing and give it an explicit end delimiter.
 
@@ -2166,6 +2176,16 @@ Authors' Addresses
    URI:   https://www.mnot.net/
 
 
+
+
+
+
+
+Nottingham & Kamp        Expires August 21, 2020               [Page 39]
+
+Internet-Draft         Structured Headers for HTTP         February 2020
+
+
    Poul-Henning Kamp
    The Varnish Cache Project
 
@@ -2181,4 +2201,40 @@ Authors' Addresses
 
 
 
-Nottingham & Kamp        Expires August 15, 2020               [Page 39]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nottingham & Kamp        Expires August 21, 2020               [Page 40]
