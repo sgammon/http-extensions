@@ -4,9 +4,9 @@
 
 HTTP Working Group                                           D. Benjamin
 Internet-Draft                                                Google LLC
-Updates: 7540 (if approved)                            February 22, 2020
+Updates: 7540 (if approved)                            February 23, 2020
 Intended status: Standards Track
-Expires: August 25, 2020
+Expires: August 26, 2020
 
 
                        Using TLS 1.3 with HTTP/2
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 25, 2020.
+   This Internet-Draft will expire on August 26, 2020.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Benjamin                 Expires August 25, 2020                [Page 1]
+Benjamin                 Expires August 26, 2020                [Page 1]
 
 Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
@@ -89,33 +89,36 @@ Table of Contents
 
 1.  Introduction
 
-   TLS 1.2 [RFC5246] and earlier support renegotiation, a mechanism for
-   changing parameters and keys partway through a connection.  This was
-   sometimes used to implement reactive client authentication in
-   HTTP/1.1 [RFC7230], where the server decides whether to request a
-   client certificate based on the HTTP request.
+   TLS 1.2 [RFC5246] and earlier versions of TLS support renegotiation,
+   a mechanism for changing parameters and keys partway through a
+   connection.  This was sometimes used to implement reactive client
+   authentication in HTTP/1.1 [RFC7230], where the server decides
+   whether or not to request a client certificate based on the HTTP
+   request.
 
    HTTP/2 [RFC7540] multiplexes multiple HTTP requests over a single
    connection, which is incompatible with the mechanism above.  Clients
-   cannot correlate the certificate request with the HTTP request which
+   cannot correlate the certificate request with the HTTP request that
    triggered it.  Thus, Section 9.2.1 of [RFC7540] forbids
    renegotiation.
 
-   TLS 1.3 [RFC8446] updates TLS 1.2 to remove renegotiation in favor of
-   separate post-handshake authentication and key update mechanisms.
-   The former shares the same problems with multiplexed protocols, but
-   the prohibition in [RFC7540] only applies to TLS 1.2 renegotiation.
+   TLS 1.3 [RFC8446] removes renegotiation and replaces it with separate
+   post-handshake authentication and key update mechanisms.  Post-
+   handshake authentication has the same problems with multiplexed
 
 
 
 
-Benjamin                 Expires August 25, 2020                [Page 2]
+Benjamin                 Expires August 26, 2020                [Page 2]
 
 Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
 
-   This document updates HTTP/2 to similarly forbid TLS 1.3 post-
-   handshake authentication.
+   protocols as TLS 1.2 renegotiation, but the prohibition in [RFC7540]
+   only applies to renegotiation.
+
+   This document updates HTTP/2 [RFC7540] to similarly forbid TLS 1.3
+   post-handshake authentication.
 
 2.  Requirements Language
 
@@ -140,17 +143,17 @@ Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
    The above applies even if the client offered the
    "post_handshake_auth" TLS extension.  This extension is advertised
-   independently of the selected ALPN protocol [RFC7301], so it is not
-   sufficient to resolve the conflict with HTTP/2.  HTTP/2 clients that
-   also offer other ALPN protocols, notably HTTP/1.1, in a TLS
-   ClientHello MAY include the "post_handshake_auth" extension to
-   support those other protocols.  This does not indicate support in
-   HTTP/2.
+   independently of the selected Application-Layer Protocol Negotiation
+   (ALPN) protocol [RFC7301], so it is not sufficient to resolve the
+   conflict with HTTP/2.  HTTP/2 clients that also offer other ALPN
+   protocols, notably HTTP/1.1, in a TLS ClientHello MAY include the
+   "post_handshake_auth" extension to support those other protocols.
+   This does not indicate support in HTTP/2.
 
 4.  Other Post-Handshake TLS Messages in HTTP/2
 
    [RFC8446] defines two other messages that are exchanged after the
-   handshake is complete, KeyUpdate and NewSessionTicket.
+   handshake is complete: KeyUpdate and NewSessionTicket.
 
    KeyUpdate messages only affect TLS itself and do not require any
    interaction with the application protocol.  HTTP/2 implementations
@@ -158,14 +161,11 @@ Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
    NewSessionTicket messages are also permitted.  Though these interact
    with HTTP when early data is enabled, these interactions are defined
-   in [RFC8470] and allowed for in the design of HTTP/2.
+   in [RFC8470] and are allowed for in the design of HTTP/2.
 
 
 
-
-
-
-Benjamin                 Expires August 25, 2020                [Page 3]
+Benjamin                 Expires August 26, 2020                [Page 3]
 
 Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
@@ -221,7 +221,7 @@ Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
 
 
-Benjamin                 Expires August 25, 2020                [Page 4]
+Benjamin                 Expires August 26, 2020                [Page 4]
 
 Internet-Draft          Using TLS 1.3 with HTTP/2          February 2020
 
@@ -277,4 +277,4 @@ Author's Address
 
 
 
-Benjamin                 Expires August 25, 2020                [Page 5]
+Benjamin                 Expires August 26, 2020                [Page 5]
