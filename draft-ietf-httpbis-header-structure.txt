@@ -198,9 +198,10 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    Section 2 describes how to specify a Structured Header.
 
    Section 3 defines a number of abstract data types that can be used in
-   Structured Headers.  Those abstract types can be serialized into and
-   parsed from HTTP field values using the algorithms described in
-   Section 4.
+   Structured Headers.
+
+   Those abstract types can be serialized into and parsed from HTTP
+   field values using the algorithms described in Section 4.
 
 1.1.  Intentionally Strict Processing
 
@@ -216,8 +217,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    In other words, strict processing is an intentional feature of this
    specification; it allows non-conformant input to be discovered and
-   corrected by the producer early, and avoids both interoperability and
-   security issues that might otherwise result.
+
 
 
 
@@ -225,6 +225,9 @@ Nottingham & Kamp        Expires August 26, 2020                [Page 4]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   corrected by the producer early, and avoids both interoperability and
+   security issues that might otherwise result.
 
    Note that as a result of this strictness, if a field is appended to
    by multiple parties (e.g., intermediaries, or different components in
@@ -242,7 +245,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    This document uses algorithms to specify parsing and serialisation
    behaviours, and the Augmented Backus-Naur Form (ABNF) notation of
    [RFC5234] to illustrate expected syntax in HTTP header fields.  In
-   doing so, uses the VCHAR, SP, DIGIT, ALPHA and DQUOTE rules from
+   doing so, it uses the VCHAR, SP, DIGIT, ALPHA and DQUOTE rules from
    [RFC5234].  It also includes the tchar rule from [RFC7230].
 
    When parsing from HTTP fields, implementations MUST follow the
@@ -272,9 +275,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    o  Define the semantics of those structures.
 
-   o  Specify any additional constraints upon the structures used, as
-      well as the consequences when those constraints are violated.
-
 
 
 Nottingham & Kamp        Expires August 26, 2020                [Page 5]
@@ -282,8 +282,11 @@ Nottingham & Kamp        Expires August 26, 2020                [Page 5]
 Internet-Draft         Structured Headers for HTTP         February 2020
 
 
+   o  Specify any additional constraints upon the structures used, as
+      well as the consequences when those constraints are violated.
+
    Typically, this means that a field definition will specify the top-
-   level type - Dictionary, List or Item - and then define its allowable
+   level type - List, Dictionary or Item - and then define its allowable
    types, and constraints upon them.  For example, a header defined as a
    List might have all Integer members, or a mix of types; a header
    defined as an Item might allow only Strings, and additionally only
@@ -307,7 +310,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    and to encourage consumers to use a fully capable Structured Headers
    parser, a field definition can specify that "grease" parameters be
    added by senders.  For example, a specification could stipulate that
-   all parameters beginning with the letter 'q' are reserved for this
+   all parameters beginning with the letter "h" are reserved for this
    use.
 
    Note that a field definition cannot relax the requirements of this
@@ -327,9 +330,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Specifications can refer to a Structured Header's field name as a
    "structured header name" and its field value as a "structured header
-   value" as necessary.  Field definitions are encouraged to use the
-   ABNF rules beginning with "sh-" defined in this specification; other
-   rules in this specification are not intended for their use.
 
 
 
@@ -337,6 +337,10 @@ Nottingham & Kamp        Expires August 26, 2020                [Page 6]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   value" as necessary.  Field definitions are encouraged to use the
+   ABNF rules beginning with "sh-" defined in this specification; other
+   rules in this specification are not intended for their use.
 
    For example, a fictitious Foo-Example header field might be specified
    as:
@@ -361,7 +365,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
      for the message. See below for processing requirements.
 
    "fooUrl" contains a URI-reference (Section 4.1 of
-   [RFC3986], Section 4.1). If its value is not a valid URI-reference,
+   [RFC3986]). If its value is not a valid URI-reference,
    that URL MUST be ignored. If its value is a relative reference
    (Section 4.2 of [RFC3986]), it MUST be resolved (Section 5 of
    [RFC3986]) before being used.
@@ -381,11 +385,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    o  There are three top-level types that a HTTP header or trailer
       field can be defined as; Lists, Dictionaries, and Items.
 
-   o  Lists and Dictionaries are containers; their members can be Items
-      or Inner Lists (which are themselves lists of items).
 
-   o  Both Items and Inner Lists can be parameterised with key/value
-      pairs.
 
 
 
@@ -393,6 +393,12 @@ Nottingham & Kamp        Expires August 26, 2020                [Page 7]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   o  Lists and Dictionaries are containers; their members can be Items
+      or Inner Lists (which are themselves lists of items).
+
+   o  Both Items and Inner Lists can be parameterised with key/value
+      pairs.
 
 3.1.  Lists
 
@@ -437,18 +443,17 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    the individual items and the inner-list itself can be parameterised
    (Section 3.1.2).
 
-   The ABNF for inner-lists is:
-
-   inner-list    = "(" *SP [ sh-item *( 1*SP sh-item ) *SP ] ")"
-                   *parameter
-
-
 
 
 Nottingham & Kamp        Expires August 26, 2020                [Page 8]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   The ABNF for inner-lists is:
+
+   inner-list    = "(" *SP [ sh-item *( 1*SP sh-item ) *SP ] ")"
+                   parameters
 
    Inner lists are denoted by surrounding parenthesis, and have their
    values delimited by a single space.  A header field whose value is
@@ -477,14 +482,15 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    The ABNF for parameters is:
 
-   parameter     = ";" *SP param-name [ "=" param-value ]
+   parameters    = *( ";" *SP parameter )
+   parameter     = param-name [ "=" param-value ]
    param-name    = key
    key           = lcalpha *( lcalpha / DIGIT / "_" / "-" / "." / "*" )
    lcalpha       = %x61-7A ; a-z
    param-value   = bare-item
 
-   Parameters are separated from their item or inner-list and each other
-   by semicolons.  For example:
+   A parameter is separated from its item or inner-list and other
+   parameters by a semicolon.  For example:
 
    Example-ParamListHeader: abc;a=1;b=2; cde_456, (ghi;jk=4 l);q="9";r=w
 
@@ -493,18 +499,16 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Example-IntHeader: 1; a; b=?0
 
-   Note that this requirement is only on serialisation; parsers are
-   still required to correctly handle the true value when it appears in
-   parameters.
-
-
-
 
 
 Nottingham & Kamp        Expires August 26, 2020                [Page 9]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   Note that this requirement is only on serialisation; parsers are
+   still required to correctly handle the true value when it appears in
+   parameters.
 
    Parsers MUST support at least 256 parameters on an item or inner-
    list, and support parameter keys with at least 64 characters.  Field
@@ -551,16 +555,15 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Example-DictListHeader: rating=1.5, feelings=(joy sadness)
 
-   A dictionary with a mix of singular and list values, some with
-   parameters:
-
-
 
 
 Nottingham & Kamp        Expires August 26, 2020               [Page 10]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   A dictionary with a mix of singular and list values, some with
+   parameters:
 
    Example-MixDict: a=(1 2), b=3, c=4;aa=bb, d=(5 6);valid
 
@@ -599,7 +602,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    The ABNF for items is:
 
-  sh-item   = bare-item *parameter
+  sh-item   = bare-item parameters
   bare-item = sh-integer / sh-decimal / sh-string / sh-token / sh-binary
               / sh-boolean
 
@@ -608,15 +611,14 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Example-IntItemHeader: 5
 
-   or with parameters:
-
-
 
 
 Nottingham & Kamp        Expires August 26, 2020               [Page 11]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   or with parameters:
 
    Example-IntItemHeader: 5; foo=bar
 
@@ -667,8 +669,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 
 
-
-
 Nottingham & Kamp        Expires August 26, 2020               [Page 12]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
@@ -701,7 +701,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    The ABNF for tokens is:
 
-   sh-token = ( ALPHA / "\*" ) *( tchar / ":" / "/" )
+   sh-token = ( ALPHA / "*" ) *( tchar / ":" / "/" )
 
    Parsers MUST support tokens with at least 512 characters.
 
@@ -764,12 +764,12 @@ Internet-Draft         Structured Headers for HTTP         February 2020
        (i.e., it has no members), do not serialize the field at all
        (i.e., omit both the field-name and field-value).
 
-   2.  If the structure is a Dictionary, let output_string be the result
-       of running Serializing a Dictionary (Section 4.1.2) with the
-       structure.
+   2.  If the structure is a List, let output_string be the result of
+       running Serializing a List (Section 4.1.1) with the structure.
 
-   3.  Else if the structure is a List, let output_string be the result
-       of running Serializing a List (Section 4.1.1) with the structure.
+   3.  Else if the structure is a Dictionary, let output_string be the
+       result of running Serializing a Dictionary (Section 4.1.2) with
+       the structure.
 
    4.  Else if the structure is an Item, let output_string be the result
        of running Serializing an Item (Section 4.1.3) with the
@@ -832,7 +832,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    3.  Append ")" to output.
 
    4.  Append the result of running Serializing Parameters
-       Section 4.1.1.2 with list_parameters to output.
+       (Section 4.1.1.2) with list_parameters to output.
 
 
 
@@ -1705,7 +1705,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 5.  IANA Considerations
 
-   This draft has no actions for IANA.
+   This document has no actions for IANA.
 
 6.  Security Considerations
 
@@ -1909,7 +1909,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 Appendix C.  Implementation Notes
 
    A generic implementation of this specification should expose the top-
-   level parse (Section 4.2) and serialize (Section 4.1) functions.
+   level serialize (Section 4.1) and parse (Section 4.2) functions.
    They need not be functions; for example, it could be implemented as
    an object, with methods for each of the different top-level types.
 
