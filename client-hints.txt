@@ -9,7 +9,7 @@ Expires: August 27, 2020                               February 24, 2020
 
 
                            HTTP Client Hints
-                   draft-ietf-httpbis-client-hints-10
+                 draft-ietf-httpbis-client-hints-latest
 
 Abstract
 
@@ -84,7 +84,7 @@ Table of Contents
      2.2.  Server Processing of Client Hints . . . . . . . . . . . .   5
    3.  Advertising Server Support  . . . . . . . . . . . . . . . . .   5
      3.1.  The Accept-CH Response Header Field . . . . . . . . . . .   5
-       3.1.1.  Interaction with Caches . . . . . . . . . . . . . . .   6
+     3.2.  Interaction with Caches . . . . . . . . . . . . . . . . .   6
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
      4.1.  Information Exposure  . . . . . . . . . . . . . . . . . .   6
      4.2.  Deployment and Security Risks . . . . . . . . . . . . . .   8
@@ -116,6 +116,7 @@ Internet-Draft              HTTP Client Hints              February 2020
 
      B.9.  Since -08 . . . . . . . . . . . . . . . . . . . . . . . .  12
      B.10. Since -09 . . . . . . . . . . . . . . . . . . . . . . . .  12
+     B.11. Since -10 . . . . . . . . . . . . . . . . . . . . . . . .  12
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
@@ -129,9 +130,9 @@ Internet-Draft              HTTP Client Hints              February 2020
    based on such capabilities have, historically, had to rely on passive
    identification (e.g., by matching User-Agent (Section 5.5.3 of
    [RFC7231]) header field against an established database of client
-   signatures), used HTTP cookies and URL parameters, or use some
-   combination of these and similar mechanisms to enable ad hoc content
-   negotiation.
+   signatures), used HTTP cookies [RFC6265] and URL parameters, or use
+   some combination of these and similar mechanisms to enable ad hoc
+   content negotiation.
 
    Such techniques are expensive to setup and maintain, are not portable
    across both applications and servers, and make it hard to reason for
@@ -155,12 +156,11 @@ Internet-Draft              HTTP Client Hints              February 2020
    headers to advertise their capabilities and characteristics, so that
    servers can select (or formulate) an appropriate response.
 
-   However, proactive content negotiation requires clients to send these
-   request headers prolifically.  This causes performance concerns
-   (because it creates "bloat" in requests), as well as privacy issues;
-   passively providing such information allows servers to silently
-   fingerprint the user agent.
-
+   However, traditional proactive content negotiation techniques often
+   mean that clients send these request headers prolifically.  This
+   causes performance concerns (because it creates "bloat" in requests),
+   as well as privacy issues; passively providing such information
+   allows servers to silently fingerprint the user agent.
 
 
 
@@ -188,6 +188,9 @@ Internet-Draft              HTTP Client Hints              February 2020
    will use that infrastructure.  Those features will be defined in
    their respective specifications.
 
+   One example of such a feature is the User Agent Client Hints feature
+   [UA-CH].
+
 1.1.  Notational Conventions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -197,16 +200,14 @@ Internet-Draft              HTTP Client Hints              February 2020
    capitals, as shown here.
 
    This document uses the Augmented Backus-Naur Form (ABNF) notation of
-   [RFC5234] with the list rule extension defined in [RFC7230],
-   Appendix B.  It includes by reference the DIGIT rule from [RFC5234]
-   and the OWS and field-name rules from [RFC7230].
+   [RFC5234].
 
 2.  Client Hint Request Header Fields
 
    A Client Hint request header field is a HTTP header field that is
-   used by HTTP clients to indicate configuration data that can be used
-   by the server to select an appropriate response.  Each one conveys
-   client preferences that the server can use to adapt and optimize the
+   used by HTTP clients to indicate data that can be used by the server
+   to select an appropriate response.  Each one conveys client
+   preferences that the server can use to adapt and optimize the
    response.
 
 2.1.  Sending Client Hints
@@ -214,10 +215,9 @@ Internet-Draft              HTTP Client Hints              February 2020
    Clients control which Client Hints are sent in requests, based on
    their default settings, user configuration, and server preferences.
    The client and server can use an opt-in mechanism outlined below to
-   negotiate which fields should be sent to allow for efficient content
-   adaption, and optionally use additional mechanisms to negotiate
-   delegation policies that control access of third parties to same
-   fields.
+   negotiate which header fields need to be sent to allow for efficient
+   content adaption, and optionally use additional mechanisms to
+
 
 
 
@@ -226,10 +226,13 @@ Grigorik & Weiss         Expires August 27, 2020                [Page 4]
 Internet-Draft              HTTP Client Hints              February 2020
 
 
-   Implementers should be aware of the passive fingerprinting
+   negotiate delegation policies that control access of third parties to
+   same header fields.
+
+   Implementers SHOULD be aware of the passive fingerprinting
    implications when implementing support for Client Hints, and follow
-   the considerations outlined in "Security Considerations" section of
-   this document.
+   the considerations outlined in the Security Considerations
+   (Section 4) section of this document.
 
 2.2.  Server Processing of Client Hints
 
@@ -247,19 +250,19 @@ Internet-Draft              HTTP Client Hints              February 2020
 
 3.  Advertising Server Support
 
-   Servers can advertise support for Client Hints using the mechnisms
+   Servers can advertise support for Client Hints using the mechanism
    described below.
 
 3.1.  The Accept-CH Response Header Field
 
    The Accept-CH response header field or the equivalent HTML meta
-   element with http-equiv attribute ([HTML]) indicate server support
-   for particular hints indicated in its value.
+   element with http-equiv attribute (Section 4.2.5.3 of [HTML])
+   indicate server support for particular hints indicated in its value.
 
    Accept-CH is a Structured Header [I-D.ietf-httpbis-header-structure].
    Its value MUST be an sh-list (Section 3.1 of
    [I-D.ietf-httpbis-header-structure]) whose members are tokens
-   (Section 3.7 of [I-D.ietf-httpbis-header-structure]).  Its ABNF is:
+   (Section 3.3.4 of [I-D.ietf-httpbis-header-structure]).  Its ABNF is:
 
      Accept-CH = sh-list
 
@@ -272,9 +275,6 @@ Internet-Draft              HTTP Client Hints              February 2020
    ([RFC6454]) opt-in to receive Client Hint header fields advertised in
    the field-value, for subsequent same-origin requests.
 
-   o  The opt-in MUST be delivered over a secure transport.
-
-
 
 
 Grigorik & Weiss         Expires August 27, 2020                [Page 5]
@@ -282,6 +282,7 @@ Grigorik & Weiss         Expires August 27, 2020                [Page 5]
 Internet-Draft              HTTP Client Hints              February 2020
 
 
+   o  The opt-in MUST be delivered over a secure transport.
    o  The opt-in SHOULD be persisted and bound to the origin to enable
       delivery of Client Hints on subsequent requests to the server's
       origin, and MUST NOT be persisted for an origin that isn't HTTPS.
@@ -291,14 +292,14 @@ Internet-Draft              HTTP Client Hints              February 2020
 
    For example, based on the Accept-CH example above, which is received
    in response to a user agent navigating to "https://example.com", and
-   delivered over a secure transport: a user agent SHOULD persist an
-   Accept-CH preference bound to "https://example.com" and use it for
+   delivered over a secure transport: a user agent will have to persist
+   an Accept-CH preference bound to "https://example.com" and use it for
    user agent navigations to "https://example.com" and any same-origin
    resource requests initiated by the page constructed from the
-   navigation's response.  This preference SHOULD NOT extend to resource
+   navigation's response.  This preference will not extend to resource
    requests initiated to "https://example.com" from other origins.
 
-3.1.1.  Interaction with Caches
+3.2.  Interaction with Caches
 
    When selecting an optimized response based on one or more Client
    Hints, and if the resource is cacheable, the server needs to generate
@@ -322,14 +323,13 @@ Internet-Draft              HTTP Client Hints              February 2020
 
    Request header fields used in features relying on this document
    expose information about the user's environment to enable proactive
-   content negotiation.  Such information may reveal new information
+   content negotiation.  Such information might reveal new information
    about the user and implementers ought to consider the following
    considerations, recommendations, and best practices.
 
    The underlying assumption is that exposing information about the user
    as a request header is equivalent to the capability of that request's
-   origin to access that information by other means and transmit it to
-   itself.
+
 
 
 
@@ -337,6 +337,9 @@ Grigorik & Weiss         Expires August 27, 2020                [Page 6]
 
 Internet-Draft              HTTP Client Hints              February 2020
 
+
+   origin to access that information by other means and transmit it to
+   itself.
 
    Therefore, features relying on this document to define Client Hint
    headers MUST NOT provide new information that is otherwise not
@@ -348,13 +351,14 @@ Internet-Draft              HTTP Client Hints              February 2020
 
    o  Entropy
 
-      *  Exposing highly granular data may help identify users across
-         multiple requests to different origins.  Reducing the set of
-         field values that can be expressed, or restricting them to an
-         enumerated range where the advertised value is close but is not
-         an exact representation of the current value, can improve
-         privacy and reduce risk of linkability by ensuring that the
-         same value is sent by multiple users.
+      *  Exposing highly granular data can be used to help identify
+         users across multiple requests to different origins.  Reducing
+         the set of header field values that can be expressed, or
+         restricting them to an enumerated range where the advertised
+         value is close but is not an exact representation of the
+         current value, can improve privacy and reduce risk of
+         linkability by ensuring that the same value is sent by multiple
+         users.
    o  Sensitivity
 
       *  The feature SHOULD NOT expose user sensitive information.  To
@@ -381,11 +385,7 @@ Internet-Draft              HTTP Client Hints              February 2020
 
    o  Implementers SHOULD restrict delivery of some or all Client Hints
       header fields to the opt-in origin only, unless the opt-in origin
-      has explicitly delegated permission to another origin to request
-      Client Hints header fields.
-   o  Implementers MAY provide user choice mechanisms so that users may
-      balance privacy concerns with bandwidth limitations.  However,
-      implementers should also be aware that explaining the privacy
+
 
 
 
@@ -394,7 +394,12 @@ Grigorik & Weiss         Expires August 27, 2020                [Page 7]
 Internet-Draft              HTTP Client Hints              February 2020
 
 
-      implications of passive fingerprinting to users may be
+      has explicitly delegated permission to another origin to request
+      Client Hints header fields.
+   o  Implementers MAY provide user choice mechanisms so that users can
+      balance privacy concerns with bandwidth limitations.  However,
+      implementers SHOULD also be aware that explaining the privacy
+      implications of passive fingerprinting to users can be
       challenging.
    o  Implementations specific to certain use cases or threat models MAY
       avoid transmitting some or all of Client Hints header fields.  For
@@ -409,12 +414,12 @@ Internet-Draft              HTTP Client Hints              February 2020
 
    Deployment of new request headers requires several considerations:
 
-   o  Potential conflicts due to existing use of field name
-   o  Properties of the data communicated in field value
+   o  Potential conflicts due to existing use of header field name
+   o  Properties of the data communicated in header field value
 
    Authors of new Client Hints are advised to carefully consider whether
-   they should be able to be added by client-side content (e.g.,
-   scripts), or whether they should be exclusively set by the user
+   they need to be able to be added by client-side content (e.g.,
+   scripts), or whether they need to be exclusively set by the user
    agent.  In the latter case, the Sec- prefix on the header field name
    has the effect of preventing scripts and other application content
    from setting them in user agents.  Using the "Sec-" prefix signals to
@@ -440,11 +445,6 @@ Internet-Draft              HTTP Client Hints              February 2020
 
 
 
-
-
-
-
-
 Grigorik & Weiss         Expires August 27, 2020                [Page 8]
 
 Internet-Draft              HTTP Client Hints              February 2020
@@ -465,7 +465,7 @@ Internet-Draft              HTTP Client Hints              February 2020
 
 6.  IANA Considerations
 
-   This document defines the "Accept-CH" HTTP response field, and
+   This document defines the "Accept-CH" HTTP response header field, and
    registers it in the Permanent Message Header Fields registry.
 
 6.1.  Accept-CH
@@ -515,11 +515,6 @@ Internet-Draft              HTTP Client Hints              February 2020
               DOI 10.17487/RFC6454, December 2011,
               <https://www.rfc-editor.org/info/rfc6454>.
 
-   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/info/rfc7230>.
-
    [RFC7231]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Semantics and Content", RFC 7231,
               DOI 10.17487/RFC7231, June 2014,
@@ -533,6 +528,9 @@ Internet-Draft              HTTP Client Hints              February 2020
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [UA-CH]    West, M. and Y. Weiss, "User Agent Client Hints", n.d.,
+              <https://wicg.github.io/ua-client-hints/>.
 
 7.2.  Informative References
 
@@ -557,6 +555,8 @@ Internet-Draft              HTTP Client Hints              February 2020
 
 
 
+
+
 Grigorik & Weiss         Expires August 27, 2020               [Page 10]
 
 Internet-Draft              HTTP Client Hints              February 2020
@@ -564,7 +564,7 @@ Internet-Draft              HTTP Client Hints              February 2020
 
 Appendix A.  Interaction with Variants Response Header Field
 
-   Client Hints may be combined with Variants response header field
+   Client Hints might be combined with Variants response header field
    [VARIANTS] to enable fine-grained control of the cache key for
    improved cache efficiency.  Features that define Client Hints will
    need to specify the related variants algorithms as described in
@@ -642,6 +642,10 @@ B.10.  Since -09
 
    o  PR 1064: Fix merge issues with "cost of sending hints".
 
+B.11.  Since -10
+
+   o  PR 1072: LC feedback from Julian Reschke
+
 Acknowledgements
 
    Thanks to Mark Nottingham, Julian Reschke, Chris Bentzel, Ben
@@ -658,6 +662,18 @@ Authors' Addresses
    URI:   https://www.igvita.com/
 
 
+
+
+
+
+
+
+
+Grigorik & Weiss         Expires August 27, 2020               [Page 12]
+
+Internet-Draft              HTTP Client Hints              February 2020
+
+
    Yoav Weiss
    Google
 
@@ -669,4 +685,44 @@ Authors' Addresses
 
 
 
-Grigorik & Weiss         Expires August 27, 2020               [Page 12]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Grigorik & Weiss         Expires August 27, 2020               [Page 13]
