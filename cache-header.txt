@@ -4,7 +4,7 @@
 
 HTTP Working Group                                         M. Nottingham
 Internet-Draft                                                    Fastly
-Intended status: Standards Track                       February 25, 2019
+Intended status: Standards Track                       February 25, 2020
 Expires: August 28, 2020
 
 
@@ -55,12 +55,12 @@ Status of This Memo
 
 Nottingham               Expires August 28, 2020                [Page 1]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
 Copyright Notice
 
-   Copyright (c) 2019 IETF Trust and the persons identified as the
+   Copyright (c) 2020 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -111,7 +111,7 @@ Table of Contents
 
 Nottingham               Expires August 28, 2020                [Page 2]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
 1.1.  Notational Conventions
@@ -167,7 +167,7 @@ Internet-Draft             Cache-Status Header             February 2019
 
 Nottingham               Expires August 28, 2020                [Page 3]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
    fwd           = sh-token
@@ -223,7 +223,7 @@ Internet-Draft             Cache-Status Header             February 2019
 
 Nottingham               Expires August 28, 2020                [Page 4]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
    o  full - indicates that the response was a complete response (any
@@ -279,7 +279,7 @@ Internet-Draft             Cache-Status Header             February 2019
 
 Nottingham               Expires August 28, 2020                [Page 5]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
 2.8.  The key parameter
@@ -335,7 +335,7 @@ Internet-Draft             Cache-Status Header             February 2019
 
 Nottingham               Expires August 28, 2020                [Page 6]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
 4.  Security Considerations
@@ -391,7 +391,7 @@ Internet-Draft             Cache-Status Header             February 2019
 
 Nottingham               Expires August 28, 2020                [Page 7]
 
-Internet-Draft             Cache-Status Header             February 2019
+Internet-Draft             Cache-Status Header             February 2020
 
 
    [RFC7405]  Kyzivat, P., "Case-Sensitive String Support in ABNF",

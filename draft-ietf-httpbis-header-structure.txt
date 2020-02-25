@@ -642,7 +642,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 3.3.2.  Decimals
 
    Decimals are numbers with an integer and a fractional component.  The
-   Integer component has at most 12 digits; the fractional component has
+   integer component has at most 12 digits; the fractional component has
    at most three digits.
 
    The ABNF for decimals is:
