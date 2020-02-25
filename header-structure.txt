@@ -270,8 +270,8 @@ Internet-Draft         Structured Headers for HTTP         February 2020
       field need to know that the requirements of this document are in
       effect.
 
-   o  Specify the type of the field value; either Dictionary
-      (Section 3.2), List (Section 3.1), or Item (Section 3.3).
+   o  Specify the type of the field value; either List (Section 3.1),
+      Dictionary (Section 3.2), or Item (Section 3.3).
 
    o  Define the semantics of those structures.
 
@@ -290,7 +290,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    types, and constraints upon them.  For example, a header defined as a
    List might have all Integer members, or a mix of types; a header
    defined as an Item might allow only Strings, and additionally only
-   strings beginning with the letter "Q".  Likewise, inner lists are
+   strings beginning with the letter "Q".  Likewise, Inner Lists are
    only valid when a field definition explicitly allows them.
 
    When Structured Headers parsing fails, the field is ignored (see
@@ -300,25 +300,25 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    received, it will by default be ignored.  If the field requires
    different error handling, this should be explicitly specified.
 
-   However, both items and inner lists allow parameters as an
+   However, both Items and Inner Lists allow parameters as an
    extensibility mechanism; this means that values can later be extended
    to accommodate more information, if need be.  As a result, field
    specifications are discouraged from defining the presence of an
-   unrecognised parameter as an error condition.
+   unrecognised Parameter as an error condition.
 
    To help assure that this extensibility is available in the future,
    and to encourage consumers to use a fully capable Structured Headers
-   parser, a field definition can specify that "grease" parameters be
+   parser, a field definition can specify that "grease" Parameters be
    added by senders.  For example, a specification could stipulate that
-   all parameters beginning with the letter "h" are reserved for this
+   all Parameters beginning with the letter "h" are reserved for this
    use.
 
    Note that a field definition cannot relax the requirements of this
    specification because doing so would preclude handling by generic
    software; they can only add additional constraints (for example, on
-   the numeric range of integers and decimals, the format of strings and
-   tokens, the types allowed in a dictionary's values, or the number of
-   items in a list).  Likewise, field definitions can only use
+   the numeric range of Integers and Decimals, the format of Strings and
+   Tokens, the types allowed in a Dictionary's values, or the number of
+   Items in a List).  Likewise, field definitions can only use
    Structured Headers for the entire field value, not a portion thereof.
 
    This specification defines minimums for the length or number of
@@ -360,7 +360,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    the entire header to be ignored.
 
    The following parameters are defined:
-   * A parameter whose name is "foourl", and whose value is a string
+   * A Parameter whose name is "foourl", and whose value is a String
      (Section Y.Y of [RFCxxxx]), conveying the Foo URL
      for the message. See below for processing requirements.
 
@@ -403,23 +403,23 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 3.1.  Lists
 
    Lists are arrays of zero or more members, each of which can be an
-   item (Section 3.3) or an inner list (Section 3.1.1), both of which
-   can be parameterised (Section 3.1.2).
+   Item (Section 3.3) or an Inner List (Section 3.1.1), both of which
+   can be Parameterised (Section 3.1.2).
 
-   The ABNF for lists in HTTP fields is:
+   The ABNF for Lists in HTTP fields is:
 
    sh-list       = list-member *( *SP "," *SP list-member )
    list-member   = sh-item / inner-list
 
    Each member is separated by a comma and optional whitespace.  For
-   example, a header field whose value is defined as a list of strings
-   could look like:
+   example, a field whose value is defined as a List of Strings could
+   look like:
 
    Example-StrListHeader: "foo", "bar", "It was the best of times."
 
-   An empty list is denoted by not serialising the header at all.
+   An empty List is denoted by not serialising the field at all.
 
-   Note that lists can have their members split across multiple lines
+   Note that Lists can have their members split across multiple lines
    inside a header or trailer section, as per Section 3.2.2 of
    [RFC7230]; for example, the following are equivalent:
 
@@ -430,17 +430,17 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    Example-Hdr: foo
    Example-Hdr: bar
 
-   However, individual members of a list cannot be safely split between
+   However, individual members of a List cannot be safely split between
    across lines; see Section 4.2 for details.
 
-   Parsers MUST support lists containing at least 1024 members.  Field
+   Parsers MUST support Lists containing at least 1024 members.  Field
    specifications can constrain the types and cardinality of individual
-   list values as they require.
+   List values as they require.
 
 3.1.1.  Inner Lists
 
-   An inner list is an array of zero or more items (Section 3.3).  Both
-   the individual items and the inner-list itself can be parameterised
+   An Inner List is an array of zero or more Items (Section 3.3).  Both
+   the individual Items and the Inner List itself can be Parameterised
    (Section 3.1.2).
 
 
@@ -450,37 +450,37 @@ Nottingham & Kamp        Expires August 28, 2020                [Page 8]
 Internet-Draft         Structured Headers for HTTP         February 2020
 
 
-   The ABNF for inner-lists is:
+   The ABNF for Inner Lists is:
 
    inner-list    = "(" *SP [ sh-item *( 1*SP sh-item ) *SP ] ")"
                    parameters
 
-   Inner lists are denoted by surrounding parenthesis, and have their
-   values delimited by a single space.  A header field whose value is
-   defined as a list of inner-lists of strings could look like:
+   Inner Lists are denoted by surrounding parenthesis, and have their
+   values delimited by a single space.  A field whose value is defined
+   as a list of Inner Lists of Strings could look like:
 
    Example-StrListListHeader: ("foo" "bar"), ("baz"), ("bat" "one"), ()
 
-   Note that the last member in this example is an empty inner list.
+   Note that the last member in this example is an empty Inner List.
 
-   A header field whose value is defined as a list of inner-lists with
-   parameters at both levels could look like:
+   A header field whose value is defined as a list of Inner Lists with
+   Parameters at both levels could look like:
 
    Example-ListListParam: ("foo"; a=1;b=2);lvl=5, ("bar" "baz");lvl=1
 
-   Parsers MUST support inner-lists containing at least 256 members.
+   Parsers MUST support Inner Lists containing at least 256 members.
    Field specifications can constrain the types and cardinality of
-   individual inner-list members as they require.
+   individual Inner List members as they require.
 
 3.1.2.  Parameters
 
    Parameters are an ordered map of key-values pairs that are associated
-   with an item (Section 3.3) or inner-list (Section 3.1.1).  The keys
-   are unique within the scope of a map of parameters, and the values
-   are bare items (i.e., they themselves cannot be parameterised; see
-   Section 3.3).
+   with an Item (Section 3.3) or Inner List (Section 3.1.1).  The keys
+   are unique within the scope the Parameters they occur within, and the
+   values are bare items (i.e., they themselves cannot be parameterised;
+   see Section 3.3).
 
-   The ABNF for parameters is:
+   The ABNF for Parameters is:
 
    parameters    = *( ";" *SP parameter )
    parameter     = param-name [ "=" param-value ]
@@ -489,7 +489,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    lcalpha       = %x61-7A ; a-z
    param-value   = bare-item
 
-   A parameter is separated from its item or inner-list and other
+   A parameter is separated from its Item or Inner List and other
    parameters by a semicolon.  For example:
 
    Example-ParamListHeader: abc;a=1;b=2; cde_456, (ghi;jk=4 l);q="9";r=w
@@ -508,10 +508,10 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Note that this requirement is only on serialisation; parsers are
    still required to correctly handle the true value when it appears in
-   parameters.
+   a parameter.
 
-   Parsers MUST support at least 256 parameters on an item or inner-
-   list, and support parameter keys with at least 64 characters.  Field
+   Parsers MUST support at least 256 parameters on an Item or Inner
+   List, and support parameter keys with at least 64 characters.  Field
    specifications can constrain the types and cardinality of individual
    parameter names and values as they require.
 
@@ -519,15 +519,15 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Dictionaries are ordered maps of name-value pairs, where the names
    are short, textual strings and the values are items (Section 3.3) or
-   arrays of items, both of which can be parameterised (Section 3.1.2).
+   arrays of items, both of which can be Parameterised (Section 3.1.2).
    There can be zero or more members, and their names are unique in the
-   scope of the dictionary they occur within.
+   scope of the Dictionary they occur within.
 
-   Implementations MUST provide access to dictionaries both by index and
+   Implementations MUST provide access to Dictionaries both by index and
    by name.  Specifications MAY use either means of accessing the
    members.
 
-   The ABNF for dictionaries is:
+   The ABNF for Dictionaries is:
 
    sh-dictionary  = dict-member *( *SP "," *SP dict-member )
    dict-member    = member-name [ "=" member-value ]
@@ -541,17 +541,17 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    Example-DictHeader: en="Applepie", da=:w4ZibGV0w6ZydGU=:
 
    Members whose value is Boolean true MUST omit that value when
-   serialised, unless it has parameters.  For example, here both "b" and
+   serialised, unless it has Parameters.  For example, here both "b" and
    "c" are true, but "c"'s value is serialised because it has
-   parameters:
+   Parameters:
 
    Example-DictHeader: a=?0, b, c=?1; foo=bar
 
    Note that this requirement is only on serialisation; parsers are
    still required to correctly handle the true value when it appears in
-   dictionary values.
+   Dictionary values.
 
-   A dictionary with a member whose value is an inner-list of tokens:
+   A Dictionary with a member whose value is an Inner List of tokens:
 
    Example-DictListHeader: rating=1.5, feelings=(joy sadness)
 
@@ -562,16 +562,16 @@ Nottingham & Kamp        Expires August 28, 2020               [Page 10]
 Internet-Draft         Structured Headers for HTTP         February 2020
 
 
-   A dictionary with a mix of singular and list values, some with
-   parameters:
+   A Dictionary with a mix of singular and list values, some with
+   Parameters:
 
    Example-MixDict: a=(1 2), b=3, c=4;aa=bb, d=(5 6);valid
 
-   As with lists, an empty dictionary is represented by omitting the
-   entire header field.
+   As with lists, an empty Dictionary is represented by omitting the
+   entire field.
 
    Typically, a field specification will define the semantics of
-   dictionaries by specifying the allowed type(s) for individual member
+   Dictionaries by specifying the allowed type(s) for individual member
    names, as well as whether their presence is required or optional.
    Recipients MUST ignore names that are undefined or unknown, unless
    the field's specification specifically disallows them.
@@ -587,27 +587,27 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    Example-Hdr: foo=1
    Example-Hdr: bar=2
 
-   However, individual members of a dictionary cannot be safely split
+   However, individual members of a Dictionary cannot be safely split
    between lines; see Section 4.2 for details.
 
-   Parsers MUST support dictionaries containing at least 1024 name/value
+   Parsers MUST support Dictionaries containing at least 1024 name/value
    pairs, and names with at least 64 characters.
 
 3.3.  Items
 
-   An item can be a integer (Section 3.3.1), decimal (Section 3.3.2),
-   string (Section 3.3.3), token (Section 3.3.4), byte sequence
+   An Item can be a Integer (Section 3.3.1), Decimal (Section 3.3.2),
+   String (Section 3.3.3), Token (Section 3.3.4), Byte Sequence
    (Section 3.3.5), or Boolean (Section 3.3.6).  It can have associated
-   parameters (Section 3.1.2).
+   Parameters (Section 3.1.2).
 
-   The ABNF for items is:
+   The ABNF for Items is:
 
   sh-item   = bare-item parameters
   bare-item = sh-integer / sh-decimal / sh-string / sh-token / sh-binary
               / sh-boolean
 
    For example, a header field that is defined to be an Item that is an
-   integer might look like:
+   Integer might look like:
 
    Example-IntItemHeader: 5
 
@@ -618,7 +618,7 @@ Nottingham & Kamp        Expires August 28, 2020               [Page 11]
 Internet-Draft         Structured Headers for HTTP         February 2020
 
 
-   or with parameters:
+   or with Parameters:
 
    Example-IntItemHeader: 5; foo=bar
 
@@ -628,7 +628,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    inclusive (i.e., up to fifteen digits, signed), for IEEE 754
    compatibility ([IEEE754]).
 
-   The ABNF for integers is:
+   The ABNF for Integers is:
 
    sh-integer = ["-"] 1*15DIGIT
 
@@ -636,7 +636,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Example-IntegerHeader: 42
 
-   Note that commas in integers are used in this section's prose only
+   Note that commas in Integers are used in this section's prose only
    for readability; they are not valid in the wire format.
 
 3.3.2.  Decimals
@@ -649,7 +649,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    sh-decimal  = ["-"] 1*12DIGIT "." 1*3DIGIT
 
-   For example, a header whose value is defined as a decimal could look
+   For example, a header whose value is defined as a Decimal could look
    like:
 
    Example-DecimalHeader: 4.5
@@ -660,7 +660,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    the range %x20 to %x7E).  Note that this excludes tabs, newlines,
    carriage returns, etc.
 
-   The ABNF for strings is:
+   The ABNF for Strings is:
 
    sh-string = DQUOTE *(chr) DQUOTE
    chr       = unescaped / escaped
@@ -679,19 +679,19 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Example-StringHeader: "hello world"
 
-   Note that strings only use DQUOTE as a delimiter; single quotes do
-   not delimit strings.  Furthermore, only DQUOTE and "\" can be
+   Note that Strings only use DQUOTE as a delimiter; single quotes do
+   not delimit Strings.  Furthermore, only DQUOTE and "\" can be
    escaped; other characters after "\" MUST cause parsing to fail.
 
-   Unicode is not directly supported in strings, because it causes a
+   Unicode is not directly supported in Strings, because it causes a
    number of interoperability issues, and - with few exceptions - field
    values do not require it.
 
    When it is necessary for a field value to convey non-ASCII content, a
-   byte sequence (Section 3.3.5) SHOULD be specified, along with a
+   Byte Sequence (Section 3.3.5) can be specified, along with a
    character encoding (preferably [UTF-8]).
 
-   Parsers MUST support strings (after any decoding) with at least 1024
+   Parsers MUST support Strings (after any decoding) with at least 1024
    characters.
 
 3.3.4.  Tokens
@@ -699,27 +699,27 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    Tokens are short textual words; their abstract model is identical to
    their expression in the HTTP field value serialisation.
 
-   The ABNF for tokens is:
+   The ABNF for Tokens is:
 
    sh-token = ( ALPHA / "*" ) *( tchar / ":" / "/" )
 
-   Parsers MUST support tokens with at least 512 characters.
+   Parsers MUST support Tokens with at least 512 characters.
 
-   Note that a Structured Header token allows the characters as the
+   Note that a Structured Header Token allows the characters as the
    "token" ABNF rule defined in [RFC7230], with the exceptions that the
    first character is required to be either ALPHA or "*", and ":" and
    "/" are also allowed in subsequent characters.
 
 3.3.5.  Byte Sequences
 
-   Byte sequences can be conveyed in Structured Headers.
+   Byte Sequences can be conveyed in Structured Headers.
 
-   The ABNF for a byte sequence is:
+   The ABNF for a Byte Sequence is:
 
    sh-binary = ":" *(base64) ":"
    base64    = ALPHA / DIGIT / "+" / "/" / "="
 
-   A byte sequence is delimited with colons and encoded using base64
+   A Byte Sequence is delimited with colons and encoded using base64
    ([RFC4648], Section 4).  For example:
 
 
@@ -732,7 +732,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    Example-BinaryHdr: :cHJldGVuZCB0aGlzIGlzIGJpbmFyeSBjb250ZW50Lg==:
 
-   Parsers MUST support byte sequences with at least 16384 octets after
+   Parsers MUST support Byte Sequences with at least 16384 octets after
    decoding.
 
 3.3.6.  Booleans
@@ -744,7 +744,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    sh-boolean = "?" boolean
    boolean    = "0" / "1"
 
-   A boolean is indicated with a leading "?" character followed by a "1"
+   A Boolean is indicated with a leading "?" character followed by a "1"
    for a true value or "0" for false.  For example:
 
    Example-BoolHdr: ?1
@@ -846,7 +846,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.1.2.  Serializing Parameters
 
-   Given an ordered dictionary as input_parameters (each member having a
+   Given an ordered Dictionary as input_parameters (each member having a
    param_name and a param_value), return an ASCII string suitable for
    use in a HTTP field value.
 
@@ -900,7 +900,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.2.  Serializing a Dictionary
 
-   Given an ordered dictionary as input_dictionary (each member having a
+   Given an ordered Dictionary as input_dictionary (each member having a
    member_name and a tuple value of (member_value, parameters)), return
    an ASCII string suitable for use in a HTTP field value.
 
@@ -934,7 +934,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.3.  Serializing an Item
 
-   Given an item bare_item and parameters item_parameters as input,
+   Given an Item bare_item and Parameters item_parameters as input,
    return an ASCII string suitable for use in a HTTP field value.
 
    1.  Let output be an empty string.
@@ -956,32 +956,32 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.3.1.  Serialising a Bare Item
 
-   Given an item as input_item, return an ASCII string suitable for use
+   Given an Item as input_item, return an ASCII string suitable for use
    in a HTTP field value.
 
-   1.  If input_item is an integer, return the result of running
+   1.  If input_item is an Integer, return the result of running
        Serializing an Integer (Section 4.1.4) with input_item.
 
-   2.  If input_item is a decimal, return the result of running
+   2.  If input_item is a Decimal, return the result of running
        Serializing a Decimal (Section 4.1.5) with input_item.
 
-   3.  If input_item is a string, return the result of running
+   3.  If input_item is a String, return the result of running
        Serializing a String (Section 4.1.6) with input_item.
 
-   4.  If input_item is a token, return the result of running
+   4.  If input_item is a Token, return the result of running
        Serializing a Token (Section 4.1.7) with input_item.
 
    5.  If input_item is a Boolean, return the result of running
        Serializing a Boolean (Section 4.1.9) with input_item.
 
-   6.  If input_item is a byte sequence, return the result of running
+   6.  If input_item is a Byte Sequence, return the result of running
        Serializing a Byte Sequence (Section 4.1.8) with input_item.
 
    7.  Otherwise, fail serialisation.
 
 4.1.4.  Serializing an Integer
 
-   Given an integer as input_integer, return an ASCII string suitable
+   Given an Integer as input_integer, return an ASCII string suitable
    for use in a HTTP field value.
 
    1.  If input_integer is not an integer in the range of
@@ -1047,7 +1047,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.6.  Serializing a String
 
-   Given a string as input_string, return an ASCII string suitable for
+   Given a String as input_string, return an ASCII string suitable for
    use in a HTTP field value.
 
    1.  Convert input_string into a sequence of ASCII characters; if
@@ -1082,7 +1082,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.7.  Serializing a Token
 
-   Given a token as input_token, return an ASCII string suitable for use
+   Given a Token as input_token, return an ASCII string suitable for use
    in a HTTP field value.
 
    1.  Convert input_token into a sequence of ASCII characters; if
@@ -1100,7 +1100,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.8.  Serializing a Byte Sequence
 
-   Given a byte sequence as input_bytes, return an ASCII string suitable
+   Given a Byte Sequence as input_bytes, return an ASCII string suitable
    for use in a HTTP field value.
 
    1.  If input_bytes is not a sequence of bytes, fail serialisation.
@@ -1389,7 +1389,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.2.3.1.  Parsing a Bare Item
 
-   Given an ASCII string as input_string, return a bare item.
+   Given an ASCII string as input_string, return a bare Item.
    input_string is modified to remove the parsed value.
 
 
@@ -1426,7 +1426,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 4.2.3.2.  Parsing Parameters
 
    Given an ASCII string as input_string, return an ordered map whose
-   values are bare items. input_string is modified to remove the parsed
+   values are bare Items. input_string is modified to remove the parsed
    value.
 
    1.  Let parameters be an empty, ordered map.
@@ -1572,7 +1572,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.2.5.  Parsing a String
 
-   Given an ASCII string as input_string, return an unquoted string.
+   Given an ASCII string as input_string, return an unquoted String.
    input_string is modified to remove the parsed value.
 
    1.  Let output_string be an empty string.
@@ -1610,7 +1610,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.2.6.  Parsing a Token
 
-   Given an ASCII string as input_string, return a token. input_string
+   Given an ASCII string as input_string, return a Token. input_string
    is modified to remove the parsed value.
 
    1.  If the first character of input_string is not ALPHA or "*", fail
@@ -1640,7 +1640,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.2.7.  Parsing a Byte Sequence
 
-   Given an ASCII string as input_string, return a byte sequence.
+   Given an ASCII string as input_string, return a Byte Sequence.
    input_string is modified to remove the parsed value.
 
    1.  If the first character of input_string is not ":", fail parsing.
@@ -1879,7 +1879,7 @@ A.2.  Structured Headers don't "fit" my data.
                         bar; url="https://example.org"; context=456
 
    Since the description contains an array of key/value pairs, we use a
-   List to represent them, with the token for each item in the array
+   List to represent them, with the token for each member of the array
    used to identify it in the "descriptions" member of the Example-Thing
    dictionary header.
 
@@ -1911,13 +1911,13 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    this, a common test suite is being maintained by the community at
    https://github.com/httpwg/structured-header-tests [6].
 
-   Implementers should note that dictionaries and parameters are order-
+   Implementers should note that Dictionaries and Parameters are order-
    preserving maps.  Some fields may not convey meaning in the ordering
    of these data types, but it should still be exposed so that
    applications which need to use it will have it available.
 
    Likewise, implementations should note that it's important to preserve
-   the distinction between tokens and strings.  While most programming
+   the distinction between Tokens and Strings.  While most programming
    languages have native types that map to the other types well, it may
    be necessary to create a wrapper "token" object or use a parameter on
    functions to assure that these types remain separate.
