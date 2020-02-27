@@ -80,12 +80,12 @@ Table of Contents
      5.1.  HTTP/2 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .   8
      5.2.  HTTP/3 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .   9
    6.  Merging Client- and Server-Driven Parameters  . . . . . . . .  11
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
      7.1.  Fairness  . . . . . . . . . . . . . . . . . . . . . . . .  12
        7.1.1.  Coalescing Intermediaries . . . . . . . . . . . . . .  12
        7.1.2.  HTTP/1.x Back Ends  . . . . . . . . . . . . . . . . .  13
        7.1.3.  Intentional Introduction of Unfairness  . . . . . . .  13
-   8.  Considerations  . . . . . . . . . . . . . . . . . . . . . . .  13
+   8.  Considerations  . . . . . . . . . . . . . . . . . . . . . . .  14
      8.1.  Why use an End-to-End Header Field? . . . . . . . . . . .  14
      8.2.  Why do Urgencies Have Meanings? . . . . . . . . . . . . .  14
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
@@ -363,13 +363,13 @@ Internet-Draft               HTTP Priorities               February 2020
 
    The following example shows a request for a JPEG file with the
    urgency parameter set to "5" and the incremental parameter set to
-   "1".
+   "true".
 
    :method = GET
    :scheme = https
    :authority = example.net
    :path = /image.jpg
-   priority = u=5, i=?1
+   priority = u=5, i
 
 3.3.  Defining New Parameters
 
@@ -582,16 +582,17 @@ Internet-Draft               HTTP Priorities               February 2020
    server's disinterest in changing the client-provided value.  This is
    different from the logic being defined for the request header field,
    in which omission of a priority parameter implies the use of their
-   default values (see #parameters).
+   default values (see Section 3).
 
    As a non-normative example, when the client sends an HTTP request
-   with
+   with the urgency parameter set to "5" and the incremental parameter
+   set to "true"
 
    :method = GET
    :scheme = https
    :authority = example.net
    :path = /menu.png
-   priority = u=5, i=?1
+   priority = u=5, i
 
    and the origin responds with
 
@@ -601,11 +602,10 @@ Internet-Draft               HTTP Priorities               February 2020
 
    the intermediary might alter its understanding of the urgency from
    "5" to "1", because it prefers the server-provided value over the
-   client's.  The incremental value continues to be "1", the value
+   client's.  The incremental value continues to be "true", the value
    specified by the client, as the server did not specify the
    incremental("i") parameter.
 
-7.  Security Considerations
 
 
 
@@ -617,6 +617,8 @@ Oku & Pardue             Expires August 30, 2020               [Page 11]
 
 Internet-Draft               HTTP Priorities               February 2020
 
+
+7.  Security Considerations
 
 7.1.  Fairness
 
@@ -654,7 +656,7 @@ Internet-Draft               HTTP Priorities               February 2020
    In order to mitigate this fairness problem, when a server responds to
    a request that is known to have come through an intermediary, the
    server SHOULD prioritize the response as if it was assigned the
-   priority of "u=1, i=?1" (i.e. round-robin) regardless of the value of
+   priority of "u=1, i" (i.e. round-robin) regardless of the value of
    the Priority header field being transmitted, unless the server knows
    the intermediary is not coalescing requests from multiple clients.
 
@@ -664,8 +666,6 @@ Internet-Draft               HTTP Priorities               February 2020
 
    o  CDN-Loop ([RFC8586])
 
-   o  Forwarded, X-Forwarded-For ([RFC7239])
-
 
 
 
@@ -673,6 +673,8 @@ Oku & Pardue             Expires August 30, 2020               [Page 12]
 
 Internet-Draft               HTTP Priorities               February 2020
 
+
+   o  Forwarded, X-Forwarded-For ([RFC7239])
 
    o  Via ([RFC7230], Section 5.7.1)
 
@@ -716,8 +718,6 @@ Internet-Draft               HTTP Priorities               February 2020
    Also, a client MAY use the priority values for making local
    scheduling choices for the requests it initiates.
 
-8.  Considerations
-
 
 
 
@@ -729,6 +729,8 @@ Oku & Pardue             Expires August 30, 2020               [Page 13]
 
 Internet-Draft               HTTP Priorities               February 2020
 
+
+8.  Considerations
 
 8.1.  Why use an End-to-End Header Field?
 
@@ -776,8 +778,6 @@ Internet-Draft               HTTP Priorities               February 2020
    subdivide any of the eight urgency levels that are currently defined.
    Or, a graphical user-agent could send a "visible" parameter to
    indicate if the resource being requested is within the viewport.
-
-
 
 
 
