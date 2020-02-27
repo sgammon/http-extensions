@@ -587,10 +587,12 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    render textual information at an early moment.
 
    An origin can use the Priority response header field to indicate its
-   view on how an HTTP response should be prioritized.  When forwarding
-   an HTTP response with the Priority response header field, an
-   intermediary can use the parameters found in that response instead of
-   those found in the request.
+   view on how an HTTP response should be prioritized.  An intermediary
+   that forwards an HTTP response can use the parameters found in the
+   Priority response header field, in combination with the client
+   Priority request header field, as input to its prioritization
+   process.  No guidance is provided for merging priorities, this is
+   left as an implementation decision.
 
    Absence of a priority parameter in an HTTP response indicates the
    server's disinterest in changing the client-provided value.  This is
@@ -598,7 +600,8 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    in which omission of a priority parameter implies the use of their
    default values (see #parameters).
 
-   For example, when the client sends an HTTP request with
+   As a non-normative example, when the client sends an HTTP request
+   with
 
    :method = GET
    :scheme = https
@@ -607,9 +610,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    priority = u=5, i=?1
 
    and the origin responds with
-
-
-
 
 
 
@@ -623,9 +623,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    priority = u=1
 
    the intermediary might alter its understanding of the urgency from
-   "5" to "1", because the server-provided value overrides the value
-   provided by the client.  The incremental value continues to be "1",
-   the value specified by the client, as the server did not specify the
+   "5" to "1", because it prefers the server-provided value over the
+   client's.  The incremental value continues to be "1", the value
+   specified by the client, as the server did not specify the
    incremental("i") parameter.
 
 7.  Security Considerations
