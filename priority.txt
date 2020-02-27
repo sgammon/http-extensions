@@ -5,8 +5,8 @@
 HTTP Working Group                                                K. Oku
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               L. Pardue
-Expires: August 28, 2020                                      Cloudflare
-                                                       February 25, 2020
+Expires: August 30, 2020                                      Cloudflare
+                                                       February 27, 2020
 
 
                Extensible Prioritization Scheme for HTTP
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 28, 2020.
+   This Internet-Draft will expire on August 30, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 1]
+Oku & Pardue             Expires August 30, 2020                [Page 1]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -81,12 +81,12 @@ Table of Contents
      5.2.  HTTP/3 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .   9
    6.  Merging Client- and Server-Driven Parameters  . . . . . . . .  11
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-     7.1.  Fairness  . . . . . . . . . . . . . . . . . . . . . . . .  11
+     7.1.  Fairness  . . . . . . . . . . . . . . . . . . . . . . . .  12
        7.1.1.  Coalescing Intermediaries . . . . . . . . . . . . . .  12
        7.1.2.  HTTP/1.x Back Ends  . . . . . . . . . . . . . . . . .  13
        7.1.3.  Intentional Introduction of Unfairness  . . . . . . .  13
    8.  Considerations  . . . . . . . . . . . . . . . . . . . . . . .  13
-     8.1.  Why use an End-to-End Header Field? . . . . . . . . . . .  13
+     8.1.  Why use an End-to-End Header Field? . . . . . . . . . . .  14
      8.2.  Why do Urgencies Have Meanings? . . . . . . . . . . . . .  14
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
    10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 2]
+Oku & Pardue             Expires August 30, 2020                [Page 2]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -165,7 +165,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 3]
+Oku & Pardue             Expires August 30, 2020                [Page 3]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -221,7 +221,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 4]
+Oku & Pardue             Expires August 30, 2020                [Page 4]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -277,7 +277,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 5]
+Oku & Pardue             Expires August 30, 2020                [Page 5]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -333,7 +333,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 6]
+Oku & Pardue             Expires August 30, 2020                [Page 6]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -389,7 +389,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 7]
+Oku & Pardue             Expires August 30, 2020                [Page 7]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -445,7 +445,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 8]
+Oku & Pardue             Expires August 30, 2020                [Page 8]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -501,7 +501,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020                [Page 9]
+Oku & Pardue             Expires August 30, 2020                [Page 9]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -557,7 +557,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020               [Page 10]
+Oku & Pardue             Expires August 30, 2020               [Page 10]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -571,10 +571,12 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    the server.
 
    An origin can use the Priority response header field to indicate its
-   view on how an HTTP response should be prioritized.  When forwarding
-   an HTTP response with the Priority response header field, an
-   intermediary can use the parameters being found in that response
-   instead of those found in the request.
+   view on how an HTTP response should be prioritized.  An intermediary
+   that forwards an HTTP response can use the parameters found in the
+   Priority response header field, in combination with the client
+   Priority request header field, as input to its prioritization
+   process.  No guidance is provided for merging priorities, this is
+   left as an implementation decision.
 
    Absence of a priority parameter in an HTTP response indicates the
    server's disinterest in changing the client-provided value.  This is
@@ -582,7 +584,8 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    in which omission of a priority parameter implies the use of their
    default values (see #parameters).
 
-   For example, when the client sends an HTTP request with
+   As a non-normative example, when the client sends an HTTP request
+   with
 
    :method = GET
    :scheme = https
@@ -597,27 +600,29 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    priority = u=1
 
    the intermediary might alter its understanding of the urgency from
-   "5" to "1", because the server-provided value overrides the value
-   provided by the client.  The incremental value continues to be "1",
-   the value specified by the client, as the server did not specify the
+   "5" to "1", because it prefers the server-provided value over the
+   client's.  The incremental value continues to be "1", the value
+   specified by the client, as the server did not specify the
    incremental("i") parameter.
 
 7.  Security Considerations
+
+
+
+
+
+
+
+Oku & Pardue             Expires August 30, 2020               [Page 11]
+
+Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+
 
 7.1.  Fairness
 
    As a general guideline, a server SHOULD NOT use priority information
    for making schedule decisions across multiple connections, unless it
    knows that those connections originate from the same client.  Due to
-
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 11]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
-
-
    this, priority information conveyed over a non-coalesced HTTP
    connection (e.g., HTTP/1.1) might go unused.
 
@@ -661,19 +666,19 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
    o  Forwarded, X-Forwarded-For ([RFC7239])
 
+
+
+
+Oku & Pardue             Expires August 30, 2020               [Page 12]
+
+Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+
+
    o  Via ([RFC7230], Section 5.7.1)
 
    Responding to requests coming through an intermediary in a round-
    robin manner works well when the network bottleneck exists between
    the intermediary and the end client, as the intermediary would be
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 12]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
-
-
    buffering the responses and then be forwarding the chunks of those
    buffered responses based on the prioritization scheme it implements.
    A sophisticated server MAY use a weighted round-robin reflecting the
@@ -713,6 +718,18 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 8.  Considerations
 
+
+
+
+
+
+
+
+Oku & Pardue             Expires August 30, 2020               [Page 13]
+
+Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+
+
 8.1.  Why use an End-to-End Header Field?
 
    Contrary to the prioritization scheme of HTTP/2 that uses a hop-by-
@@ -722,14 +739,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    response affects the client's processing of those responses, rather
    than how relatively urgent each response is to others.  The way a
    client processes a response is a property associated to that client
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 13]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
-
-
    generating that request.  Not that of an intermediary.  Therefore, it
    is an end-to-end property.  How these end-to-end properties carried
    by the Priority header field affect the prioritization between the
@@ -768,23 +777,21 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
    Or, a graphical user-agent could send a "visible" parameter to
    indicate if the resource being requested is within the viewport.
 
+
+
+
+
+Oku & Pardue             Expires August 30, 2020               [Page 14]
+
+Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+
+
    A server can combine the hints provided in the Priority header field
    with other information in order to improve the prioritization of
    responses.  For example, a server that receives requests for a font
    [RFC8081] and images with the same urgency might give higher
    precedence to the font, so that a visual client can render textual
    information at an early moment.
-
-
-
-
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 14]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
-
 
 9.  IANA Considerations
 
@@ -828,19 +835,16 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
    Frame Type:  PRIORITY_UPDATE
 
-   Code:  0xF
-
-   Specification:  This document
 
 
-
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 15]
+Oku & Pardue             Expires August 30, 2020               [Page 15]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
+
+   Code:  0xF
+
+   Specification:  This document
 
 10.  References
 
@@ -883,20 +887,21 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
               Priorities", draft-lassey-priority-setting-00 (work in
               progress), July 2019.
 
+
+
+
+
+
+
+Oku & Pardue             Expires August 30, 2020               [Page 16]
+
+Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+
+
    [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
               Procedures for Message Header Fields", BCP 90, RFC 3864,
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
-
-
-
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 16]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
-
 
    [RFC7234]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "Hypertext Transfer Protocol (HTTP/1.1): Caching",
@@ -941,18 +946,17 @@ Appendix A.  Acknowledgements
 
    In addition to the people above, this document owes a lot to the
    extensive discussion in the HTTP priority design team, consisting of
-   Alan Frindell, Andrew Galloni, Craig Taylor, Ian Swett, Kazuho Oku,
-   Lucas Pardue, Matthew Cox, Mike Bishop, Roberto Peon, Robin Marx, Roy
-   Fielding.
 
 
 
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 17]
+Oku & Pardue             Expires August 30, 2020               [Page 17]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
+
+   Alan Frindell, Andrew Galloni, Craig Taylor, Ian Swett, Kazuho Oku,
+   Lucas Pardue, Matthew Cox, Mike Bishop, Roberto Peon, Robin Marx, Roy
+   Fielding.
 
 Appendix B.  Change Log
 
@@ -1001,11 +1005,7 @@ Authors' Addresses
 
 
 
-
-
-
-
-Oku & Pardue             Expires August 28, 2020               [Page 18]
+Oku & Pardue             Expires August 30, 2020               [Page 18]
 
 Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
@@ -1061,4 +1061,4 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 28, 2020               [Page 19]
+Oku & Pardue             Expires August 30, 2020               [Page 19]
