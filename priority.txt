@@ -5,8 +5,8 @@
 HTTP Working Group                                                K. Oku
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               L. Pardue
-Expires: August 30, 2020                                      Cloudflare
-                                                       February 27, 2020
+Expires: September 2, 2020                                    Cloudflare
+                                                          March 01, 2020
 
 
                Extensible Prioritization Scheme for HTTP
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 30, 2020.
+   This Internet-Draft will expire on September 2, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 1]
+Oku & Pardue            Expires September 2, 2020               [Page 1]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    publication of this document.  Please review these documents
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 2]
+Oku & Pardue            Expires September 2, 2020               [Page 2]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    representation, leading to further retrieval requests.  Meanwhile,
@@ -165,9 +165,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 3]
+Oku & Pardue            Expires September 2, 2020               [Page 3]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    suboptimal, particularly if one endpoint operates in ignorance of the
@@ -221,9 +221,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 4]
+Oku & Pardue            Expires September 2, 2020               [Page 4]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    research have shown that simpler schemes can reach at least
@@ -277,9 +277,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 5]
+Oku & Pardue            Expires September 2, 2020               [Page 5]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    The Priority HTTP header field is an end-to-end way to transmit this
@@ -333,9 +333,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 6]
+Oku & Pardue            Expires September 2, 2020               [Page 6]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    The lowest urgency level (7) is reserved for background tasks such as
@@ -389,9 +389,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 7]
+Oku & Pardue            Expires September 2, 2020               [Page 7]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    The Priority header field is an end-to-end signal of the request
@@ -445,9 +445,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 8]
+Oku & Pardue            Expires September 2, 2020               [Page 8]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    The Stream Identifier field ([RFC7540], Section 4.1) in the
@@ -501,9 +501,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020                [Page 9]
+Oku & Pardue            Expires September 2, 2020               [Page 9]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
      0                   1                   2                   3
@@ -557,9 +557,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 10]
+Oku & Pardue            Expires September 2, 2020              [Page 10]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
 6.  Merging Client- and Server-Driven Parameters
@@ -613,9 +613,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 11]
+Oku & Pardue            Expires September 2, 2020              [Page 11]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
 7.1.  Fairness
@@ -669,9 +669,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 12]
+Oku & Pardue            Expires September 2, 2020              [Page 12]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    o  Via ([RFC7230], Section 5.7.1)
@@ -725,9 +725,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 13]
+Oku & Pardue            Expires September 2, 2020              [Page 13]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
 8.1.  Why use an End-to-End Header Field?
@@ -781,9 +781,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 14]
+Oku & Pardue            Expires September 2, 2020              [Page 14]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    A server can combine the hints provided in the Priority header field
@@ -837,9 +837,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 15]
+Oku & Pardue            Expires September 2, 2020              [Page 15]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    Code:  0xF
@@ -893,9 +893,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 16]
+Oku & Pardue            Expires September 2, 2020              [Page 16]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
@@ -949,9 +949,9 @@ Appendix A.  Acknowledgements
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 17]
+Oku & Pardue            Expires September 2, 2020              [Page 17]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    Alan Frindell, Andrew Galloni, Craig Taylor, Ian Swett, Kazuho Oku,
@@ -1005,9 +1005,9 @@ Authors' Addresses
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 18]
+Oku & Pardue            Expires September 2, 2020              [Page 18]
 
-Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
+Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    Lucas Pardue
@@ -1061,4 +1061,4 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP  February 2020
 
 
 
-Oku & Pardue             Expires August 30, 2020               [Page 19]
+Oku & Pardue            Expires September 2, 2020              [Page 19]
