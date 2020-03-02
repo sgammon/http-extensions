@@ -8,7 +8,7 @@ Intended status: Standards Track                           March 2, 2020
 Expires: September 3, 2020
 
 
-                 The Cache-Status HTTP Response Header
+              The Cache-Status HTTP Response Header Field
                  draft-ietf-httpbis-cache-header-latest
 
 Abstract

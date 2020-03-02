@@ -9,7 +9,7 @@ Expires: September 3, 2020                                        Google
                                                            March 2, 2020
 
 
-                   The Proxy-Status HTTP Header Field
+              The Proxy-Status HTTP Response Header Field
                  draft-ietf-httpbis-proxy-status-latest
 
 Abstract
