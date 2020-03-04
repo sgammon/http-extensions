@@ -120,7 +120,7 @@ Internet-Draft               HTTP Priorities                  March 2020
      B.3.  Since draft-kazuho-httpbis-priority-02  . . . . . . . . .  18
      B.4.  Since draft-kazuho-httpbis-priority-01  . . . . . . . . .  18
      B.5.  Since draft-kazuho-httpbis-priority-00  . . . . . . . . .  18
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  18
 
 1.  Introduction
 
@@ -956,15 +956,6 @@ Internet-Draft               HTTP Priorities                  March 2020
 
 B.1.  Since draft-kazuho-httpbis-priority-04
 
-   o  Remove semantics of Urgency levels (#1023, #1026)
-
-   o  Reduce guidance about how intermediary implements merging priority
-      signals (#1026)
-
-   o  Remove mention of CDN-Loop (#1062)
-
-   o  Editorial changes
-
    o  Make changes due to WG adoption
 
    o  Removed outdated Consideration (#118)
@@ -998,18 +989,6 @@ B.5.  Since draft-kazuho-httpbis-priority-00
 
    o  Expand urgency levels from 3 to 8.
 
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 5, 2020              [Page 18]
-
-Internet-Draft               HTTP Priorities                  March 2020
-
-
 Authors' Addresses
 
    Kazuho Oku
@@ -1026,39 +1005,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 5, 2020              [Page 19]
+Oku & Pardue            Expires September 5, 2020              [Page 18]
