@@ -488,12 +488,12 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
 
    The ABNF for Parameters is:
 
-   parameters    = *( ";" *SP parameter )
-   parameter     = param-name [ "=" param-value ]
-   param-name    = key
-   key           = lcalpha *( lcalpha / DIGIT / "_" / "-" / "." / "*" )
-   lcalpha       = %x61-7A ; a-z
-   param-value   = bare-item
+parameters    = *( ";" *SP parameter )
+parameter     = param-name [ "=" param-value ]
+param-name    = key
+key           = ( lcalpha / "*" ) *( lcalpha / DIGIT / "_" / "-" / "." / "*" )
+lcalpha       = %x61-7A ; a-z
+param-value   = bare-item
 
    A parameter is separated from its Item or Inner List and other
    parameters by a semicolon.  For example:
@@ -898,7 +898,7 @@ Nottingham & Kamp       Expires September 5, 2020              [Page 16]
 Internet-Draft      Structured Field Values for HTTP          March 2020
 
 
-   3.  If the first character of input_key is not lcalpha, fail
+   3.  If the first character of input_key is not lcalpha or "*", fail
        serialisation.
 
    4.  Let output be an empty string.
@@ -1482,8 +1482,8 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
    Given an ASCII string as input_string, return a key. input_string is
    modified to remove the parsed value.
 
-   1.  If the first character of input_string is not lcalpha, fail
-       parsing.
+   1.  If the first character of input_string is not lcalpha or "*",
+       fail parsing.
 
    2.  Let output_string be an empty string.
 
