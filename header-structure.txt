@@ -1964,6 +1964,8 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
 
    o  Omitted True dictionary value can have parameters (#1083).
 
+   o  Keys can now start with '*' (#1068).
+
 C.2.  Since draft-ietf-httpbis-header-structure-14
 
    o  Editorial improvements.
@@ -2009,14 +2011,14 @@ C.3.  Since draft-ietf-httpbis-header-structure-13
 
    o  Allowed parameters on Items and Inner Lists (#907).
 
-   o  Expand the range of characters in token (#961).
-
 
 
 Nottingham & Kamp       Expires September 5, 2020              [Page 36]
 
 Internet-Draft      Structured Field Values for HTTP          March 2020
 
+
+   o  Expand the range of characters in token (#961).
 
    o  Disallow OWS before ";" delimiter in parameters (#961).
 
@@ -2061,8 +2063,6 @@ C.7.  Since draft-ietf-httpbis-header-structure-09
    o  Parameters are now ordered maps (#765).
 
    o  Clamp integers to 15 digits (#737).
-
-
 
 
 
