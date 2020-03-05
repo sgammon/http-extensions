@@ -645,9 +645,9 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
 
 3.3.1.  Integers
 
-   Integers have a range of a&#710;'999,999,999,999,999 to
-   999,999,999,999,999 inclusive (i.e., up to fifteen digits, signed),
-   for IEEE 754 compatibility ([IEEE754]).
+   Integers have a range of -999,999,999,999,999 to 999,999,999,999,999
+   inclusive (i.e., up to fifteen digits, signed), for IEEE 754
+   compatibility ([IEEE754]).
 
    The ABNF for Integers is:
 
@@ -1024,8 +1024,8 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
    for use in a HTTP field value.
 
    1.  If input_integer is not an integer in the range of
-       a&#710;'999,999,999,999,999 to 999,999,999,999,999 inclusive,
-       fail serialization.
+       -999,999,999,999,999 to 999,999,999,999,999 inclusive, fail
+       serialization.
 
    2.  Let output be an empty string.
 
@@ -1578,9 +1578,8 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
         1.  Parse input_number as an integer and let output_number be
             the product of the result and sign.
 
-        2.  If output_number is outside the range
-            a&#710;'999,999,999,999,999 to 999,999,999,999,999
-            inclusive, fail parsing.
+        2.  If output_number is outside the range -999,999,999,999,999
+            to 999,999,999,999,999 inclusive, fail parsing.
 
    9.   Otherwise:
 
@@ -1618,6 +1617,7 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
            2.  Let next_char be the result of consuming the first
                character of input_string.
 
+           3.  If next_char is not DQUOTE or "\", fail parsing.
 
 
 
@@ -1625,8 +1625,6 @@ Nottingham & Kamp       Expires September 6, 2020              [Page 29]
 
 Internet-Draft      Structured Field Values for HTTP          March 2020
 
-
-           3.  If next_char is not DQUOTE or "\", fail parsing.
 
            4.  Append next_char to output_string.
 
@@ -1673,6 +1671,8 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
 
    3.  If there is not a ":" character before the end of input_string,
        fail parsing.
+
+
 
 
 
