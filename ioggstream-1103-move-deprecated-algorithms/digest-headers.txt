@@ -84,7 +84,7 @@ Table of Contents
    3.  Digest Algorithm Values . . . . . . . . . . . . . . . . . . .   8
      3.1.  Representation Digest . . . . . . . . . . . . . . . . . .  10
        3.1.1.  digest-algorithm Encoding Examples  . . . . . . . . .  10
-   4.  Header Field Specifications . . . . . . . . . . . . . . . . .  11
+   4.  Header Field Specifications . . . . . . . . . . . . . . . . .  10
      4.1.  Want-Digest . . . . . . . . . . . . . . . . . . . . . . .  11
      4.2.  Digest  . . . . . . . . . . . . . . . . . . . . . . . . .  11
    5.  Use of Digest when acting on resources  . . . . . . . . . . .  12
@@ -95,7 +95,7 @@ Table of Contents
    8.  Examples of Unsolicited Digest  . . . . . . . . . . . . . . .  15
      8.1.  Server Returns Full Representation Data . . . . . . . . .  15
      8.2.  Server Returns No Representation Data . . . . . . . . . .  15
-     8.3.  Server Returns Partial Representation Data  . . . . . . .  16
+     8.3.  Server Returns Partial Representation Data  . . . . . . .  15
      8.4.  Client and Server Provide Full Representation Data  . . .  16
      8.5.  Client Provides Full Representation Data, Server Provides
            No Representation Data  . . . . . . . . . . . . . . . . .  17
@@ -409,11 +409,10 @@ Internet-Draft               Digest Headers                   March 2020
    digest-algorithm values.  The registry contains the tokens listed
    below.
 
-   Some algorithms, although registered, have since been proven to be
-   vulnerable: the MD5 algorithm MUST NOT be used as it has been found
-   vulnerable to collision attacks [CMU-836068], the SHA algorithm is
-   NOT RECOMMENDED as it has been found vulnerable to collision attacks
-   [IACR-2019-459].
+   Some algorithms, although registered, have since been found
+   vulnerable: the MD5 algorithm MUST NOT be used due to collision
+   attacks [CMU-836068] and the SHA algorithm is NOT RECOMMENDED due to
+   collision attacks [IACR-2019-459].
 
    SHA-256:
 
@@ -442,6 +441,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Reference: [RFC1321], [RFC4648], this document.
 
+      *  Status: deprecated
 
 
 
@@ -449,8 +449,6 @@ Polli & Pardue          Expires September 6, 2020               [Page 8]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-      *  Status: deprecated
 
    SHA:
 
@@ -499,14 +497,14 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Reference: [RFC6234], [RFC4648], this document.
 
+      *  Status: standard
+
 
 
 Polli & Pardue          Expires September 6, 2020               [Page 9]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-      *  Status: standard
 
    ID-SHA-256:
 
@@ -550,7 +548,9 @@ Internet-Draft               Digest Headers                   March 2020
 
       UNIXsum=30637
 
+4.  Header Field Specifications
 
+   The following headers are defined
 
 
 
@@ -561,10 +561,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 10]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-4.  Header Field Specifications
-
-   The following headers are defined
 
 4.1.  Want-Digest
 
@@ -610,6 +606,10 @@ Internet-Draft               Digest Headers                   March 2020
    The resource is specified by the effective request URI and any
    "validator" contained in the message.
 
+   For example, in a response to a HEAD request, the digest is
+   calculated using the representation data that would have been
+   enclosed in the payload body if the same request had been a GET.
+
 
 
 
@@ -617,10 +617,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 11]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-   For example, in a response to a HEAD request, the digest is
-   calculated using the representation data that would have been
-   enclosed in the payload body if the same request had been a GET.
 
    Digest can be used in requests too.
 
@@ -665,6 +661,10 @@ Internet-Draft               Digest Headers                   March 2020
       "Digest" MUST be computed on the enclosed representation (see
       Section 8.8 );
 
+   o  if there is a referenced resource "Digest" MUST be computed on the
+      selected representation of the referenced resource even if that is
+      different from the target resource.  That may or may not result in
+      computing "Digest" on the enclosed representation.
 
 
 
@@ -673,11 +673,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 12]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-   o  if there is a referenced resource "Digest" MUST be computed on the
-      selected representation of the referenced resource even if that is
-      different from the target resource.  That may or may not result in
-      computing "Digest" on the enclosed representation.
 
    The latter case might be done accordingly to the HTTP semantics of
    the given method, for example using the "Content-Location" header
@@ -722,6 +717,11 @@ Internet-Draft               Digest Headers                   March 2020
    header field is supplied in-band alongside the selected
    representation, meaning that an authority can only declare an
    integrity assertion for itself.  Methods to improve the security
+   properties of representation digests are presented in Section 10.
+   This contrast is interesting because on one hand self-assertion is
+   less likely to be affected by coordination problems such as the
+   first-party holding stale information about the third party, but on
+
 
 
 
@@ -730,10 +730,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 13]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   properties of representation digests are presented in Section 10.
-   This contrast is interesting because on one hand self-assertion is
-   less likely to be affected by coordination problems such as the
-   first-party holding stale information about the third party, but on
    the other hand the self-assertion is only as trustworthy as the
    authority that provided it.
 
@@ -779,6 +775,10 @@ Internet-Draft               Digest Headers                   March 2020
    validation first because the it does not require a conversion to into
    identity encoding.
 
+   There is a chance that a user agent supporting both mechanisms may
+   find one validates successfully while the other fails.  This document
+
+
 
 
 Polli & Pardue          Expires September 6, 2020              [Page 14]
@@ -786,8 +786,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 14]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   There is a chance that a user agent supporting both mechanisms may
-   find one validates successfully while the other fails.  This document
    specifies no requirements or guidance for user agents that experience
    such cases.
 
@@ -831,7 +829,9 @@ Internet-Draft               Digest Headers                   March 2020
    Digest: id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
 
 
+8.3.  Server Returns Partial Representation Data
 
+   Request:
 
 
 
@@ -841,10 +841,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 15]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-8.3.  Server Returns Partial Representation Data
-
-   Request:
 
    GET /items/123
    Range: bytes=1-7
@@ -887,7 +883,11 @@ Internet-Draft               Digest Headers                   March 2020
 
    Response:
 
+   Content-Type: application/json
+   Content-Encoding: br
+   Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=
 
+   iwiAeyJoZWxsbyI6ICJ3b3JsZCJ9Aw==
 
 
 
@@ -897,12 +897,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 16]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-   Content-Type: application/json
-   Content-Encoding: br
-   Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=
-
-   iwiAeyJoZWxsbyI6ICJ3b3JsZCJ9Aw==
 
 8.5.  Client Provides Full Representation Data, Server Provides No
       Representation Data
@@ -946,6 +940,12 @@ Internet-Draft               Digest Headers                   March 2020
    displayed as a base64-encoded string.
 
    Request:
+
+
+
+
+
+
 
 
 
