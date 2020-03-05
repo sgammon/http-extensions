@@ -84,28 +84,28 @@ Table of Contents
    3.  Digest Algorithm Values . . . . . . . . . . . . . . . . . . .   8
      3.1.  Representation Digest . . . . . . . . . . . . . . . . . .  10
        3.1.1.  digest-algorithm Encoding Examples  . . . . . . . . .  10
-   4.  Header Field Specifications . . . . . . . . . . . . . . . . .  10
-     4.1.  Want-Digest . . . . . . . . . . . . . . . . . . . . . . .  10
-     4.2.  Digest  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-   5.  Use of Digest when acting on resources  . . . . . . . . . . .  12
-     5.1.  Digest and PATCH  . . . . . . . . . . . . . . . . . . . .  13
-   6.  Deprecate Negotiation of Content-MD5  . . . . . . . . . . . .  13
-   7.  Broken Cryptographic Algorithms . . . . . . . . . . . . . . .  13
-   8.  Relationship to Subresource Integrity (SRI) . . . . . . . . .  13
-     8.1.  Supporting Both SRI and Representation Digest . . . . . .  14
-   9.  Examples of Unsolicited Digest  . . . . . . . . . . . . . . .  15
-     9.1.  Server Returns Full Representation Data . . . . . . . . .  15
-     9.2.  Server Returns No Representation Data . . . . . . . . . .  15
-     9.3.  Server Returns Partial Representation Data  . . . . . . .  16
-     9.4.  Client and Server Provide Full Representation Data  . . .  16
-     9.5.  Client Provides Full Representation Data, Server Provides
-           No Representation Data  . . . . . . . . . . . . . . . . .  17
-     9.6.  Client and Server Provide Full Representation Data,
-           Client Uses id-sha-256. . . . . . . . . . . . . . . . . .  17
-     9.7.  POST Response does not Reference the Request URI  . . . .  18
-     9.8.  POST Response Describes the Request Status  . . . . . . .  19
-     9.9.  Digest with PATCH . . . . . . . . . . . . . . . . . . . .  19
-     9.10. Error responses . . . . . . . . . . . . . . . . . . . . .  20
+   4.  The Want-Digest Header Field  . . . . . . . . . . . . . . . .  10
+   5.  The Digest Header Field . . . . . . . . . . . . . . . . . . .  11
+   6.  Use of Digest when acting on resources  . . . . . . . . . . .  12
+     6.1.  Digest and PATCH  . . . . . . . . . . . . . . . . . . . .  12
+   7.  Deprecate Negotiation of Content-MD5  . . . . . . . . . . . .  13
+   8.  Broken Cryptographic Algorithms . . . . . . . . . . . . . . .  13
+   9.  Relationship to Subresource Integrity (SRI) . . . . . . . . .  13
+     9.1.  Supporting Both SRI and Representation Digest . . . . . .  14
+   10. Examples of Unsolicited Digest  . . . . . . . . . . . . . . .  15
+     10.1.  Server Returns Full Representation Data  . . . . . . . .  15
+     10.2.  Server Returns No Representation Data  . . . . . . . . .  15
+     10.3.  Server Returns Partial Representation Data . . . . . . .  15
+     10.4.  Client and Server Provide Full Representation Data . . .  16
+     10.5.  Client Provides Full Representation Data, Server
+            Provides No Representation Data  . . . . . . . . . . . .  17
+     10.6.  Client and Server Provide Full Representation Data,
+            Client Uses id-sha-256.  . . . . . . . . . . . . . . . .  17
+     10.7.  POST Response does not Reference the Request URI . . . .  18
+     10.8.  POST Response Describes the Request Status . . . . . . .  19
+     10.9.  Digest with PATCH  . . . . . . . . . . . . . . . . . . .  19
+     10.10. Error responses  . . . . . . . . . . . . . . . . . . . .  20
+   11. Examples of Want-Digest Solicited Digest  . . . . . . . . . .  21
 
 
 
@@ -114,36 +114,35 @@ Polli & Pardue          Expires September 6, 2020               [Page 2]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   10. Examples of Want-Digest Solicited Digest  . . . . . . . . . .  21
-     10.1.  Server Selects Client's Least Preferred Algorithm  . . .  21
-     10.2.  Server Selects Algorithm Unsupported by Client . . . . .  22
-     10.3.  Server Does Not Support Client Algorithm and Returns an
+     11.1.  Server Selects Client's Least Preferred Algorithm  . . .  21
+     11.2.  Server Selects Algorithm Unsupported by Client . . . . .  22
+     11.3.  Server Does Not Support Client Algorithm and Returns an
             Error  . . . . . . . . . . . . . . . . . . . . . . . . .  22
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  22
-     11.1.  Digest Does Not Protect the Full HTTP Message  . . . . .  22
-     11.2.  Broken Cryptographic Algorithms  . . . . . . . . . . . .  23
-     11.3.  Other Deprecated Algorithms  . . . . . . . . . . . . . .  23
-     11.4.  Digest for End-to-End Integrity  . . . . . . . . . . . .  23
-     11.5.  Digest and Content-Location in responses . . . . . . . .  23
-     11.6.  Usage in signatures  . . . . . . . . . . . . . . . . . .  23
-     11.7.  Message Truncation . . . . . . . . . . . . . . . . . . .  24
-     11.8.  Algorithm Agility  . . . . . . . . . . . . . . . . . . .  24
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  24
-     12.1.  Establish the HTTP Digest Algorithm Values . . . . . . .  24
-     12.2.  The "status" Field in the HTTP Digest Algorithm Values .  24
-     12.3.  Deprecate "MD5" Digest Algorithm . . . . . . . . . . . .  25
-     12.4.  Update "CRC32C" Digest Algorithm . . . . . . . . . . . .  25
-     12.5.  Obsolete "SHA" Digest Algorithm  . . . . . . . . . . . .  25
-     12.6.  Obsolete "ADLER32" Digest Algorithm  . . . . . . . . . .  25
-     12.7.  The "ID-SHA-256" Digest Algorithm  . . . . . . . . . . .  26
-     12.8.  The "ID-SHA-512" Digest Algorithm  . . . . . . . . . . .  26
-     12.9.  Changes compared to RFC5843  . . . . . . . . . . . . . .  26
-     12.10. Want-Digest Header Field Registration  . . . . . . . . .  27
-     12.11. Digest Header Field Registration . . . . . . . . . . . .  27
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  27
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  27
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  29
-     13.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  30
+   12. Security Considerations . . . . . . . . . . . . . . . . . . .  22
+     12.1.  Digest Does Not Protect the Full HTTP Message  . . . . .  22
+     12.2.  Broken Cryptographic Algorithms  . . . . . . . . . . . .  23
+     12.3.  Other Deprecated Algorithms  . . . . . . . . . . . . . .  23
+     12.4.  Digest for End-to-End Integrity  . . . . . . . . . . . .  23
+     12.5.  Digest and Content-Location in responses . . . . . . . .  23
+     12.6.  Usage in signatures  . . . . . . . . . . . . . . . . . .  23
+     12.7.  Message Truncation . . . . . . . . . . . . . . . . . . .  24
+     12.8.  Algorithm Agility  . . . . . . . . . . . . . . . . . . .  24
+   13. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  24
+     13.1.  Establish the HTTP Digest Algorithm Values . . . . . . .  24
+     13.2.  The "status" Field in the HTTP Digest Algorithm Values .  24
+     13.3.  Deprecate "MD5" Digest Algorithm . . . . . . . . . . . .  25
+     13.4.  Update "CRC32C" Digest Algorithm . . . . . . . . . . . .  25
+     13.5.  Obsolete "SHA" Digest Algorithm  . . . . . . . . . . . .  25
+     13.6.  Obsolete "ADLER32" Digest Algorithm  . . . . . . . . . .  25
+     13.7.  The "ID-SHA-256" Digest Algorithm  . . . . . . . . . . .  26
+     13.8.  The "ID-SHA-512" Digest Algorithm  . . . . . . . . . . .  26
+     13.9.  Changes compared to RFC5843  . . . . . . . . . . . . . .  26
+     13.10. Want-Digest Header Field Registration  . . . . . . . . .  27
+     13.11. Digest Header Field Registration . . . . . . . . . . . .  27
+   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  27
+     14.1.  Normative References . . . . . . . . . . . . . . . . . .  27
+     14.2.  Informative References . . . . . . . . . . . . . . . . .  29
+     14.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  30
    Appendix A.  FAQ  . . . . . . . . . . . . . . . . . . . . . . . .  30
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  31
    Code Samples  . . . . . . . . . . . . . . . . . . . . . . . . . .  31
@@ -162,6 +161,7 @@ Internet-Draft               Digest Headers                   March 2020
    However, there are cases where relying on this alone is insufficient.
    An HTTP-level integrity mechanism that operates independent of
    transfer can be used to detect programming errors and/or corruption
+   of data at rest, be used across multiple hops in order to provide
 
 
 
@@ -170,7 +170,6 @@ Polli & Pardue          Expires September 6, 2020               [Page 3]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   of data at rest, be used across multiple hops in order to provide
    end-to-end integrity guarantees, aid fault diagnosis across hops and
    system boundaries, and can be used to validate integrity when
    reconstructing a resource fetched using different HTTP connections.
@@ -216,6 +215,7 @@ Internet-Draft               Digest Headers                   March 2020
    To allow both parties to exchange a Digest of a representation with
    no content codings [3] two more algorithms are added ("ID-SHA-256"
    and "ID-SHA-512").
+
 
 
 
@@ -541,26 +541,11 @@ Internet-Draft               Digest Headers                   March 2020
 
       UNIXsum=30637
 
-4.  Header Field Specifications
-
-   The following headers are defined
-
-4.1.  Want-Digest
+4.  The Want-Digest Header Field
 
    The Want-Digest message header field indicates the sender's desire to
    receive a representation digest on messages associated with the
    request URI and representation metadata.
-
-
-
-
-
-
-
-Polli & Pardue          Expires September 6, 2020              [Page 10]
-
-Internet-Draft               Digest Headers                   March 2020
-
 
       Want-Digest = "Want-Digest" ":" OWS 1#want-digest-value
       want-digest-value = digest-algorithm [ ";" "q" "=" qvalue]
@@ -569,6 +554,13 @@ Internet-Draft               Digest Headers                   March 2020
 
    If a digest-algorithm is not accompanied by a qvalue, it is treated
    as if its associated qvalue were 1.0.
+
+
+
+Polli & Pardue          Expires September 6, 2020              [Page 10]
+
+Internet-Draft               Digest Headers                   March 2020
+
 
    The sender is willing to accept a digest-algorithm if and only if it
    is listed in a Want-Digest header field of a message, and its qvalue
@@ -583,7 +575,7 @@ Internet-Draft               Digest Headers                   March 2020
       Want-Digest: sha-256
       Want-Digest: SHA-512;q=0.3, sha-256;q=1, md5;q=0
 
-4.2.  Digest
+5.  The Digest Header Field
 
    The Digest header field provides a digest of the representation data.
 
@@ -608,6 +600,14 @@ Internet-Draft               Digest Headers                   March 2020
 
    The "Digest" value depends on the representation metadata.
 
+   A Digest header field MAY contain multiple representation-data-digest
+   values.  This could be useful for responses expected to reside in
+   caches shared by users with different browsers, for example.
+
+   A recipient MAY ignore any or all of the representation-data-digests
+   in a Digest header field.  This allows the recipient to chose which
+   digest-algorithm(s) to use for validation instead of verifying every
+   received representation-data-digest.
 
 
 
@@ -617,15 +617,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 11]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-   A Digest header field MAY contain multiple representation-data-digest
-   values.  This could be useful for responses expected to reside in
-   caches shared by users with different browsers, for example.
-
-   A recipient MAY ignore any or all of the representation-data-digests
-   in a Digest header field.  This allows the recipient to chose which
-   digest-algorithm(s) to use for validation instead of verifying every
-   received representation-data-digest.
 
    A sender MAY send a representation-data-digest using a digest-
    algorithm without knowing whether the recipient supports the digest-
@@ -639,7 +630,7 @@ Internet-Draft               Digest Headers                   March 2020
       Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=,
               id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
 
-5.  Use of Digest when acting on resources
+6.  Use of Digest when acting on resources
 
    POST and PATCH requests may appear to convey partial representations
    but are semantically acting on resources.  The enclosed
@@ -655,7 +646,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  if the representation describes the status of the request,
       "Digest" MUST be computed on the enclosed representation (see
-      Section 9.8 );
+      Section 10.8 );
 
    o  if there is a referenced resource "Digest" MUST be computed on the
       selected representation of the referenced resource even if that is
@@ -666,6 +657,15 @@ Internet-Draft               Digest Headers                   March 2020
    the given method, for example using the "Content-Location" header
    field.
 
+   Differently from "Content-Location", which is representation
+   metadata, the "Location" header field does not affect "Digest".
+
+6.1.  Digest and PATCH
+
+   In PATCH requests the representation digest MUST be computed on the
+   patch document.
+
+
 
 
 
@@ -673,14 +673,6 @@ Polli & Pardue          Expires September 6, 2020              [Page 12]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-   Differently from "Content-Location", which is representation
-   metadata, the "Location" header field does not affect "Digest".
-
-5.1.  Digest and PATCH
-
-   In PATCH requests the representation digest MUST be computed on the
-   patch document.
 
    This is because the representation metadata refers to the patch
    document and not to the target resource (see Section 2 of [RFC5789]).
@@ -692,12 +684,12 @@ Internet-Draft               Digest Headers                   March 2020
    with the resource's own semantic partly implied by the method and by
    the patch document.
 
-6.  Deprecate Negotiation of Content-MD5
+7.  Deprecate Negotiation of Content-MD5
 
    This RFC deprecates the negotiation of Content-MD5 as it has been
    obsoleted by [RFC7231]
 
-7.  Broken Cryptographic Algorithms
+8.  Broken Cryptographic Algorithms
 
    The MD5 algorithm MUST NOT be used as it has been found vulnerable to
    collision attacks [CMU-836068].
@@ -705,7 +697,7 @@ Internet-Draft               Digest Headers                   March 2020
    The SHA algorithm is NOT RECOMMENDED as it has been found vulnerable
    to collision attacks [IACR-2019-459].
 
-8.  Relationship to Subresource Integrity (SRI)
+9.  Relationship to Subresource Integrity (SRI)
 
    Subresource Integrity [SRI] is an integrity mechanism that shares
    some similarities to the present document's mechanism.  However,
@@ -721,15 +713,7 @@ Internet-Draft               Digest Headers                   March 2020
    header field is supplied in-band alongside the selected
    representation, meaning that an authority can only declare an
    integrity assertion for itself.  Methods to improve the security
-   properties of representation digests are presented in Section 11.
-
-
-
-Polli & Pardue          Expires September 6, 2020              [Page 13]
-
-Internet-Draft               Digest Headers                   March 2020
-
-
+   properties of representation digests are presented in Section 12.
    This contrast is interesting because on one hand self-assertion is
    less likely to be affected by coordination problems such as the
    first-party holding stale information about the third party, but on
@@ -738,6 +722,14 @@ Internet-Draft               Digest Headers                   March 2020
 
    The SRI "integrity" attribute contains a cryptographic hash algorithm
    and digest value which is similar to "representation-data-digest"
+
+
+
+Polli & Pardue          Expires September 6, 2020              [Page 13]
+
+Internet-Draft               Digest Headers                   March 2020
+
+
    (see Section 3.1).  The major differences are in serialization
    format.
 
@@ -754,7 +746,7 @@ Internet-Draft               Digest Headers                   March 2020
    SRI does not specify handling of partial representation data (e.g.
    Range requests).  In contrast, this document specifies handling in
    terms that are fully compatible with core HTTP concepts (an example
-   is provided in Section 9.3).
+   is provided in Section 10.3).
 
    SRI specifies strong requirements on the selection of algorithm for
    generation and validation of digests.  In contrast, the requirements
@@ -764,7 +756,7 @@ Internet-Draft               Digest Headers                   March 2020
    on resources it transfers to a server.  In contrast, the "Digest"
    header field can appear on requests.
 
-8.1.  Supporting Both SRI and Representation Digest
+9.1.  Supporting Both SRI and Representation Digest
 
    The SRI and Representation Digest mechanism are different and
    complementary but one is not capable of replacing the other because
@@ -778,6 +770,14 @@ Internet-Draft               Digest Headers                   March 2020
    validation first because the it does not require a conversion to into
    identity encoding.
 
+   There is a chance that a user agent supporting both mechanisms may
+   find one validates successfully while the other fails.  This document
+   specifies no requirements or guidance for user agents that experience
+   such cases.
+
+
+
+
 
 
 
@@ -786,18 +786,13 @@ Polli & Pardue          Expires September 6, 2020              [Page 14]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   There is a chance that a user agent supporting both mechanisms may
-   find one validates successfully while the other fails.  This document
-   specifies no requirements or guidance for user agents that experience
-   such cases.
-
-9.  Examples of Unsolicited Digest
+10.  Examples of Unsolicited Digest
 
    The following examples demonstrate interactions where a server
    responds with a "Digest" header field even though the client did not
    solicit one using "Want-Digest".
 
-9.1.  Server Returns Full Representation Data
+10.1.  Server Returns Full Representation Data
 
    Request:
 
@@ -813,7 +808,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    {"hello": "world"}
 
-9.2.  Server Returns No Representation Data
+10.2.  Server Returns No Representation Data
 
    As there is no content coding applied, the "sha-256" and the "id-sha-
    256" digest-values are the same.
@@ -831,7 +826,12 @@ Internet-Draft               Digest Headers                   March 2020
    Digest: id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
 
 
+10.3.  Server Returns Partial Representation Data
 
+   Request:
+
+   GET /items/123
+   Range: bytes=1-7
 
 
 
@@ -840,14 +840,6 @@ Internet-Draft               Digest Headers                   March 2020
 Polli & Pardue          Expires September 6, 2020              [Page 15]
 
 Internet-Draft               Digest Headers                   March 2020
-
-
-9.3.  Server Returns Partial Representation Data
-
-   Request:
-
-   GET /items/123
-   Range: bytes=1-7
 
 
    Response:
@@ -860,7 +852,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    "hello"
 
-9.4.  Client and Server Provide Full Representation Data
+10.4.  Client and Server Provide Full Representation Data
 
    The request contains a "Digest" header calculated on the enclosed
    representation.
@@ -887,6 +879,14 @@ Internet-Draft               Digest Headers                   March 2020
 
    Response:
 
+   Content-Type: application/json
+   Content-Encoding: br
+   Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=
+
+   iwiAeyJoZWxsbyI6ICJ3b3JsZCJ9Aw==
+
+
+
 
 
 
@@ -898,14 +898,8 @@ Polli & Pardue          Expires September 6, 2020              [Page 16]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   Content-Type: application/json
-   Content-Encoding: br
-   Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=
-
-   iwiAeyJoZWxsbyI6ICJ3b3JsZCJ9Aw==
-
-9.5.  Client Provides Full Representation Data, Server Provides No
-      Representation Data
+10.5.  Client Provides Full Representation Data, Server Provides No
+       Representation Data
 
    Request "Digest" value is calculated on the enclosed payload.
    Response "Digest" value depends on the representation metadata header
@@ -931,8 +925,8 @@ Internet-Draft               Digest Headers                   March 2020
    Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=
 
 
-9.6.  Client and Server Provide Full Representation Data, Client Uses
-      id-sha-256.
+10.6.  Client and Server Provide Full Representation Data, Client Uses
+       id-sha-256.
 
    The response contains two digest values:
 
@@ -946,6 +940,12 @@ Internet-Draft               Digest Headers                   March 2020
    displayed as a base64-encoded string.
 
    Request:
+
+
+
+
+
+
 
 
 
@@ -972,10 +972,10 @@ Internet-Draft               Digest Headers                   March 2020
 
    iwiAeyJoZWxsbyI6ICJ3b3JsZCJ9Aw==
 
-9.7.  POST Response does not Reference the Request URI
+10.7.  POST Response does not Reference the Request URI
 
    Request "Digest" value is computed on the enclosed representation
-   (see Section 5).
+   (see Section 6).
 
    The representation enclosed in the response refers to the resource
    identified by "Content-Location" (see [RFC7231] Section 3.1.4.2 and
@@ -1013,10 +1013,10 @@ Internet-Draft               Digest Headers                   March 2020
    Note that a "204 No Content" response without a payload body but with
    the same "Digest" field-value would have been legitimate too.
 
-9.8.  POST Response Describes the Request Status
+10.8.  POST Response Describes the Request Status
 
    Request "Digest" value is computed on the enclosed representation
-   (see Section 5).
+   (see Section 6).
 
    The representation enclosed in the response describes the status of
    the request, so "Digest" is computed on that enclosed representation.
@@ -1049,7 +1049,7 @@ Internet-Draft               Digest Headers                   March 2020
      "instance": "/books/123"
    }
 
-9.9.  Digest with PATCH
+10.9.  Digest with PATCH
 
    This case is analogous to a POST request where the target resource
    reflects the effective request URI.
@@ -1093,7 +1093,7 @@ Internet-Draft               Digest Headers                   March 2020
    Note that a "204 No Content" response without a payload body but with
    the same "Digest" field-value would have been legitimate too.
 
-9.10.  Error responses
+10.10.  Error responses
 
    In error responses, the representation-data does not necessarily
    refer to the target resource.  Instead it refers to the
@@ -1142,12 +1142,12 @@ Internet-Draft               Digest Headers                   March 2020
      "status": 404
    }
 
-10.  Examples of Want-Digest Solicited Digest
+11.  Examples of Want-Digest Solicited Digest
 
    The following examples demonstrate interactions where a client
    solicits a "Digest" using "Want-Digest".
 
-10.1.  Server Selects Client's Least Preferred Algorithm
+11.1.  Server Selects Client's Least Preferred Algorithm
 
    The client requests a digest, preferring sha.  The server is free to
    reply with sha-256 anyway.
@@ -1178,7 +1178,7 @@ Polli & Pardue          Expires September 6, 2020              [Page 21]
 Internet-Draft               Digest Headers                   March 2020
 
 
-10.2.  Server Selects Algorithm Unsupported by Client
+11.2.  Server Selects Algorithm Unsupported by Client
 
    The client requests a sha digest only.  The server is currently free
    to reply with a Digest containing an unsupported algorithm.
@@ -1199,7 +1199,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    {"hello": "world"}
 
-10.3.  Server Does Not Support Client Algorithm and Returns an Error
+11.3.  Server Does Not Support Client Algorithm and Returns an Error
 
    The client requests a sha Digest, the server advises for sha-256 and
    sha-512
@@ -1216,9 +1216,9 @@ Internet-Draft               Digest Headers                   March 2020
    Want-Digest: sha-256, sha-512
 
 
-11.  Security Considerations
+12.  Security Considerations
 
-11.1.  Digest Does Not Protect the Full HTTP Message
+12.1.  Digest Does Not Protect the Full HTTP Message
 
    This document specifies a data integrity mechanism that protects HTTP
    "representation data", but not HTTP "representation metadata" header
@@ -1237,7 +1237,7 @@ Internet-Draft               Digest Headers                   March 2020
    with other approaches such as transport-layer security or digital
    signatures.
 
-11.2.  Broken Cryptographic Algorithms
+12.2.  Broken Cryptographic Algorithms
 
    Cryptographic algorithms are intended to provide a proof of integrity
    suited towards cryptographic constructions such as signatures.
@@ -1247,13 +1247,13 @@ Internet-Draft               Digest Headers                   March 2020
    collisions attacks, so MD5 MUST NOT be used and SHA-1 is NOT
    RECOMMENDED for use with "Digest".
 
-11.3.  Other Deprecated Algorithms
+12.3.  Other Deprecated Algorithms
 
    The ADLER32 algorithm defined in [RFC1950] has been deprecated by
    [RFC3309] because under certain conditions it provides weak detection
    of errors and is now NOT RECOMMENDED for use with "Digest".
 
-11.4.  Digest for End-to-End Integrity
+12.4.  Digest for End-to-End Integrity
 
    "Digest" alone does not provide end-to-end integrity of HTTP messages
    over multiple hops, as it just covers the "representation data" and
@@ -1271,13 +1271,13 @@ Internet-Draft               Digest Headers                   March 2020
 
    Even a simple mechanism for end-to-end validation is thus valuable.
 
-11.5.  Digest and Content-Location in responses
+12.5.  Digest and Content-Location in responses
 
    When a state-changing method returns the "Content-Location" header
    field, the enclosed representation refers to the resource identified
    by its value and "Digest" is computed accordingly.
 
-11.6.  Usage in signatures
+12.6.  Usage in signatures
 
    Digital signatures are widely used together with checksums to provide
    the certain identification of the origin of a message [NIST800-32].
@@ -1301,7 +1301,7 @@ Internet-Draft               Digest Headers                   March 2020
    actor could manipulate the "Content-Type" field-value and cause a
    digest validation failure at the recipient, preventing the
    application from accessing the representation.  Such an attack
-   consumes the resources of both endpoints.  See also Section 11.5.
+   consumes the resources of both endpoints.  See also Section 12.5.
 
    "Digest" SHOULD always be used over a connection which provides
    integrity at transport layer that protects HTTP header fields.
@@ -1309,22 +1309,22 @@ Internet-Draft               Digest Headers                   March 2020
    A "Digest" header field using NOT RECOMMENDED digest-algorithms
    SHOULD NOT be used in signatures.
 
-11.7.  Message Truncation
+12.7.  Message Truncation
 
    ...
 
-11.8.  Algorithm Agility
+12.8.  Algorithm Agility
 
    ...
 
-12.  IANA Considerations
+13.  IANA Considerations
 
-12.1.  Establish the HTTP Digest Algorithm Values
+13.1.  Establish the HTTP Digest Algorithm Values
 
    This memo sets this spec to be the establishing document for the HTTP
    Digest Algorithm Values [4]
 
-12.2.  The "status" Field in the HTTP Digest Algorithm Values
+13.2.  The "status" Field in the HTTP Digest Algorithm Values
 
    This memo adds the field "Status" to the HTTP Digest Algorithm Values
    [5] registry.  The allowed values for the "Status" fields are
@@ -1346,7 +1346,7 @@ Polli & Pardue          Expires September 6, 2020              [Page 24]
 Internet-Draft               Digest Headers                   March 2020
 
 
-12.3.  Deprecate "MD5" Digest Algorithm
+13.3.  Deprecate "MD5" Digest Algorithm
 
    This memo updates the "MD5" digest algorithm in the HTTP Digest
    Algorithm Values [6] registry:
@@ -1357,7 +1357,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Status: As specified in Section 3.
 
-12.4.  Update "CRC32C" Digest Algorithm
+13.4.  Update "CRC32C" Digest Algorithm
 
    This memo updates the "CRC32c" digest algorithm in the HTTP Digest
    Algorithm Values [7] registry:
@@ -1377,7 +1377,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Status: standard.
 
-12.5.  Obsolete "SHA" Digest Algorithm
+13.5.  Obsolete "SHA" Digest Algorithm
 
    This memo updates the "SHA" digest algorithm in the HTTP Digest
    Algorithm Values [8] registry:
@@ -1388,7 +1388,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Status: As specified in Section 3.
 
-12.6.  Obsolete "ADLER32" Digest Algorithm
+13.6.  Obsolete "ADLER32" Digest Algorithm
 
    This memo updates the "ADLER32" digest algorithm in the HTTP Digest
    Algorithm Values [9] registry:
@@ -1412,7 +1412,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Status: obsoleted
 
-12.7.  The "ID-SHA-256" Digest Algorithm
+13.7.  The "ID-SHA-256" Digest Algorithm
 
    This memo registers the "ID-SHA-256" digest algorithm in the HTTP
    Digest Algorithm Values [10] registry:
@@ -1423,7 +1423,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Status: As specified in Section 3.
 
-12.8.  The "ID-SHA-512" Digest Algorithm
+13.8.  The "ID-SHA-512" Digest Algorithm
 
    This memo registers the "ID-SHA-512" digest algorithm in the HTTP
    Digest Algorithm Values [11] registry:
@@ -1434,7 +1434,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Status: As specified in Section 3.
 
-12.9.  Changes compared to RFC5843
+13.9.  Changes compared to RFC5843
 
    The status of "MD5" has been updated to "deprecated", and its
    description states that this algorithm MUST NOT be used.
@@ -1458,7 +1458,7 @@ Polli & Pardue          Expires September 6, 2020              [Page 26]
 Internet-Draft               Digest Headers                   March 2020
 
 
-12.10.  Want-Digest Header Field Registration
+13.10.  Want-Digest Header Field Registration
 
    This section registers the "Want-Digest" header field in the
    "Permanent Message Header Field Names" registry ([RFC3864]).
@@ -1471,9 +1471,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    Author/Change controller: IETF
 
-   Specification document(s): Section 4.1 of this document
+   Specification document(s): Section 4 of this document
 
-12.11.  Digest Header Field Registration
+13.11.  Digest Header Field Registration
 
    This section registers the "Digest" header field in the "Permanent
    Message Header Field Names" registry ([RFC3864]).
@@ -1486,11 +1486,11 @@ Internet-Draft               Digest Headers                   March 2020
 
    Author/Change controller: IETF
 
-   Specification document(s): Section 4.2 of this document
+   Specification document(s): Section 5 of this document
 
-13.  References
+14.  References
 
-13.1.  Normative References
+14.1.  Normative References
 
    [CMU-836068]
               Carnagie Mellon University, Software Engineering
@@ -1610,7 +1610,7 @@ Internet-Draft               Digest Headers                   March 2020
    [UNIX]     The Open Group, "The Single UNIX Specification, Version 2
               - 6 Vol Set for UNIX 98", February 1997.
 
-13.2.  Informative References
+14.2.  Informative References
 
    [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
               DOI 10.17487/RFC2818, May 2000,
@@ -1643,7 +1643,7 @@ Internet-Draft               Digest Headers                   March 2020
               20160623, June 2016,
               <https://www.w3.org/TR/2016/REC-SRI-20160623/>.
 
-13.3.  URIs
+14.3.  URIs
 
    [1] https://lists.w3.org/Archives/Public/ietf-http-wg/
 
@@ -1689,7 +1689,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    3.  How to use "Digest" with "PATCH" method?
 
-       See Section 5.
+       See Section 6.
 
    4.  Why remove references to delta-encoding?
 
