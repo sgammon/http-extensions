@@ -2534,11 +2534,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism      March 2020
               DOI 10.17487/RFC4790, March 2007,
               <https://www.rfc-editor.org/info/rfc4790>.
 
-   [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
-              IANA Considerations Section in RFCs", RFC 5226,
-              DOI 10.17487/RFC5226, May 2008,
-              <https://www.rfc-editor.org/info/rfc5226>.
-
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
@@ -2570,6 +2565,11 @@ Internet-Draft  Cookies: HTTP State Management Mechanism      March 2020
    [USASCII]  American National Standards Institute, "Coded Character
               Set -- 7-bit American Standard Code for Information
               Interchange", ANSI X3.4, 1986.
+
+
+
+
+
 
 
 
