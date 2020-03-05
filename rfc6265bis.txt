@@ -2558,6 +2558,11 @@ Internet-Draft  Cookies: HTTP State Management Mechanism      March 2020
               DOI 10.17487/RFC7231, June 2014,
               <https://www.rfc-editor.org/info/rfc7231>.
 
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/info/rfc8126>.
+
    [SERVICE-WORKERS]
               Russell, A., Song, J., and J. Archibald, "Service
               Workers", n.d., <http://www.w3.org/TR/service-workers/>.
@@ -2565,11 +2570,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism      March 2020
    [USASCII]  American National Standards Institute, "Coded Character
               Set -- 7-bit American Standard Code for Information
               Interchange", ANSI X3.4, 1986.
-
-
-
-
-
 
 
 
