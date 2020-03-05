@@ -1537,7 +1537,7 @@ Internet-Draft  Cookies: HTTP State Management Mechanism      March 2020
 
    1.  Attackers can still pop up new windows or trigger top-level
        navigations in order to create a "same-site" request (as
-       described in section 5.2.1), which is only a speedbump along the
+       described in Section 5.2.1), which is only a speedbump along the
        road to exploitation.
 
    2.  Features like "<link rel='prerender'>" [prerendering] can be
