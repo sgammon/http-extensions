@@ -5,8 +5,8 @@
 HTTP Working Group                                                K. Oku
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               L. Pardue
-Expires: September 4, 2020                                    Cloudflare
-                                                          March 03, 2020
+Expires: September 6, 2020                                    Cloudflare
+                                                          March 05, 2020
 
 
                Extensible Prioritization Scheme for HTTP
@@ -25,6 +25,18 @@ Abstract
    share a common format structure that is designed to provide future
    extensibility.
 
+Note to Readers
+
+   _RFC EDITOR: please remove this section before publication_
+
+   Discussion of this draft takes place on the HTTP working group
+   mailing list (ietf-http-wg@w3.org), which is archived at
+   https://lists.w3.org/Archives/Public/ietf-http-wg/ [1].
+
+   Working Group information can be found at https://httpwg.org/ [2];
+   source code and issues list for this draft can be found at
+   https://github.com/httpwg/http-extensions/labels/priorities [3].
+
 Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
@@ -37,10 +49,19 @@ Status of This Memo
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
+
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 1]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 4, 2020.
+   This Internet-Draft will expire on September 6, 2020.
 
 Copyright Notice
 
@@ -50,14 +71,6 @@ Copyright Notice
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
    (https://trustee.ietf.org/license-info) in effect on the date of
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 1]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -67,53 +80,53 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   3
-   2.  Motivation for Replacing HTTP/2 Priorities  . . . . . . . . .   3
+   2.  Motivation for Replacing HTTP/2 Priorities  . . . . . . . . .   4
      2.1.  Disabling HTTP/2 Priorities . . . . . . . . . . . . . . .   5
-   3.  Priority Parameters . . . . . . . . . . . . . . . . . . . . .   5
+   3.  Priority Parameters . . . . . . . . . . . . . . . . . . . . .   6
      3.1.  Urgency . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     3.2.  incremental . . . . . . . . . . . . . . . . . . . . . . .   7
-     3.3.  Defining New Parameters . . . . . . . . . . . . . . . . .   7
-   4.  The Priority HTTP Header Field  . . . . . . . . . . . . . . .   7
+     3.2.  Incremental . . . . . . . . . . . . . . . . . . . . . . .   7
+     3.3.  Defining New Parameters . . . . . . . . . . . . . . . . .   8
+   4.  The Priority HTTP Header Field  . . . . . . . . . . . . . . .   8
    5.  Reprioritization  . . . . . . . . . . . . . . . . . . . . . .   8
-     5.1.  HTTP/2 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .   8
-     5.2.  HTTP/3 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .   9
+     5.1.  HTTP/2 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .   9
+     5.2.  HTTP/3 PRIORITY_UPDATE Frame  . . . . . . . . . . . . . .  10
    6.  Merging Client- and Server-Driven Parameters  . . . . . . . .  11
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
      7.1.  Fairness  . . . . . . . . . . . . . . . . . . . . . . . .  12
        7.1.1.  Coalescing Intermediaries . . . . . . . . . . . . . .  12
        7.1.2.  HTTP/1.x Back Ends  . . . . . . . . . . . . . . . . .  13
-       7.1.3.  Intentional Introduction of Unfairness  . . . . . . .  13
-   8.  Considerations  . . . . . . . . . . . . . . . . . . . . . . .  13
+       7.1.3.  Intentional Introduction of Unfairness  . . . . . . .  14
+   8.  Considerations  . . . . . . . . . . . . . . . . . . . . . . .  14
      8.1.  Why use an End-to-End Header Field? . . . . . . . . . . .  14
-     8.2.  Why do Urgencies Have Meanings? . . . . . . . . . . . . .  14
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  16
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  15
      10.2.  Informative References . . . . . . . . . . . . . . . . .  16
+     10.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  17
    Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .  17
-   Appendix B.  Change Log . . . . . . . . . . . . . . . . . . . . .  18
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 2]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
+   Appendix B.  Change Log . . . . . . . . . . . . . . . . . . . . .  17
      B.1.  Since draft-kazuho-httpbis-priority-04  . . . . . . . . .  18
      B.2.  Since draft-kazuho-httpbis-priority-03  . . . . . . . . .  18
      B.3.  Since draft-kazuho-httpbis-priority-02  . . . . . . . . .  18
      B.4.  Since draft-kazuho-httpbis-priority-01  . . . . . . . . .  18
      B.5.  Since draft-kazuho-httpbis-priority-00  . . . . . . . . .  18
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  18
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
 
 1.  Introduction
 
    It is common for an HTTP ([RFC7230]) resource representation to have
    relationships to one or more other resources.  Clients will often
    discover these relationships while processing a retrieved
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 2]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    representation, leading to further retrieval requests.  Meanwhile,
    the nature of the relationship determines whether the client is
    blocked from continuing to process locally available resources.  For
@@ -122,7 +135,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    inline images do not block rendering and get drawn incrementally as
    the chunks of the images arrive.
 
-   To provide meaningful representation of a document at the earliest
+   To provide meaningful presentation of a document at the earliest
    moment, it is important for an HTTP server to prioritize the HTTP
    responses, or the chunks of those HTTP responses, that it sends.
 
@@ -149,6 +162,14 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    The terms sh-token and sh-boolean are imported from
    [STRUCTURED-HEADERS].
 
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 3]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    Example HTTP requests and responses use the HTTP/2-style formatting
    from [RFC7540].
 
@@ -161,15 +182,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    provides multiplexing is the ability to prioritize the sending of
    information.  This was an important realization in the design of
    HTTP/2.  Prioritization is a difficult problem, so it will always be
-
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 3]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    suboptimal, particularly if one endpoint operates in ignorance of the
    needs of its peer.
 
@@ -179,21 +191,22 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    interoperability.
 
    The rich flexibility of client-driven HTTP/2 prioritization tree
-   building is rarely exercised; experience shows that clients either
-   choose a single model optimized for a web use case (and don't vary
-   it) or do nothing at all.  But every client builds their
-   prioritization tree in a different way, which makes it difficult for
-   servers to understand their intent and act or intervene accordingly.
+   building is rarely exercised.  Experience has shown that clients tend
+   to choose a single model optimized for a web use case and experiment
+   within the model constraints, or do nothing at all.  Furthermore,
+   many clients build their prioritization tree in a unique way, which
+   makes it difficult for servers to understand their intent and act or
+   intervene accordingly.
 
    Many HTTP/2 server implementations do not include support for the
    priority scheme, some favoring instead bespoke server-driven schemes
    based on heuristics and other hints, like the content type of
-   resources and the order in which requests arrive.  For example, a
-   server, with knowledge of the document structure, might want to
-   prioritize the delivery of images that are critical to user
-   experience above other images, but below the CSS files.  Since client
-   trees vary, it is impossible for the server to determine how such
-   images should be prioritized against other responses.
+   resources and the request generation order.  For example, a server,
+   with knowledge of the document structure, might want to prioritize
+   the delivery of images that are critical to user experience above
+   other images, but below the CSS files.  Since client trees vary, it
+   is impossible for the server to determine how such images should be
+   prioritized against other responses.
 
    The HTTP/2 scheme allows intermediaries to coalesce multiple client
    trees into a single tree that is used for a single upstream HTTP/2
@@ -205,8 +218,16 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
    HTTP/2 describes denial-of-service considerations for
    implementations.  On 2019-08-13 Netflix issued an advisory notice
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 4]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    about the discovery of several resource exhaustion vectors affecting
-   multiple HTTP/2 implementations.  One attack, CVE-2019-9513 aka
+   multiple HTTP/2 implementations.  One attack, [CVE-2019-9513] aka
    "Resource Loop", is based on manipulation of the priority tree.
 
    The HTTP/2 scheme depends on in-order delivery of signals, leading to
@@ -218,14 +239,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    retaining the HTTP/2 priority scheme increases the complexity of the
    entire system without any evidence that the value it provides offsets
    that complexity.  In fact, multiple experiments from independent
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 4]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    research have shown that simpler schemes can reach at least
    equivalent performance characteristics compared to the more complex
    HTTP/2 setups seen in practice, at least for the web use case.
@@ -258,10 +271,19 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    the client learns that the HTTP/2 priority scheme is deprecated, it
    SHOULD stop sending the HTTP/2 priority signals.  If the client
    learns that the HTTP/2 priority scheme is not deprecated, it SHOULD
-   stop sending PRIORITY_UPDATE frames, but MAY continue sending the
-   Priority header field, as it is an end-to-end signal that might be
-   useful to nodes behind the server that the client is directly
-   connected to.
+   stop sending PRIORITY_UPDATE frames (Section 5.1), but MAY continue
+   sending the Priority header field (Section 4), as it is an end-to-end
+
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 5]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
+   signal that might be useful to nodes behind the server that the
+   client is directly connected to.
 
    The SETTINGS frame precedes any priority signal sent from a client in
    HTTP/2, so a server can determine if it should respect the HTTP/2
@@ -273,22 +295,14 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    room for future extensions.  Each key-value pair represents a
    priority parameter.
 
-
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 5]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
-   The Priority HTTP header field is an end-to-end way to transmit this
-   set of parameters when a request or a response is issued.  In order
-   to reprioritize a request, HTTP-version-specific frames are used by
-   clients to transmit the same information on a single hop.  If
-   intermediaries want to specify prioritizaton on a multiplexed HTTP
-   connection, it SHOULD use a PRIORITY_UPDATE frame and SHOULD NOT
-   change the Priority header field.
+   The Priority HTTP header field (Section 4) is an end-to-end way to
+   transmit this set of parameters when a request or a response is
+   issued.  In order to reprioritize a request, HTTP-version-specific
+   frames (Section 5.1 and Section 5.2) are used by clients to transmit
+   the same information on a single hop.  If intermediaries want to
+   specify prioritization on a multiplexed HTTP connection, they SHOULD
+   use a PRIORITY_UPDATE frame and SHOULD NOT change the Priority header
+   field.
 
    In both cases, the set of priority parameters is encoded as a
    Structured Headers Dictionary ([STRUCTURED-HEADERS]).
@@ -305,7 +319,9 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 3.1.  Urgency
 
    The urgency parameter ("u") takes an integer between 0 and 7, in
-   descending order of priority.
+   descending order of priority.  This range provides sufficient
+   granularity for prioritizing responses for ordinary web browsing, at
+   minimal complexity.
 
    The value is encoded as an sh-integer.  The default value is 1.
 
@@ -313,6 +329,14 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    expectation that the server would transmit HTTP responses in the
    order of their urgency values if possible.  The smaller the value,
    the higher the precedence.
+
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 6]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
 
    The following example shows a request for a CSS file with the urgency
    set to "0":
@@ -328,21 +352,11 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    to the main resource.  This convention allows servers to refine the
    urgency using knowledge specific to the web-site (see Section 6).
 
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 6]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    The lowest urgency level (7) is reserved for background tasks such as
    delivery of software updates.  This urgency level SHOULD NOT be used
    for fetching responses that have impact on user interaction.
 
-3.2.  incremental
+3.2.  Incremental
 
    The incremental parameter ("i") takes an sh-boolean as the value that
    indicates if an HTTP response can be processed incrementally, i.e.
@@ -355,21 +369,30 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    providing those responses in parallel would be more helpful to the
    client than delivering the responses one by one.
 
-   There is no benefit in providing multiple responses with their
-   incremental parameters set to false in parallel, as the client is not
-   going to process those responses incrementally.  Serving non-
-   incremental responses one by one, in the order in which those
-   requests were generated is considered to be the best strategy.
+   If a client makes concurrent requests with the incremental parameter
+   set to false, there is no benefit serving responses in parallel
+   because the client is not going to process those responses
+   incrementally.  Serving non-incremental responses one by one, in the
+   order in which those requests were generated is considered to be the
+   best strategy.
 
    The following example shows a request for a JPEG file with the
    urgency parameter set to "5" and the incremental parameter set to
-   "1".
+   "true".
 
    :method = GET
    :scheme = https
    :authority = example.net
    :path = /image.jpg
-   priority = u=5, i=?1
+   priority = u=5, i
+
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 7]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
 
 3.3.  Defining New Parameters
 
@@ -377,6 +400,16 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    any use of existing parameters are either unchanged or modified in a
    way that is backwards compatible for peers that are unaware of the
    extended meaning.
+
+   For example, if there is a need to provide more granularity than
+   eight urgency levels, it would be possible to subdivide the range
+   using an additional parameter.  Implementations that do not recognize
+   the parameter can safely continue to use the less granular eight
+   levels.
+
+   Alternatively, the urgency can be augmented.  For example, a
+   graphical user agent could send a "visible" parameter to indicate if
+   the resource being requested is within the viewport.
 
 4.  The Priority HTTP Header Field
 
@@ -386,13 +419,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    intermediary can use the Priority information from client requests
    and server responses to correct or amend the precedence to suit it
    (see Section 6).
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 7]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
 
    The Priority header field is an end-to-end signal of the request
    priority from the client or the response priority from the server.
@@ -413,8 +439,16 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    the Priority request header field set to "u=7" (background).  Then,
    when the user navigates to a page which references the new JavaScript
    file, while the prefetch is in progress, the browser would send a
-   reprioritization frame with the priority field value set to "u=0"
-   (prerequisite).
+   reprioritization frame with the priority field value set to "u=0".
+
+
+
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 8]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
 
    In HTTP/2 and HTTP/3, after a request message is sent on a stream,
    the stream transitions to a state that prevents the client from
@@ -443,13 +477,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    ASCII text, using the same representation as that of the Priority
    header field value.
 
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 8]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    The Stream Identifier field ([RFC7540], Section 4.1) in the
    PRIORITY_UPDATE frame header MUST be zero (0x0).
 
@@ -472,6 +499,13 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    Stream ID:  A 31-bit stream identifier for the stream that is the
       target of the priority update.
 
+
+
+Oku & Pardue            Expires September 6, 2020               [Page 9]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    Priority Field Value:  The priority update value in ASCII text,
       encoded using Structured Headers.
 
@@ -493,18 +527,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
    The PRIORITY_UPDATE frame MUST be sent on the control stream
    ([I-D.ietf-quic-http], Section 6.2.1).
-
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020               [Page 9]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
 
      0                   1                   2                   3
      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -533,6 +555,13 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    Priority Field Value:  The priority update value in ASCII text,
       encoded using Structured Headers.
 
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 10]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    The HTTP/3 PRIORITY_UPDATE frame MUST NOT be sent with an invalid
    identifier, including before the request stream has been opened or
    before a promised request has been received.  If a server receives a
@@ -555,20 +584,18 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    PRIORITY_UPDATE on wrong stream, a PRIORITY_UPDATE with an invalid
    ID, etc.
 
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 10]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
 6.  Merging Client- and Server-Driven Parameters
 
    It is not always the case that the client has the best understanding
-   of how the HTTP responses deserve to be prioritized.  For example,
-   use of an HTML document might depend heavily on one of the inline
-   images.  Existence of such dependencies is typically best known to
-   the server.
+   of how the HTTP responses deserve to be prioritized.  The server
+   might have additional information that can be combined with the
+   client's indicated priority in order to improve the prioritization of
+   the response.  For example, use of an HTML document might depend
+   heavily on one of the inline images; existence of such dependencies
+   is typically best known to the server.  Or, a server that receives
+   requests for a font [RFC8081] and images with the same urgency might
+   give higher precedence to the font, so that a visual client can
+   render textual information at an early moment.
 
    An origin can use the Priority response header field to indicate its
    view on how an HTTP response should be prioritized.  An intermediary
@@ -582,16 +609,24 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    server's disinterest in changing the client-provided value.  This is
    different from the logic being defined for the request header field,
    in which omission of a priority parameter implies the use of their
-   default values (see #parameters).
+   default values (see Section 3).
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 11]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
 
    As a non-normative example, when the client sends an HTTP request
-   with
+   with the urgency parameter set to "5" and the incremental parameter
+   set to "true"
 
    :method = GET
    :scheme = https
    :authority = example.net
    :path = /menu.png
-   priority = u=5, i=?1
+   priority = u=5, i
 
    and the origin responds with
 
@@ -601,22 +636,11 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
    the intermediary might alter its understanding of the urgency from
    "5" to "1", because it prefers the server-provided value over the
-   client's.  The incremental value continues to be "1", the value
+   client's.  The incremental value continues to be "true", the value
    specified by the client, as the server did not specify the
    incremental("i") parameter.
 
 7.  Security Considerations
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 11]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
 
 7.1.  Fairness
 
@@ -642,6 +666,14 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    server, requests that originate from one client might have higher
    precedence than those coming from others.
 
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 12]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    It is sometimes beneficial for the server running behind an
    intermediary to obey to the value of the Priority header field.  As
    an example, a resource-constrained server might defer the
@@ -654,7 +686,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    In order to mitigate this fairness problem, when a server responds to
    a request that is known to have come through an intermediary, the
    server SHOULD prioritize the response as if it was assigned the
-   priority of "u=1, i=?1" (i.e. round-robin) regardless of the value of
+   priority of "u=1, i" (i.e. round-robin) regardless of the value of
    the Priority header field being transmitted, unless the server knows
    the intermediary is not coalescing requests from multiple clients.
 
@@ -662,17 +694,7 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    configuration, or by consulting if that request contains one of the
    following header fields:
 
-   o  CDN-Loop ([RFC8586])
-
    o  Forwarded, X-Forwarded-For ([RFC7239])
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 12]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
 
    o  Via ([RFC7230], Section 5.7.1)
 
@@ -701,6 +723,13 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    can be scoped to individual end clients.  Authentication and other
    session information might provide this linkability.
 
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 13]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
 7.1.3.  Intentional Introduction of Unfairness
 
    It is sometimes beneficial to deprioritize the transmission of one
@@ -717,18 +746,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    scheduling choices for the requests it initiates.
 
 8.  Considerations
-
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 13]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
 
 8.1.  Why use an End-to-End Header Field?
 
@@ -755,50 +772,19 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
    textual value makes the prioritization scheme extensible; see the
    discussion below.
 
-8.2.  Why do Urgencies Have Meanings?
-
-   One of the aims of this specification is to define a mechanism for
-   merging client- and server-provided hints for prioritizing the
-   responses.  For that to work, each urgency level needs to have a
-   well-defined meaning.  As an example, a server can assign the highest
-   precedence among the supplementary responses to an HTTP response
-   carrying an icon, because the meaning of "u=2" is shared among the
-   endpoints.
-
-   This specification restricts itself to defining a minimum set of
-   urgency levels in order to provide sufficient granularity for
-   prioritizing responses for ordinary web browsing, at minimal
-   complexity.
-
-   However, that does not mean that the prioritization scheme would
-   forever be stuck to the eight levels.  The design provides
-   extensibility.  If deemed necessary, it would be possible to
-   subdivide any of the eight urgency levels that are currently defined.
-   Or, a graphical user-agent could send a "visible" parameter to
-   indicate if the resource being requested is within the viewport.
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 14]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
-   A server can combine the hints provided in the Priority header field
-   with other information in order to improve the prioritization of
-   responses.  For example, a server that receives requests for a font
-   [RFC8081] and images with the same urgency might give higher
-   precedence to the font, so that a visual client can render textual
-   information at an early moment.
-
 9.  IANA Considerations
 
    This specification registers the following entry in the Permanent
    Message Header Field Names registry established by [RFC3864]:
 
    Header field name:  Priority
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 14]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
 
    Applicable protocol:  http
 
@@ -835,13 +821,6 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
    Frame Type:  PRIORITY_UPDATE
 
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 15]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    Code:  0xF
 
    Specification:  This document
@@ -854,6 +833,14 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
               Bishop, M., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", draft-ietf-quic-http-24 (work in progress),
               November 2019.
+
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 15]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
 
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
@@ -882,21 +869,15 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 10.2.  Informative References
 
+   [CVE-2019-9513]
+              Common Vulnerabilities and Exposures, "CVE-2019-9513",
+              March 2019, <https://cve.mitre.org/cgi-bin/
+              cvename.cgi?name=CVE-2019-9513>.
+
    [I-D.lassey-priority-setting]
               Lassey, B. and L. Pardue, "Declaring Support for HTTP/2
               Priorities", draft-lassey-priority-setting-00 (work in
               progress), July 2019.
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 16]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
 
    [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
               Procedures for Message Header Fields", BCP 90, RFC 3864,
@@ -908,6 +889,15 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
               RFC 7234, DOI 10.17487/RFC7234, June 2014,
               <https://www.rfc-editor.org/info/rfc7234>.
 
+
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 16]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
    [RFC7239]  Petersson, A. and M. Nilsson, "Forwarded HTTP Extension",
               RFC 7239, DOI 10.17487/RFC7239, June 2014,
               <https://www.rfc-editor.org/info/rfc7239>.
@@ -916,25 +906,26 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
               DOI 10.17487/RFC8081, February 2017,
               <https://www.rfc-editor.org/info/rfc8081>.
 
-   [RFC8586]  Ludin, S., Nottingham, M., and N. Sullivan, "Loop
-              Detection in Content Delivery Networks (CDNs)", RFC 8586,
-              DOI 10.17487/RFC8586, April 2019,
-              <https://www.rfc-editor.org/info/rfc8586>.
-
 10.3.  URIs
 
-   [1] http://tools.ietf.org/agenda/83/slides/slides-83-httpbis-5.pdf
+   [1] https://lists.w3.org/Archives/Public/ietf-http-wg/
 
-   [2] https://github.com/pmeenan/http3-prioritization-proposal
+   [2] https://httpwg.org/
+
+   [3] https://github.com/httpwg/http-extensions/labels/priorities
+
+   [4] http://tools.ietf.org/agenda/83/slides/slides-83-httpbis-5.pdf
+
+   [5] https://github.com/pmeenan/http3-prioritization-proposal
 
 Appendix A.  Acknowledgements
 
    Roy Fielding presented the idea of using a header field for
    representing priorities in http://tools.ietf.org/agenda/83/slides/
-   slides-83-httpbis-5.pdf [1].  In https://github.com/pmeenan/http3-
-   prioritization-proposal [2], Patrick Meenan advocates for
+   slides-83-httpbis-5.pdf [4].  In https://github.com/pmeenan/http3-
+   prioritization-proposal [5], Patrick Meenan advocates for
    representing the priorities using a tuple of urgency and concurrency.
-   The ability to deprecate HTTP/2 priortization is based on
+   The ability to deprecate HTTP/2 prioritization is based on
    [I-D.lassey-priority-setting], authored by Brad Lassey and Lucas
    Pardue, with modifications based on feedback that was not
    incorporated into an update to that document.
@@ -946,21 +937,33 @@ Appendix A.  Acknowledgements
 
    In addition to the people above, this document owes a lot to the
    extensive discussion in the HTTP priority design team, consisting of
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 17]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
-
-
    Alan Frindell, Andrew Galloni, Craig Taylor, Ian Swett, Kazuho Oku,
    Lucas Pardue, Matthew Cox, Mike Bishop, Roberto Peon, Robin Marx, Roy
    Fielding.
 
 Appendix B.  Change Log
 
+
+
+
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 17]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
 B.1.  Since draft-kazuho-httpbis-priority-04
+
+   o  Minimize semantics of Urgency levels (#1023, #1026)
+
+   o  Reduce guidance about how intermediary implements merging priority
+      signals (#1026)
+
+   o  Remove mention of CDN-Loop (#1062)
+
+   o  Editorial changes
 
    o  Make changes due to WG adoption
 
@@ -968,7 +971,7 @@ B.1.  Since draft-kazuho-httpbis-priority-04
 
 B.2.  Since draft-kazuho-httpbis-priority-03
 
-   o  Changed numbering from [-1,6] to [0,7] (#78)
+   o  Changed numbering from "[-1,6]" to "[0,7]" (#78)
 
    o  Replaced priority scheme negotiation with HTTP/2 priority
       deprecation (#100)
@@ -995,19 +998,24 @@ B.5.  Since draft-kazuho-httpbis-priority-00
 
    o  Expand urgency levels from 3 to 8.
 
+
+
+
+
+
+
+
+Oku & Pardue            Expires September 6, 2020              [Page 18]
+
+Internet-Draft               HTTP Priorities                  March 2020
+
+
 Authors' Addresses
 
    Kazuho Oku
    Fastly
 
    Email: kazuhooku@gmail.com
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 18]
-
-Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
    Lucas Pardue
@@ -1053,12 +1061,4 @@ Internet-Draft  Extensible Prioritization Scheme for HTTP     March 2020
 
 
 
-
-
-
-
-
-
-
-
-Oku & Pardue            Expires September 4, 2020              [Page 19]
+Oku & Pardue            Expires September 6, 2020              [Page 19]
