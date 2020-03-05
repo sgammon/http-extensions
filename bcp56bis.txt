@@ -176,7 +176,7 @@ Internet-Draft        Building Protocols with HTTP            March 2020
    the service will be handled and how different deployment requirements
    will be accommodated.
 
-   More generally, application protocols using HTTP face a number of
+   More generally, an application protocol using HTTP faces a number of
    design decisions, including:
 
    o  Should it define a new URI scheme?  Use new ports?
@@ -298,12 +298,10 @@ Internet-Draft        Building Protocols with HTTP            March 2020
    their specifications on protocol elements that are specific to that
    application; namely their HTTP resources.
 
-   For example, when writing a specification, it's often tempting to
-   specify exactly how HTTP is to be implemented, supported and used.
-
-   However, this can easily lead to an unintended profile of HTTP's
-   behaviour.  For example, it's common to see specifications with
-   language like this:
+   When writing a specification, it's often tempting to specify exactly
+   how HTTP is to be implemented, supported and used.  However, this can
+   easily lead to an unintended profile of HTTP's behaviour.  For
+   example, it's common to see specifications with language like this:
 
    A `POST` request MUST result in a `201 Created` response.
 
@@ -329,7 +327,9 @@ Internet-Draft        Building Protocols with HTTP            March 2020
    resources, can cause deployment issues, and is therefore bad practice
    in standards.
 
-
+   Instead of statically defining URI components like paths, it is
+   RECOMMENDED that applications using HTTP define links in payloads, to
+   allow flexibility in deployment.
 
 
 
@@ -337,10 +337,6 @@ Nottingham              Expires September 6, 2020               [Page 6]
 
 Internet-Draft        Building Protocols with HTTP            March 2020
 
-
-   Instead of statically defining URI components like paths, it is
-   RECOMMENDED that applications using HTTP define links in payloads, to
-   allow flexibility in deployment.
 
    Using runtime links in this fashion has a number of other benefits -
    especially when an application is to have multiple implementations
@@ -385,7 +381,11 @@ Internet-Draft        Building Protocols with HTTP            March 2020
 
    o  Partial content to selectively request part of a response
 
+   o  The ability to interact with the application easily using a Web
+      browser
 
+   Applications that use HTTP are encouraged to utilise the various
+   features that the protocol offers, so that their users receive the
 
 
 
@@ -394,11 +394,6 @@ Nottingham              Expires September 6, 2020               [Page 7]
 Internet-Draft        Building Protocols with HTTP            March 2020
 
 
-   o  The ability to interact with the application easily using a Web
-      browser
-
-   Applications that use HTTP are encouraged to utilise the various
-   features that the protocol offers, so that their users receive the
    maximum benefit from it, and to allow it to be deployed in a variety
    of situations.  This document does not require specific features to
    be used, since the appropriate design tradeoffs are highly specific
@@ -439,6 +434,11 @@ Internet-Draft        Building Protocols with HTTP            March 2020
    should document both the request and response messages, with full
    headers, preferably in HTTP/1.1 format.  For example:
 
+   GET /thing HTTP/1.1
+   Host: example.com
+   Accept: application/things+json
+   User-Agent: Foo/1.0
+
 
 
 
@@ -448,12 +448,6 @@ Internet-Draft        Building Protocols with HTTP            March 2020
 Nottingham              Expires September 6, 2020               [Page 8]
 
 Internet-Draft        Building Protocols with HTTP            March 2020
-
-
-   GET /thing HTTP/1.1
-   Host: example.com
-   Accept: application/things+json
-   User-Agent: Foo/1.0
 
 
    HTTP/1.1 200 OK
@@ -492,6 +486,12 @@ Internet-Draft        Building Protocols with HTTP            March 2020
    o  Resource deletion using DELETE.
 
    For example, an application might specify:
+
+
+
+
+
+
 
 
 
