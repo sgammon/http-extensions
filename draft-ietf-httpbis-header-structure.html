@@ -296,7 +296,8 @@ Example-ListListParam: ("foo"; a=1;b=2);lvl=5, ("bar" "baz");lvl=1
 parameters    = *( ";" *SP parameter )
 parameter     = param-name [ "=" param-value ]
 param-name    = key
-key           = ( lcalpha / "*" ) *( lcalpha / DIGIT / "_" / "-" / "." / "*" )
+key           = ( lcalpha / "*" )
+                *( lcalpha / DIGIT / "_" / "-" / "." / "*" )
 lcalpha       = %x61-7A ; a-z
 param-value   = bare-item
 </pre></div></div><div id="rfc.section.3.1.2.p.3" class="avoidbreakafter"><p>A parameter is separated from its Item or Inner List and other parameters by a semicolon. For example:</p></div><div id="rfc.figure.u.10"><div><pre class="text">
@@ -323,8 +324,8 @@ Example-Hdr: foo=1
 Example-Hdr: bar=2
 </pre></div></div><div id="rfc.section.3.2.p.13"><p>However, individual members of a Dictionary cannot be safely split between lines; see <a href="#text-parse" title="Parsing Structured Fields">Section 4.2</a> for details.</p></div><div id="rfc.section.3.2.p.14"><p>Parsers MUST support Dictionaries containing at least 1024 name/value pairs, and names with at least 64 characters.</p></div></section><section id="item"><h3 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#item">Items</a></h3><div id="rfc.section.3.3.p.1"><p>An Item can be a Integer (<a href="#integer" title="Integers">Section 3.3.1</a>), Decimal (<a href="#decimal" title="Decimals">Section 3.3.2</a>), String (<a href="#string" title="Strings">Section 3.3.3</a>), Token (<a href="#token" title="Tokens">Section 3.3.4</a>), Byte Sequence (<a href="#binary" title="Byte Sequences">Section 3.3.5</a>), or Boolean (<a href="#boolean" title="Booleans">Section 3.3.6</a>). It can have associated Parameters (<a href="#param" title="Parameters">Section 3.1.2</a>).</p></div><div id="rfc.section.3.3.p.2" class="avoidbreakafter"><p>The ABNF for Items is:</p></div><div id="rfc.figure.u.19"><div><pre class="inline">
 sh-item   = bare-item parameters
-bare-item = sh-integer / sh-decimal / sh-string / sh-token / sh-binary
-            / sh-boolean
+bare-item = sh-integer / sh-decimal / sh-string / sh-token
+            / sh-binary / sh-boolean
 </pre></div></div><div id="rfc.section.3.3.p.3" class="avoidbreakafter"><p>For example, a header field that is defined to be an Item that is an Integer might look like:</p></div><div id="rfc.figure.u.20"><div><pre class="text">
 Example-IntItemHeader: 5
 </pre></div></div><div id="rfc.section.3.3.p.4" class="avoidbreakafter"><p>or with Parameters:</p></div><div id="rfc.figure.u.21"><div><pre class="text">
