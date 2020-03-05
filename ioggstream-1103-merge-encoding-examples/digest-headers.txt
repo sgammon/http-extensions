@@ -81,15 +81,13 @@ Table of Contents
      1.3.  Goals . . . . . . . . . . . . . . . . . . . . . . . . . .   5
      1.4.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
    2.  Resource Representation and Representation-Data . . . . . . .   6
-   3.  Digest Algorithm Values . . . . . . . . . . . . . . . . . . .   8
-     3.1.  Computing Digests of Representation Data  . . . . . . . .  10
-   4.  Header Field Specifications . . . . . . . . . . . . . . . . .  10
-     4.1.  Want-Digest . . . . . . . . . . . . . . . . . . . . . . .  10
-     4.2.  Digest  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-   5.  Use of Digest when acting on resources  . . . . . . . . . . .  12
-     5.1.  Digest and PATCH  . . . . . . . . . . . . . . . . . . . .  12
-   6.  Deprecate Negotiation of Content-MD5  . . . . . . . . . . . .  13
-   7.  Broken Cryptographic Algorithms . . . . . . . . . . . . . . .  13
+     2.1.  Computing Digests of Representation Data  . . . . . . . .   8
+   3.  The Want-Digest Header Field  . . . . . . . . . . . . . . . .   8
+   4.  The Digest Header Field . . . . . . . . . . . . . . . . . . .   9
+   5.  Digest Algorithm Values . . . . . . . . . . . . . . . . . . .  10
+   6.  Use of Digest when acting on resources  . . . . . . . . . . .  12
+     6.1.  Digest and PATCH  . . . . . . . . . . . . . . . . . . . .  13
+   7.  Deprecate Negotiation of Content-MD5  . . . . . . . . . . . .  13
    8.  Relationship to Subresource Integrity (SRI) . . . . . . . . .  13
      8.1.  Supporting Both SRI and Representation Digest . . . . . .  14
    9.  Examples of Unsolicited Digest  . . . . . . . . . . . . . . .  14
@@ -106,6 +104,8 @@ Table of Contents
      9.9.  Digest with PATCH . . . . . . . . . . . . . . . . . . . .  19
      9.10. Error responses . . . . . . . . . . . . . . . . . . . . .  20
    10. Examples of Want-Digest Solicited Digest  . . . . . . . . . .  21
+     10.1.  Server Selects Client's Least Preferred Algorithm  . . .  21
+     10.2.  Server Selects Algorithm Unsupported by Client . . . . .  21
 
 
 
@@ -114,8 +114,6 @@ Polli & Pardue          Expires September 6, 2020               [Page 2]
 Internet-Draft               Digest Headers                   March 2020
 
 
-     10.1.  Server Selects Client's Least Preferred Algorithm  . . .  21
-     10.2.  Server Selects Algorithm Unsupported by Client . . . . .  21
      10.3.  Server Does Not Support Client Algorithm and Returns an
             Error  . . . . . . . . . . . . . . . . . . . . . . . . .  22
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  22
@@ -162,6 +160,8 @@ Internet-Draft               Digest Headers                   March 2020
    An HTTP-level integrity mechanism that operates independent of
    transfer can be used to detect programming errors and/or corruption
    of data at rest, be used across multiple hops in order to provide
+   end-to-end integrity guarantees, aid fault diagnosis across hops and
+
 
 
 
@@ -170,7 +170,6 @@ Polli & Pardue          Expires September 6, 2020               [Page 3]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   end-to-end integrity guarantees, aid fault diagnosis across hops and
    system boundaries, and can be used to validate integrity when
    reconstructing a resource fetched using different HTTP connections.
 
@@ -215,6 +214,7 @@ Internet-Draft               Digest Headers                   March 2020
    To allow both parties to exchange a Digest of a representation with
    no content codings [3] two more algorithms are added ("ID-SHA-256"
    and "ID-SHA-512").
+
 
 
 
@@ -394,7 +394,119 @@ Polli & Pardue          Expires September 6, 2020               [Page 7]
 Internet-Draft               Digest Headers                   March 2020
 
 
-3.  Digest Algorithm Values
+2.1.  Computing Digests of Representation Data
+
+   A representation digest is the value of the output of a digest
+   algorithm, together with an indication of the algorithm used (and any
+   parameters).
+
+      representation-data-digest = digest-algorithm "="
+                                   <encoded digest output>
+
+   As explained in Section 2 the digest is computed on the entire
+   selected "representation data" of the resource defined in [RFC7231]:
+
+      representation-data := Content-Encoding( Content-Type( bits ) )
+
+   The encoded digest output uses the encoding format defined for the
+   specific digest-algorithm.  The example below shows the "sha-256"
+   digest-algorithm which uses base64 encoding.
+
+      sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+
+3.  The Want-Digest Header Field
+
+   The Want-Digest message header field indicates the sender's desire to
+   receive a representation digest on messages associated with the
+   request URI and representation metadata.
+
+      Want-Digest = "Want-Digest" ":" OWS 1#want-digest-value
+      want-digest-value = digest-algorithm [ ";" "q" "=" qvalue]
+      qvalue = ( "0"  [ "."  0*1DIGIT ] ) /
+               ( "1"  [ "."  0*1( "0" ) ] )
+
+   If a digest-algorithm is not accompanied by a qvalue, it is treated
+   as if its associated qvalue were 1.0.
+
+   The sender is willing to accept a digest-algorithm if and only if it
+   is listed in a Want-Digest header field of a message, and its qvalue
+   is non-zero.
+
+   If multiple acceptable digest-algorithm values are given, the
+   sender's preferred digest-algorithm is the one (or ones) with the
+   highest qvalue.
+
+   Two examples of its use are
+
+      Want-Digest: sha-256
+      Want-Digest: SHA-512;q=0.3, sha-256;q=1, md5;q=0
+
+
+
+
+
+Polli & Pardue          Expires September 6, 2020               [Page 8]
+
+Internet-Draft               Digest Headers                   March 2020
+
+
+4.  The Digest Header Field
+
+   The Digest header field provides a digest of the representation data.
+
+      Digest = "Digest" ":" OWS 1#representation-data-digest
+
+   "Representation data" might be:
+
+   o  fully contained in the message body,
+
+   o  partially-contained in the message body,
+
+   o  or not at all contained in the message body.
+
+   The resource is specified by the effective request URI and any
+   "validator" contained in the message.
+
+   For example, in a response to a HEAD request, the digest is
+   calculated using the representation data that would have been
+   enclosed in the payload body if the same request had been a GET.
+
+   Digest can be used in requests too.
+
+   The "Digest" value depends on the representation metadata.
+
+   A Digest header field MAY contain multiple representation-data-digest
+   values.  This could be useful for responses expected to reside in
+   caches shared by users with different browsers, for example.
+
+   A recipient MAY ignore any or all of the representation-data-digests
+   in a Digest header field.  This allows the recipient to chose which
+   digest-algorithm(s) to use for validation instead of verifying every
+   received representation-data-digest.
+
+   A sender MAY send a representation-data-digest using a digest-
+   algorithm without knowing whether the recipient supports the digest-
+   algorithm, or even knowing that the recipient will ignore it.
+
+   Two examples of its use are
+
+      Digest: id-sha-512=WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm
+                         AbwAgBWnrIiYllu7BNNyealdVLvRwE\nmTHWXvJwew==
+
+      Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=,
+              id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+
+
+
+
+
+
+Polli & Pardue          Expires September 6, 2020               [Page 9]
+
+Internet-Draft               Digest Headers                   March 2020
+
+
+5.  Digest Algorithm Values
 
    Digest algorithm values are used to indicate a specific digest
    computation.  For some algorithms, one or more parameters may be
@@ -406,7 +518,13 @@ Internet-Draft               Digest Headers                   March 2020
    algorithm values are case-insensitive.
 
    The Internet Assigned Numbers Authority (IANA) acts as a registry for
-   digest-algorithm values.  The registry contains the following tokens.
+   digest-algorithm values.  The registry contains the tokens listed
+   below.
+
+   Some algorithms, although registered, have since been found
+   vulnerable: the MD5 algorithm MUST NOT be used due to collision
+   attacks [CMU-836068] and the SHA algorithm is NOT RECOMMENDED due to
+   collision attacks [IACR-2019-459].
 
    SHA-256:
 
@@ -437,19 +555,17 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: deprecated
 
-   SHA:
-
-      *  Description: The SHA-1 algorithm [RFC3174].  The output of this
-         algorithm is encoded using the base64 encoding [RFC4648].  The
 
 
-
-
-Polli & Pardue          Expires September 6, 2020               [Page 8]
+Polli & Pardue          Expires September 6, 2020              [Page 10]
 
 Internet-Draft               Digest Headers                   March 2020
 
 
+   SHA:
+
+      *  Description: The SHA-1 algorithm [RFC3174].  The output of this
+         algorithm is encoded using the base64 encoding [RFC4648].  The
          SHA algorithm is NOT RECOMMENDED as it's now vulnerable to
          collision attacks [IACR-2019-459].
 
@@ -495,122 +611,6 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: standard
 
-   ID-SHA-256: : * Description: The sha-256 digest of the
-   representation-data of the resource when no content coding is applied
-
-
-
-
-Polli & Pardue          Expires September 6, 2020               [Page 9]
-
-Internet-Draft               Digest Headers                   March 2020
-
-
-   (eg.  "Content-Encoding: identity") * Reference: [RFC6234],
-   [RFC4648], this document.  * Status: standard
-
-   If other digest-algorithm values are defined, the associated encoding
-   MUST either be represented as a quoted string, or MUST NOT include
-   ";" or "," in the character sets used for the encoding.
-
-3.1.  Computing Digests of Representation Data
-
-   A representation digest is the value of the output of a digest
-   algorithm, together with an indication of the algorithm used (and any
-   parameters).
-
-      representation-data-digest = digest-algorithm "="
-                                   <encoded digest output>
-
-   As explained in Section 2 the digest is computed on the entire
-   selected "representation data" of the resource defined in [RFC7231]:
-
-      representation-data := Content-Encoding( Content-Type( bits ) )
-
-   The encoded digest output uses the encoding format defined for the
-   specific digest-algorithm.  For example the "sha-256" digest-
-   algorithm uses base64 encoding.
-
-      sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
-
-4.  Header Field Specifications
-
-   The following headers are defined
-
-4.1.  Want-Digest
-
-   The Want-Digest message header field indicates the sender's desire to
-   receive a representation digest on messages associated with the
-   request URI and representation metadata.
-
-      Want-Digest = "Want-Digest" ":" OWS 1#want-digest-value
-      want-digest-value = digest-algorithm [ ";" "q" "=" qvalue]
-      qvalue = ( "0"  [ "."  0*1DIGIT ] ) /
-               ( "1"  [ "."  0*1( "0" ) ] )
-
-   If a digest-algorithm is not accompanied by a qvalue, it is treated
-   as if its associated qvalue were 1.0.
-
-   The sender is willing to accept a digest-algorithm if and only if it
-   is listed in a Want-Digest header field of a message, and its qvalue
-   is non-zero.
-
-
-
-Polli & Pardue          Expires September 6, 2020              [Page 10]
-
-Internet-Draft               Digest Headers                   March 2020
-
-
-   If multiple acceptable digest-algorithm values are given, the
-   sender's preferred digest-algorithm is the one (or ones) with the
-   highest qvalue.
-
-   Two examples of its use are
-
-      Want-Digest: sha-256
-      Want-Digest: SHA-512;q=0.3, sha-256;q=1, md5;q=0
-
-4.2.  Digest
-
-   The Digest header field provides a digest of the representation data.
-
-      Digest = "Digest" ":" OWS 1#representation-data-digest
-
-   "Representation data" might be:
-
-   o  fully contained in the message body,
-
-   o  partially-contained in the message body,
-
-   o  or not at all contained in the message body.
-
-   The resource is specified by the effective request URI and any
-   "validator" contained in the message.
-
-   For example, in a response to a HEAD request, the digest is
-   calculated using the representation data that would have been
-   enclosed in the payload body if the same request had been a GET.
-
-   Digest can be used in requests too.
-
-   The "Digest" value depends on the representation metadata.
-
-   A Digest header field MAY contain multiple representation-data-digest
-   values.  This could be useful for responses expected to reside in
-   caches shared by users with different browsers, for example.
-
-   A recipient MAY ignore any or all of the representation-data-digests
-   in a Digest header field.  This allows the recipient to chose which
-   digest-algorithm(s) to use for validation instead of verifying every
-   received representation-data-digest.
-
-   A sender MAY send a representation-data-digest using a digest-
-   algorithm without knowing whether the recipient supports the digest-
-   algorithm, or even knowing that the recipient will ignore it.
-
-   Two examples of its use are
-
 
 
 Polli & Pardue          Expires September 6, 2020              [Page 11]
@@ -618,13 +618,21 @@ Polli & Pardue          Expires September 6, 2020              [Page 11]
 Internet-Draft               Digest Headers                   March 2020
 
 
-      Digest: id-sha-512=WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm
-                         AbwAgBWnrIiYllu7BNNyealdVLvRwE\nmTHWXvJwew==
+   ID-SHA-256:
 
-      Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=,
-              id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+      *  Description: The sha-256 digest of the representation-data of
+         the resource when no content coding is applied (eg.  "Content-
+         Encoding: identity")
 
-5.  Use of Digest when acting on resources
+      *  Reference: [RFC6234], [RFC4648], this document.
+
+      *  Status: standard
+
+   If other digest-algorithm values are defined, the associated encoding
+   MUST either be represented as a quoted string, or MUST NOT include
+   ";" or "," in the character sets used for the encoding.
+
+6.  Use of Digest when acting on resources
 
    POST and PATCH requests may appear to convey partial representations
    but are semantically acting on resources.  The enclosed
@@ -634,7 +642,7 @@ Internet-Draft               Digest Headers                   March 2020
    representation-data of that action.
 
    This is the only possible choice because representation digest
-   requires complete representation metadata (see Section 3.1).
+   requires complete representation metadata (see Section 2.1).
 
    In responses,
 
@@ -654,16 +662,8 @@ Internet-Draft               Digest Headers                   March 2020
    Differently from "Content-Location", which is representation
    metadata, the "Location" header field does not affect "Digest".
 
-5.1.  Digest and PATCH
 
-   In PATCH requests the representation digest MUST be computed on the
-   patch document.
 
-   This is because the representation metadata refers to the patch
-   document and not to the target resource (see Section 2 of [RFC5789]).
-
-   In PATCH responses the representation digest MUST be computed on the
-   selected representation of the patched resource.
 
 
 
@@ -674,22 +674,25 @@ Polli & Pardue          Expires September 6, 2020              [Page 12]
 Internet-Draft               Digest Headers                   March 2020
 
 
+6.1.  Digest and PATCH
+
+   In PATCH requests the representation digest MUST be computed on the
+   patch document.
+
+   This is because the representation metadata refers to the patch
+   document and not to the target resource (see Section 2 of [RFC5789]).
+
+   In PATCH responses the representation digest MUST be computed on the
+   selected representation of the patched resource.
+
    "Digest" usage with PATCH is thus very similar to the POST one, but
    with the resource's own semantic partly implied by the method and by
    the patch document.
 
-6.  Deprecate Negotiation of Content-MD5
+7.  Deprecate Negotiation of Content-MD5
 
    This RFC deprecates the negotiation of Content-MD5 as it has been
    obsoleted by [RFC7231]
-
-7.  Broken Cryptographic Algorithms
-
-   The MD5 algorithm MUST NOT be used as it has been found vulnerable to
-   collision attacks [CMU-836068].
-
-   The SHA algorithm is NOT RECOMMENDED as it has been found vulnerable
-   to collision attacks [IACR-2019-459].
 
 8.  Relationship to Subresource Integrity (SRI)
 
@@ -716,12 +719,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    The SRI "integrity" attribute contains a cryptographic hash algorithm
    and digest value which is similar to "representation-data-digest"
-   (see Section 3.1).  The major differences are in serialization
+   (see Section 2.1).  The major differences are in serialization
    format.
 
-   The SRI digest value is calculated over the identity encoding of the
-   resource, not the selected representation (as specified for
-   "representation-data-digest" in this document).  Section 3.4.5 of
 
 
 
@@ -730,6 +730,9 @@ Polli & Pardue          Expires September 6, 2020              [Page 13]
 Internet-Draft               Digest Headers                   March 2020
 
 
+   The SRI digest value is calculated over the identity encoding of the
+   resource, not the selected representation (as specified for
+   "representation-data-digest" in this document).  Section 3.4.5 of
    [SRI] describes the benefit of the identity approach - the SRI
    "integrity" attribute can contain multiple algorithm-value pairs
    where each applies to a different identity encoded payload.  This
@@ -774,9 +777,6 @@ Internet-Draft               Digest Headers                   March 2020
    The following examples demonstrate interactions where a server
    responds with a "Digest" header field even though the client did not
    solicit one using "Want-Digest".
-
-
-
 
 
 
@@ -965,7 +965,7 @@ Internet-Draft               Digest Headers                   March 2020
 9.7.  POST Response does not Reference the Request URI
 
    Request "Digest" value is computed on the enclosed representation
-   (see Section 5).
+   (see Section 6).
 
    The representation enclosed in the response refers to the resource
    identified by "Content-Location" (see [RFC7231] Section 3.1.4.2 and
@@ -998,7 +998,7 @@ Internet-Draft               Digest Headers                   March 2020
 9.8.  POST Response Describes the Request Status
 
    Request "Digest" value is computed on the enclosed representation
-   (see Section 5).
+   (see Section 6).
 
    The representation enclosed in the response describes the status of
    the request, so "Digest" is computed on that enclosed representation.
@@ -1328,9 +1328,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Digest Algorithm: MD5
 
-   o  Description: As specified in Section 3.
+   o  Description: As specified in Section 5.
 
-   o  Status: As specified in Section 3.
+   o  Status: As specified in Section 5.
 
 12.4.  Update "CRC32C" Digest Algorithm
 
@@ -1366,9 +1366,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Digest Algorithm: SHA
 
-   o  Description: As specified in Section 3.
+   o  Description: As specified in Section 5.
 
-   o  Status: As specified in Section 3.
+   o  Status: As specified in Section 5.
 
 12.6.  Obsolete "ADLER32" Digest Algorithm
 
@@ -1402,9 +1402,9 @@ Polli & Pardue          Expires September 6, 2020              [Page 25]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   o  Description: As specified in Section 3.
+   o  Description: As specified in Section 5.
 
-   o  Status: As specified in Section 3.
+   o  Status: As specified in Section 5.
 
 12.8.  The "ID-SHA-512" Digest Algorithm
 
@@ -1413,9 +1413,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  Digest Algorithm: ID-SHA-512
 
-   o  Description: As specified in Section 3.
+   o  Description: As specified in Section 5.
 
-   o  Status: As specified in Section 3.
+   o  Status: As specified in Section 5.
 
 12.9.  Changes compared to RFC5843
 
@@ -1443,7 +1443,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    Author/Change controller: IETF
 
-   Specification document(s): Section 4.1 of this document
+   Specification document(s): Section 3 of this document
 
 12.11.  Digest Header Field Registration
 
@@ -1466,7 +1466,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    Author/Change controller: IETF
 
-   Specification document(s): Section 4.2 of this document
+   Specification document(s): Section 4 of this document
 
 13.  References
 
@@ -1655,7 +1655,7 @@ Appendix A.  FAQ
 
    3.  How to use "Digest" with "PATCH" method?
 
-       See Section 5.
+       See Section 6.
 
    4.  Why remove references to delta-encoding?
 

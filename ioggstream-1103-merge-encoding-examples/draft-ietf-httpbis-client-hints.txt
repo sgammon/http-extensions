@@ -92,20 +92,20 @@ Table of Contents
    5.  Cost of Sending Hints . . . . . . . . . . . . . . . . . . . .   9
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
      6.1.  Accept-CH . . . . . . . . . . . . . . . . . . . . . . . .   9
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  10
-   Appendix A.  Interaction with Variants Response Header Field  . .  11
-   Appendix B.  Changes  . . . . . . . . . . . . . . . . . . . . . .  11
-     B.1.  Since -00 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     B.2.  Since -01 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     B.3.  Since -02 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     B.4.  Since -03 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     B.5.  Since -04 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     B.6.  Since -05 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     B.7.  Since -06 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     B.8.  Since -07 . . . . . . . . . . . . . . . . . . . . . . . .  12
+   7.  Changes . . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     7.1.  Since -00 . . . . . . . . . . . . . . . . . . . . . . . .   9
+     7.2.  Since -01 . . . . . . . . . . . . . . . . . . . . . . . .   9
+     7.3.  Since -02 . . . . . . . . . . . . . . . . . . . . . . . .   9
+     7.4.  Since -03 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.5.  Since -04 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.6.  Since -05 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.7.  Since -06 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.8.  Since -07 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.9.  Since -08 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.10. Since -09 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.11. Since -10 . . . . . . . . . . . . . . . . . . . . . . . .  10
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  11
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
 
 
 
@@ -114,10 +114,9 @@ Grigorik & Weiss        Expires September 6, 2020               [Page 2]
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
-     B.9.  Since -08 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     B.10. Since -09 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     B.11. Since -10 . . . . . . . . . . . . . . . . . . . . . . . .  12
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  12
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  12
+     9.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
@@ -161,6 +160,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
    causes performance concerns (because it creates "bloat" in requests),
    as well as privacy issues; passively providing such information
    allows servers to silently fingerprint the user agent.
+
 
 
 
@@ -477,9 +477,101 @@ Internet-Draft              HTTP Client Hints                 March 2020
    o  Specification document(s): Section 3.1 of this document
    o  Related information: for Client Hints
 
-7.  References
+7.  Changes
 
-7.1.  Normative References
+7.1.  Since -00
+
+   o  Issue 168 (make Save-Data extensible) updated ABNF.
+   o  Issue 163 (CH review feedback) editorial feedback from httpwg
+      list.
+   o  Issue 153 (NetInfo API citation) added normative reference.
+
+7.2.  Since -01
+
+   o  Issue 200: Moved Key reference to informative.
+   o  Issue 215: Extended passive fingerprinting and mitigation
+      considerations.
+   o  Changed document status to experimental.
+
+7.3.  Since -02
+
+   o  Issue 239: Updated reference to CR-css-values-3
+   o  Issue 240: Updated reference for Network Information API
+   o  Issue 241: Consistency in IANA considerations
+
+
+
+Grigorik & Weiss        Expires September 6, 2020               [Page 9]
+
+Internet-Draft              HTTP Client Hints                 March 2020
+
+
+   o  Issue 250: Clarified Accept-CH
+
+7.4.  Since -03
+
+   o  Issue 284: Extended guidance for Accept-CH
+   o  Issue 308: Editorial cleanup
+   o  Issue 306: Define Accept-CH-Lifetime
+
+7.5.  Since -04
+
+   o  Issue 361: Removed Downlink
+   o  Issue 361: Moved Key to appendix, plus other editorial feedback
+
+7.6.  Since -05
+
+   o  Issue 372: Scoped CH opt-in and delivery to secure transports
+   o  Issue 373: Bind CH opt-in to origin
+
+7.7.  Since -06
+
+   o  Issue 524: Save-Data is now defined by NetInfo spec, dropping
+   o  PR 775: Removed specific features to be defined in other
+      specifications
+
+7.8.  Since -07
+
+   o  Issue 761: Clarified that the defined headers are response
+      headers.
+   o  Issue 730: Replaced Key reference with Variants.
+   o  Issue 700: Replaced ABNF with structured headers.
+   o  PR 878: Removed Accept-CH-Lifetime based on feedback at IETF 105
+
+7.9.  Since -08
+
+   o  PR 985: Describe the bytesize cost of hints.
+   o  PR 776: Add Sec- and CH- prefix considerations.
+   o  PR 1001: Clear CH persistence when cookies are cleared.
+
+7.10.  Since -09
+
+   o  PR 1064: Fix merge issues with "cost of sending hints".
+
+7.11.  Since -10
+
+   o  PR 1072: LC feedback from Julian Reschke
+
+
+
+
+
+
+Grigorik & Weiss        Expires September 6, 2020              [Page 10]
+
+Internet-Draft              HTTP Client Hints                 March 2020
+
+
+Acknowledgements
+
+   Thanks to Mark Nottingham, Julian Reschke, Chris Bentzel, Ben
+   Greenstein, Tarun Bansal, Roy Fielding, Vasiliy Faronov, Ted Hardie,
+   Jonas Sicking, Martin Thomson, and numerous other members of the IETF
+   HTTP Working Group for invaluable help and feedback.
+
+9.  References
+
+9.1.  Normative References
 
    [FETCH]    van Kesteren, A., "Fetch", n.d.,
               <https://fetch.spec.whatwg.org/>.
@@ -497,14 +589,6 @@ Internet-Draft              HTTP Client Hints                 March 2020
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-
-Grigorik & Weiss        Expires September 6, 2020               [Page 9]
-
-Internet-Draft              HTTP Client Hints                 March 2020
-
 
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
@@ -525,90 +609,6 @@ Internet-Draft              HTTP Client Hints                 March 2020
               RFC 7234, DOI 10.17487/RFC7234, June 2014,
               <https://www.rfc-editor.org/info/rfc7234>.
 
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
-7.2.  Informative References
-
-   [RFC6265]  Barth, A., "HTTP State Management Mechanism", RFC 6265,
-              DOI 10.17487/RFC6265, April 2011,
-              <https://www.rfc-editor.org/info/rfc6265>.
-
-   [UA-CH]    West, M. and Y. Weiss, "User Agent Client Hints", n.d.,
-              <https://wicg.github.io/ua-client-hints/>.
-
-   [VARIANTS]
-              Nottingham, M., "HTTP Representation Variants", draft-
-              ietf-httpbis-variants-05 (work in progress), March 2019.
-
-7.3.  URIs
-
-   [1] https://lists.w3.org/Archives/Public/ietf-http-wg/
-
-   [2] http://httpwg.github.io/
-
-   [3] https://github.com/httpwg/http-extensions/labels/client-hints
-
-
-
-
-
-
-
-
-Grigorik & Weiss        Expires September 6, 2020              [Page 10]
-
-Internet-Draft              HTTP Client Hints                 March 2020
-
-
-Appendix A.  Interaction with Variants Response Header Field
-
-   Client Hints might be combined with Variants response header field
-   [VARIANTS] to enable fine-grained control of the cache key for
-   improved cache efficiency.  Features that define Client Hints will
-   need to specify the related variants algorithms as described in
-   Section 6 of [VARIANTS].
-
-Appendix B.  Changes
-
-B.1.  Since -00
-
-   o  Issue 168 (make Save-Data extensible) updated ABNF.
-   o  Issue 163 (CH review feedback) editorial feedback from httpwg
-      list.
-   o  Issue 153 (NetInfo API citation) added normative reference.
-
-B.2.  Since -01
-
-   o  Issue 200: Moved Key reference to informative.
-   o  Issue 215: Extended passive fingerprinting and mitigation
-      considerations.
-   o  Changed document status to experimental.
-
-B.3.  Since -02
-
-   o  Issue 239: Updated reference to CR-css-values-3
-   o  Issue 240: Updated reference for Network Information API
-   o  Issue 241: Consistency in IANA considerations
-   o  Issue 250: Clarified Accept-CH
-
-B.4.  Since -03
-
-   o  Issue 284: Extended guidance for Accept-CH
-   o  Issue 308: Editorial cleanup
-   o  Issue 306: Define Accept-CH-Lifetime
-
-B.5.  Since -04
-
-   o  Issue 361: Removed Downlink
-   o  Issue 361: Moved Key to appendix, plus other editorial feedback
-
-B.6.  Since -05
-
-   o  Issue 372: Scoped CH opt-in and delivery to secure transports
-   o  Issue 373: Bind CH opt-in to origin
-
 
 
 
@@ -618,40 +618,26 @@ Grigorik & Weiss        Expires September 6, 2020              [Page 11]
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
-B.7.  Since -06
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-   o  Issue 524: Save-Data is now defined by NetInfo spec, dropping
-   o  PR 775: Removed specific features to be defined in other
-      specifications
+9.2.  Informative References
 
-B.8.  Since -07
+   [RFC6265]  Barth, A., "HTTP State Management Mechanism", RFC 6265,
+              DOI 10.17487/RFC6265, April 2011,
+              <https://www.rfc-editor.org/info/rfc6265>.
 
-   o  Issue 761: Clarified that the defined headers are response
-      headers.
-   o  Issue 730: Replaced Key reference with Variants.
-   o  Issue 700: Replaced ABNF with structured headers.
-   o  PR 878: Removed Accept-CH-Lifetime based on feedback at IETF 105
+   [UA-CH]    West, M. and Y. Weiss, "User Agent Client Hints", n.d.,
+              <https://wicg.github.io/ua-client-hints/>.
 
-B.9.  Since -08
+9.3.  URIs
 
-   o  PR 985: Describe the bytesize cost of hints.
-   o  PR 776: Add Sec- and CH- prefix considerations.
-   o  PR 1001: Clear CH persistence when cookies are cleared.
+   [1] https://lists.w3.org/Archives/Public/ietf-http-wg/
 
-B.10.  Since -09
+   [2] http://httpwg.github.io/
 
-   o  PR 1064: Fix merge issues with "cost of sending hints".
-
-B.11.  Since -10
-
-   o  PR 1072: LC feedback from Julian Reschke
-
-Acknowledgements
-
-   Thanks to Mark Nottingham, Julian Reschke, Chris Bentzel, Ben
-   Greenstein, Tarun Bansal, Roy Fielding, Vasiliy Faronov, Ted Hardie,
-   Jonas Sicking, Martin Thomson, and numerous other members of the IETF
-   HTTP Working Group for invaluable help and feedback.
+   [3] https://github.com/httpwg/http-extensions/labels/client-hints
 
 Authors' Addresses
 
@@ -660,18 +646,6 @@ Authors' Addresses
 
    Email: ilya@igvita.com
    URI:   https://www.igvita.com/
-
-
-
-
-
-
-
-
-
-Grigorik & Weiss        Expires September 6, 2020              [Page 12]
-
-Internet-Draft              HTTP Client Hints                 March 2020
 
 
    Yoav Weiss
@@ -695,34 +669,4 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Grigorik & Weiss        Expires September 6, 2020              [Page 13]
+Grigorik & Weiss        Expires September 6, 2020              [Page 12]
