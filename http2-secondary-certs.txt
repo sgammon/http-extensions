@@ -1274,8 +1274,8 @@ Internet-Draft        Secondary Cert Auth in HTTP/2           March 2020
 
    [I-D.ietf-tls-exported-authenticator]
               Sullivan, N., "Exported Authenticators in TLS", draft-
-              ietf-tls-exported-authenticator-09 (work in progress), May
-              2019.
+              ietf-tls-exported-authenticator-11 (work in progress),
+              December 2019.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
