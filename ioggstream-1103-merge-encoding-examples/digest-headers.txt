@@ -5,8 +5,8 @@
 HTTP Working Group                                              R. Polli
 Internet-Draft                         Team Digitale, Italian Government
 Intended status: Standards Track                               L. Pardue
-Expires: September 6, 2020                                    Cloudflare
-                                                          March 05, 2020
+Expires: September 7, 2020                                    Cloudflare
+                                                          March 06, 2020
 
 
                              Digest Headers
@@ -48,12 +48,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 6, 2020.
+   This Internet-Draft will expire on September 7, 2020.
 
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 1]
+Polli & Pardue          Expires September 7, 2020               [Page 1]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -82,8 +82,8 @@ Table of Contents
      1.4.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
    2.  Resource Representation and Representation-Data . . . . . . .   6
      2.1.  Computing Digests of Representation Data  . . . . . . . .   8
-   3.  The Want-Digest Header Field  . . . . . . . . . . . . . . . .   8
-   4.  The Digest Header Field . . . . . . . . . . . . . . . . . . .   9
+   3.  The Digest Header Field . . . . . . . . . . . . . . . . . . .   8
+   4.  The Want-Digest Header Field  . . . . . . . . . . . . . . . .   9
    5.  Digest Algorithm Values . . . . . . . . . . . . . . . . . . .  10
    6.  Use of Digest when acting on resources  . . . . . . . . . . .  12
      6.1.  Digest and PATCH  . . . . . . . . . . . . . . . . . . . .  13
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 2]
+Polli & Pardue          Expires September 7, 2020               [Page 2]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 3]
+Polli & Pardue          Expires September 7, 2020               [Page 3]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 4]
+Polli & Pardue          Expires September 7, 2020               [Page 4]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 5]
+Polli & Pardue          Expires September 7, 2020               [Page 5]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 6]
+Polli & Pardue          Expires September 7, 2020               [Page 6]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020               [Page 7]
+Polli & Pardue          Expires September 7, 2020               [Page 7]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -409,12 +409,69 @@ Internet-Draft               Digest Headers                   March 2020
       representation-data := Content-Encoding( Content-Type( bits ) )
 
    The encoded digest output uses the encoding format defined for the
-   specific digest-algorithm.  The example below shows the "sha-256"
-   digest-algorithm which uses base64 encoding.
+   specific digest-algorithm.
+
+   The example below shows the "sha-256" digest-algorithm which uses
+   base64 encoding.
 
       sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
 
-3.  The Want-Digest Header Field
+3.  The Digest Header Field
+
+   The Digest header field provides a digest of the representation data.
+
+      Digest = "Digest" ":" OWS 1#representation-data-digest
+
+   "Representation data" might be:
+
+   o  fully contained in the message body,
+
+   o  partially-contained in the message body,
+
+   o  or not at all contained in the message body.
+
+   The resource is specified by the effective request URI and any
+   "validator" contained in the message.
+
+   For example, in a response to a HEAD request, the digest is
+   calculated using the representation data that would have been
+   enclosed in the payload body if the same request had been a GET.
+
+   Digest can be used in requests too.
+
+   The "Digest" value depends on the representation metadata.
+
+
+
+
+
+Polli & Pardue          Expires September 7, 2020               [Page 8]
+
+Internet-Draft               Digest Headers                   March 2020
+
+
+   A Digest header field MAY contain multiple representation-data-digest
+   values.  This could be useful for responses expected to reside in
+   caches shared by users with different browsers, for example.
+
+   A recipient MAY ignore any or all of the representation-data-digests
+   in a Digest header field.  This allows the recipient to chose which
+   digest-algorithm(s) to use for validation instead of verifying every
+   received representation-data-digest.
+
+   A sender MAY send a representation-data-digest using a digest-
+   algorithm without knowing whether the recipient supports the digest-
+   algorithm, or even knowing that the recipient will ignore it.
+
+   Two examples of its use are
+
+      Digest: id-sha-512=WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm
+                         AbwAgBWnrIiYllu7BNNyealdVLvRwE\nmTHWXvJwew==
+
+      Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=,
+              id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+
+4.  The Want-Digest Header Field
 
    The Want-Digest message header field indicates the sender's desire to
    receive a representation digest on messages associated with the
@@ -444,64 +501,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-
-Polli & Pardue          Expires September 6, 2020               [Page 8]
-
-Internet-Draft               Digest Headers                   March 2020
-
-
-4.  The Digest Header Field
-
-   The Digest header field provides a digest of the representation data.
-
-      Digest = "Digest" ":" OWS 1#representation-data-digest
-
-   "Representation data" might be:
-
-   o  fully contained in the message body,
-
-   o  partially-contained in the message body,
-
-   o  or not at all contained in the message body.
-
-   The resource is specified by the effective request URI and any
-   "validator" contained in the message.
-
-   For example, in a response to a HEAD request, the digest is
-   calculated using the representation data that would have been
-   enclosed in the payload body if the same request had been a GET.
-
-   Digest can be used in requests too.
-
-   The "Digest" value depends on the representation metadata.
-
-   A Digest header field MAY contain multiple representation-data-digest
-   values.  This could be useful for responses expected to reside in
-   caches shared by users with different browsers, for example.
-
-   A recipient MAY ignore any or all of the representation-data-digests
-   in a Digest header field.  This allows the recipient to chose which
-   digest-algorithm(s) to use for validation instead of verifying every
-   received representation-data-digest.
-
-   A sender MAY send a representation-data-digest using a digest-
-   algorithm without knowing whether the recipient supports the digest-
-   algorithm, or even knowing that the recipient will ignore it.
-
-   Two examples of its use are
-
-      Digest: id-sha-512=WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm
-                         AbwAgBWnrIiYllu7BNNyealdVLvRwE\nmTHWXvJwew==
-
-      Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=,
-              id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
-
-
-
-
-
-
-Polli & Pardue          Expires September 6, 2020               [Page 9]
+Polli & Pardue          Expires September 7, 2020               [Page 9]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 10]
+Polli & Pardue          Expires September 7, 2020              [Page 10]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -613,7 +613,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 11]
+Polli & Pardue          Expires September 7, 2020              [Page 11]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -669,7 +669,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 12]
+Polli & Pardue          Expires September 7, 2020              [Page 12]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -725,7 +725,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 13]
+Polli & Pardue          Expires September 7, 2020              [Page 13]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -781,7 +781,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 14]
+Polli & Pardue          Expires September 7, 2020              [Page 14]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 15]
+Polli & Pardue          Expires September 7, 2020              [Page 15]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -893,7 +893,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 16]
+Polli & Pardue          Expires September 7, 2020              [Page 16]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -949,7 +949,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 17]
+Polli & Pardue          Expires September 7, 2020              [Page 17]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 18]
+Polli & Pardue          Expires September 7, 2020              [Page 18]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 19]
+Polli & Pardue          Expires September 7, 2020              [Page 19]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 20]
+Polli & Pardue          Expires September 7, 2020              [Page 20]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 21]
+Polli & Pardue          Expires September 7, 2020              [Page 21]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 22]
+Polli & Pardue          Expires September 7, 2020              [Page 22]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 23]
+Polli & Pardue          Expires September 7, 2020              [Page 23]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 24]
+Polli & Pardue          Expires September 7, 2020              [Page 24]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 25]
+Polli & Pardue          Expires September 7, 2020              [Page 25]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1443,7 +1443,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    Author/Change controller: IETF
 
-   Specification document(s): Section 3 of this document
+   Specification document(s): Section 4 of this document
 
 12.11.  Digest Header Field Registration
 
@@ -1453,7 +1453,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 26]
+Polli & Pardue          Expires September 7, 2020              [Page 26]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1466,7 +1466,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    Author/Change controller: IETF
 
-   Specification document(s): Section 4 of this document
+   Specification document(s): Section 3 of this document
 
 13.  References
 
@@ -1509,7 +1509,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 27]
+Polli & Pardue          Expires September 7, 2020              [Page 27]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1565,7 +1565,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 28]
+Polli & Pardue          Expires September 7, 2020              [Page 28]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 29]
+Polli & Pardue          Expires September 7, 2020              [Page 29]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1677,7 +1677,7 @@ Appendix A.  FAQ
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 30]
+Polli & Pardue          Expires September 7, 2020              [Page 30]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1733,7 +1733,7 @@ Code Samples
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 31]
+Polli & Pardue          Expires September 7, 2020              [Page 31]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1789,7 +1789,7 @@ D.1.  Since draft-ietf-httpbis-digest-headers-00
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 32]
+Polli & Pardue          Expires September 7, 2020              [Page 32]
 
 Internet-Draft               Digest Headers                   March 2020
 
@@ -1845,4 +1845,4 @@ Authors' Addresses
 
 
 
-Polli & Pardue          Expires September 6, 2020              [Page 33]
+Polli & Pardue          Expires September 7, 2020              [Page 33]

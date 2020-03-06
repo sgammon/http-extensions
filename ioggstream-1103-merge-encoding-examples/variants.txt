@@ -4,9 +4,9 @@
 
 HTTP Working Group                                         M. Nottingham
 Internet-Draft                                                    Fastly
-Updates: 7234 (if approved)                                March 5, 2020
+Updates: 7234 (if approved)                                March 6, 2020
 Intended status: Standards Track
-Expires: September 6, 2020
+Expires: September 7, 2020
 
 
                       HTTP Representation Variants
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 6, 2020.
+   This Internet-Draft will expire on September 7, 2020.
 
 
 
-Nottingham              Expires September 6, 2020               [Page 1]
+Nottingham              Expires September 7, 2020               [Page 1]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -97,19 +97,19 @@ Table of Contents
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  17
      9.1.  Normative References  . . . . . . . . . . . . . . . . . .  17
      9.2.  Informative References  . . . . . . . . . . . . . . . . .  18
-     9.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  18
+     9.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  19
    Appendix A.  Variants for Existing Content Negotiation Mechanisms  19
      A.1.  Accept  . . . . . . . . . . . . . . . . . . . . . . . . .  19
      A.2.  Accept-Encoding . . . . . . . . . . . . . . . . . . . . .  20
-     A.3.  Accept-Language . . . . . . . . . . . . . . . . . . . . .  20
+     A.3.  Accept-Language . . . . . . . . . . . . . . . . . . . . .  21
      A.4.  Cookie  . . . . . . . . . . . . . . . . . . . . . . . . .  21
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  22
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  23
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  23
 
 
 
 
-Nottingham              Expires September 6, 2020               [Page 2]
+Nottingham              Expires September 7, 2020               [Page 2]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 3]
+Nottingham              Expires September 7, 2020               [Page 3]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 4]
+Nottingham              Expires September 7, 2020               [Page 4]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 5]
+Nottingham              Expires September 7, 2020               [Page 5]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 6]
+Nottingham              Expires September 7, 2020               [Page 6]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 7]
+Nottingham              Expires September 7, 2020               [Page 7]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 8]
+Nottingham              Expires September 7, 2020               [Page 8]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -501,7 +501,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020               [Page 9]
+Nottingham              Expires September 7, 2020               [Page 9]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 10]
+Nottingham              Expires September 7, 2020              [Page 10]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -613,7 +613,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 11]
+Nottingham              Expires September 7, 2020              [Page 11]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -669,7 +669,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 12]
+Nottingham              Expires September 7, 2020              [Page 12]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -725,7 +725,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 13]
+Nottingham              Expires September 7, 2020              [Page 13]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -781,7 +781,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 14]
+Nottingham              Expires September 7, 2020              [Page 14]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 15]
+Nottingham              Expires September 7, 2020              [Page 15]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -893,7 +893,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 16]
+Nottingham              Expires September 7, 2020              [Page 16]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -935,8 +935,8 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
    [I-D.ietf-httpbis-header-structure]
               Nottingham, M. and P. Kamp, "Structured Headers for HTTP",
-              draft-ietf-httpbis-header-structure-13 (work in progress),
-              August 2019.
+              draft-ietf-httpbis-header-structure-15 (work in progress),
+              January 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -949,7 +949,7 @@ Internet-Draft        HTTP Representation Variants            March 2020
 
 
 
-Nottingham              Expires September 6, 2020              [Page 17]
+Nottingham              Expires September 7, 2020              [Page 17]
 
 Internet-Draft        HTTP Representation Variants            March 2020
 
@@ -985,8 +985,9 @@ Internet-Draft        HTTP Representation Variants            March 2020
 9.2.  Informative References
 
    [I-D.ietf-httpbis-client-hints]
-              Grigorik, I., "HTTP Client Hints", draft-ietf-httpbis-
-              client-hints-07 (work in progress), March 2019.
+              Grigorik, I. and Y. Weiss, "HTTP Client Hints", draft-
+              ietf-httpbis-client-hints-10 (work in progress), February
+              2020.
 
    [RFC2295]  Holtman, K. and A. Mutz, "Transparent Content Negotiation
               in HTTP", RFC 2295, DOI 10.17487/RFC2295, March 1998,
@@ -997,18 +998,23 @@ Internet-Draft        HTTP Representation Variants            March 2020
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
 
+
+
+
+
+
+
+
+Nottingham              Expires September 7, 2020              [Page 18]
+
+Internet-Draft        HTTP Representation Variants            March 2020
+
+
 9.3.  URIs
 
    [1] https://lists.w3.org/Archives/Public/ietf-http-wg/
 
    [2] https://httpwg.github.io/
-
-
-
-Nottingham              Expires September 6, 2020              [Page 18]
-
-Internet-Draft        HTTP Representation Variants            March 2020
-
 
    [3] https://github.com/httpwg/http-extensions/labels/variants
 
@@ -1051,6 +1057,15 @@ A.1.  Accept
 
    4.  If preferred-available is empty, append the first member of
        available-values to preferred-available.  This makes the first
+
+
+
+
+Nottingham              Expires September 7, 2020              [Page 19]
+
+Internet-Draft        HTTP Representation Variants            March 2020
+
+
        available-value the default when none of the client's preferences
        are available.
 
@@ -1058,13 +1073,6 @@ A.1.  Accept
 
    Note that this algorithm explicitly ignores extension parameters on
    media types (e.g., "charset").
-
-
-
-Nottingham              Expires September 6, 2020              [Page 19]
-
-Internet-Draft        HTTP Representation Variants            March 2020
-
 
 A.2.  Accept-Encoding
 
@@ -1103,6 +1111,17 @@ A.2.  Accept-Encoding
    field with a value of "identity" (as defined in Section 5.3.4 of
    [RFC7231]).
 
+
+
+
+
+
+
+Nottingham              Expires September 7, 2020              [Page 20]
+
+Internet-Draft        HTTP Representation Variants            March 2020
+
+
 A.3.  Accept-Language
 
    This section defines variant handling for the Accept-Language request
@@ -1114,13 +1133,6 @@ A.3.  Accept-Language
 
    To perform content negotiation for Accept-Language given a request-
    value and available-values:
-
-
-
-Nottingham              Expires September 6, 2020              [Page 20]
-
-Internet-Draft        HTTP Representation Variants            March 2020
-
 
    1.  Let preferred-available be an empty list.
 
@@ -1158,6 +1170,14 @@ A.4.  Cookie
    To perform content negotiation for Cookie given a request-value and
    available-values:
 
+
+
+
+Nottingham              Expires September 7, 2020              [Page 21]
+
+Internet-Draft        HTTP Representation Variants            March 2020
+
+
    1.  Let cookies-available be an empty list.
 
    2.  For each available-value of available-values:
@@ -1170,13 +1190,6 @@ A.4.  Cookie
        2.  append request-cookie-value to cookies-available.
 
    3.  Return cookies-available.
-
-
-
-Nottingham              Expires September 6, 2020              [Page 21]
-
-Internet-Draft        HTTP Representation Variants            March 2020
-
 
    A simple example is allowing a page designed for users that aren't
    logged in (denoted by the "logged_in" cookie-name) to be cached:
@@ -1211,6 +1224,16 @@ Internet-Draft        HTTP Representation Variants            March 2020
    Note that if more than one cookie-name serves as a cache key, they'll
    need to be listed in separate Variants members, like this:
 
+
+
+
+
+
+Nottingham              Expires September 7, 2020              [Page 22]
+
+Internet-Draft        HTTP Representation Variants            March 2020
+
+
    Variants: Cookie=(user_priority), Cookie=(user_region)
    Variant-Key: (gold europe)
    Vary: Cookie
@@ -1226,13 +1249,6 @@ Acknowledgements
 
    Thanks to Hooman Beheshti, Ilya Grigorik, Leif Hedstrom, and Jeffrey
    Yasskin for their review and input.
-
-
-
-Nottingham              Expires September 6, 2020              [Page 22]
-
-Internet-Draft        HTTP Representation Variants            March 2020
-
 
 Author's Address
 
@@ -1269,20 +1285,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Nottingham              Expires September 6, 2020              [Page 23]
+Nottingham              Expires September 7, 2020              [Page 23]
