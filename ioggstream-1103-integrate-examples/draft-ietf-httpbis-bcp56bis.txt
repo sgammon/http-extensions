@@ -1516,18 +1516,18 @@ Internet-Draft        Building Protocols with HTTP            March 2020
 
    [I-D.ietf-httpbis-cache]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP
-              Caching", draft-ietf-httpbis-cache-05 (work in progress),
-              July 2019.
+              Caching", draft-ietf-httpbis-cache-06 (work in progress),
+              November 2019.
 
    [I-D.ietf-httpbis-messaging]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP/1.1
-              Messaging", draft-ietf-httpbis-messaging-05 (work in
-              progress), July 2019.
+              Messaging", draft-ietf-httpbis-messaging-06 (work in
+              progress), November 2019.
 
    [I-D.ietf-httpbis-semantics]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP
-              Semantics", draft-ietf-httpbis-semantics-05 (work in
-              progress), July 2019.
+              Semantics", draft-ietf-httpbis-semantics-06 (work in
+              progress), November 2019.
 
    [I-D.nottingham-rfc5785bis]
               Nottingham, M., "Well-Known Uniform Resource Identifiers
@@ -1536,7 +1536,7 @@ Internet-Draft        Building Protocols with HTTP            March 2020
 
    [I-D.nottingham-rfc7320bis]
               Nottingham, M., "URI Design and Ownership", draft-
-              nottingham-rfc7320bis-02 (work in progress), October 2019.
+              nottingham-rfc7320bis-03 (work in progress), January 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1611,13 +1611,13 @@ Internet-Draft        Building Protocols with HTTP            March 2020
 
    [I-D.ietf-httpbis-header-structure]
               Nottingham, M. and P. Kamp, "Structured Headers for HTTP",
-              draft-ietf-httpbis-header-structure-13 (work in progress),
-              August 2019.
+              draft-ietf-httpbis-header-structure-15 (work in progress),
+              January 2020.
 
    [I-D.ietf-httpbis-rfc6265bis]
-              Barth, A. and M. West, "Cookies: HTTP State Management
-              Mechanism", draft-ietf-httpbis-rfc6265bis-03 (work in
-              progress), April 2019.
+              West, M. and J. Wilander, "Cookies: HTTP State Management
+              Mechanism", draft-ietf-httpbis-rfc6265bis-05 (work in
+              progress), February 2020.
 
 
 

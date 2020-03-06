@@ -301,7 +301,7 @@ Internet-Draft               Digest Headers                   March 2020
    When the payload body contains non-printable characters (eg. when it
    is compressed) it is shown as base64-encoded string.
 
-   A simple request with a json object without any content coding
+   A request with a json object without any content coding
 
    Request:
 

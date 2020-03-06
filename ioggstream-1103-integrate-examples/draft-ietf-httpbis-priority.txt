@@ -831,8 +831,8 @@ Internet-Draft               HTTP Priorities                  March 2020
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
-              (HTTP/3)", draft-ietf-quic-http-24 (work in progress),
-              November 2019.
+              (HTTP/3)", draft-ietf-quic-http-27 (work in progress),
+              February 2020.
 
 
 
@@ -844,8 +844,8 @@ Internet-Draft               HTTP Priorities                  March 2020
 
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
-              and Secure Transport", draft-ietf-quic-transport-24 (work
-              in progress), November 2019.
+              and Secure Transport", draft-ietf-quic-transport-27 (work
+              in progress), February 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -864,8 +864,8 @@ Internet-Draft               HTTP Priorities                  March 2020
 
    [STRUCTURED-HEADERS]
               Nottingham, M. and P. Kamp, "Structured Headers for HTTP",
-              draft-ietf-httpbis-header-structure-13 (work in progress),
-              August 2019.
+              draft-ietf-httpbis-header-structure-15 (work in progress),
+              January 2020.
 
 10.2.  Informative References
 
