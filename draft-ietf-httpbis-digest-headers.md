@@ -233,7 +233,7 @@ and method impacts on the message and payload body. When the payload body
 contains non-printable characters (eg. when it is compressed) it is shown as
 base64-encoded string.
 
-A simple request with a json object without any content coding
+A request with a json object without any content coding
 
 Request:
 
