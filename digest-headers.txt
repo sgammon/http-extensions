@@ -81,8 +81,8 @@ Table of Contents
      1.3.  Goals . . . . . . . . . . . . . . . . . . . . . . . . . .   5
      1.4.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
    2.  Resource Representation and Representation-Data . . . . . . .   6
-     2.1.  Computing Digests of Representation Data  . . . . . . . .   8
    3.  The Digest Header Field . . . . . . . . . . . . . . . . . . .   8
+     3.1.  Computing Digests of Representation Data  . . . . . . . .   9
    4.  The Want-Digest Header Field  . . . . . . . . . . . . . . . .   9
    5.  Digest Algorithm Values . . . . . . . . . . . . . . . . . . .  10
    6.  Use of Digest when acting on resources  . . . . . . . . . . .  12
@@ -394,28 +394,6 @@ Polli & Pardue          Expires September 7, 2020               [Page 7]
 Internet-Draft               Digest Headers                   March 2020
 
 
-2.1.  Computing Digests of Representation Data
-
-   A representation digest is the value of the output of a digest
-   algorithm, together with an indication of the algorithm used (and any
-   parameters).
-
-      representation-data-digest = digest-algorithm "="
-                                   <encoded digest output>
-
-   As explained in Section 2 the digest is computed on the entire
-   selected "representation data" of the resource defined in [RFC7231]:
-
-      representation-data := Content-Encoding( Content-Type( bits ) )
-
-   The encoded digest output uses the encoding format defined for the
-   specific digest-algorithm.
-
-   The example below shows the "sha-256" digest-algorithm which uses
-   base64 encoding.
-
-      sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
-
 3.  The Digest Header Field
 
    The Digest header field provides a digest of the representation data.
@@ -441,15 +419,6 @@ Internet-Draft               Digest Headers                   March 2020
 
    The "Digest" value depends on the representation metadata.
 
-
-
-
-
-Polli & Pardue          Expires September 7, 2020               [Page 8]
-
-Internet-Draft               Digest Headers                   March 2020
-
-
    A Digest header field MAY contain multiple representation-data-digest
    values.  This could be useful for responses expected to reside in
    caches shared by users with different browsers, for example.
@@ -470,6 +439,38 @@ Internet-Draft               Digest Headers                   March 2020
 
       Digest: sha-256=4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=,
               id-sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+
+
+
+
+
+
+Polli & Pardue          Expires September 7, 2020               [Page 8]
+
+Internet-Draft               Digest Headers                   March 2020
+
+
+3.1.  Computing Digests of Representation Data
+
+   A representation digest is the value of the output of a digest
+   algorithm, together with an indication of the algorithm used (and any
+   parameters).
+
+      representation-data-digest = digest-algorithm "="
+                                   <encoded digest output>
+
+   As explained in Section 2 the digest is computed on the entire
+   selected "representation data" of the resource defined in [RFC7231]:
+
+      representation-data := Content-Encoding( Content-Type( bits ) )
+
+   The encoded digest output uses the encoding format defined for the
+   specific digest-algorithm.
+
+   The example below shows the "sha-256" digest-algorithm which uses
+   base64 encoding.
+
+      sha-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
 
 4.  The Want-Digest Header Field
 
@@ -497,7 +498,6 @@ Internet-Draft               Digest Headers                   March 2020
 
       Want-Digest: sha-256
       Want-Digest: SHA-512;q=0.3, sha-256;q=1, md5;q=0
-
 
 
 
@@ -642,7 +642,7 @@ Internet-Draft               Digest Headers                   March 2020
    representation-data of that action.
 
    This is the only possible choice because representation digest
-   requires complete representation metadata (see Section 2.1).
+   requires complete representation metadata (see Section 3.1).
 
    In responses,
 
@@ -719,7 +719,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    The SRI "integrity" attribute contains a cryptographic hash algorithm
    and digest value which is similar to "representation-data-digest"
-   (see Section 2.1).  The major differences are in serialization
+   (see Section 3.1).  The major differences are in serialization
    format.
 
 
