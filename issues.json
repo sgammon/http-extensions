@@ -64,7 +64,7 @@
     "id": 577111524,
     "node_id": "MDExOlB1bGxSZXF1ZXN0Mzg0OTY4OTI5",
     "number": 1123,
-    "title": "Ioggstream 1103 introduce resource digest",
+    "title": "Introduce resource digest #1103",
     "user": {
       "login": "ioggstream",
       "id": 1140844,
@@ -97,7 +97,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2020-03-06T18:50:30Z",
-    "updated_at": "2020-03-07T00:15:45Z",
+    "updated_at": "2020-03-07T11:06:41Z",
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "pull_request": {
