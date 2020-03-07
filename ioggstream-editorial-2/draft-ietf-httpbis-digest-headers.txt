@@ -427,7 +427,7 @@ Internet-Draft               Digest Headers                   March 2020
    attacks [CMU-836068] and the SHA algorithm is NOT RECOMMENDED due to
    collision attacks [IACR-2019-459].
 
-   SHA-256:
+   SHA-256  algorithm
 
       *  Description: The SHA-256 algorithm [RFC6234].  The output of
          this algorithm is encoded using the base64 encoding [RFC4648].
@@ -436,7 +436,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: standard
 
-   SHA-512:
+   SHA-512  algorithm
 
       *  Description: The SHA-512 algorithm [RFC6234].  The output of
          this algorithm is encoded using the base64 encoding [RFC4648].
@@ -452,7 +452,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: standard
 
-   MD5:
+   MD5  algorithm
 
       *  Description: The MD5 algorithm, as specified in [RFC1321].  The
          output of this algorithm is encoded using the base64 encoding
@@ -463,7 +463,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: deprecated
 
-   SHA:
+   SHA  algorithm
 
       *  Description: The SHA-1 algorithm [RFC3174].  The output of this
          algorithm is encoded using the base64 encoding [RFC4648].  The
@@ -474,7 +474,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: obsoleted
 
-   UNIXsum:
+   UNIXsum  algorithm
 
       *  Description: The algorithm computed by the UNIX "sum" command,
          as defined by the Single UNIX Specification, Version 2 [UNIX].
@@ -486,7 +486,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: standard
 
-   UNIXcksum:
+   UNIXcksum  algorithm
 
       *  Description: The algorithm computed by the UNIX "cksum"
          command, as defined by the Single UNIX Specification, Version 2
@@ -510,7 +510,7 @@ Internet-Draft               Digest Headers                   March 2020
    independent from "Content-Encoding", the following additional
    algorithms are defined:
 
-   ID-SHA-512:
+   ID-SHA-512  algorithm
 
       *  Description: The sha-512 digest of the representation-data of
          the resource when no content coding is applied (eg.  "Content-
@@ -520,7 +520,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       *  Status: standard
 
-   ID-SHA-256:
+   ID-SHA-256  algorithm
 
       *  Description: The sha-256 digest of the representation-data of
          the resource when no content coding is applied (eg.  "Content-
