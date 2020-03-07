@@ -1516,18 +1516,18 @@ Internet-Draft        Building Protocols with HTTP            March 2020
 
    [I-D.ietf-httpbis-cache]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP
-              Caching", draft-ietf-httpbis-cache-06 (work in progress),
-              November 2019.
+              Caching", draft-ietf-httpbis-cache-07 (work in progress),
+              March 2020.
 
    [I-D.ietf-httpbis-messaging]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP/1.1
-              Messaging", draft-ietf-httpbis-messaging-06 (work in
-              progress), November 2019.
+              Messaging", draft-ietf-httpbis-messaging-07 (work in
+              progress), March 2020.
 
    [I-D.ietf-httpbis-semantics]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP
-              Semantics", draft-ietf-httpbis-semantics-06 (work in
-              progress), November 2019.
+              Semantics", draft-ietf-httpbis-semantics-07 (work in
+              progress), March 2020.
 
    [I-D.nottingham-rfc5785bis]
               Nottingham, M., "Well-Known Uniform Resource Identifiers
