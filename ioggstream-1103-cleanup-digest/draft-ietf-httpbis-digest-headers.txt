@@ -295,7 +295,7 @@ Internet-Draft               Digest Headers                   March 2020
 
       representation-data := Content-Encoding( Content-Type( bits ) )
 
-   It is prudent to consider the effect of the HTTP semantics on the
+   This takes into account the effect of the HTTP semantics on the
    messages; for example the payload body can be affected by Range
    Requests or methods such as HEAD, while the message body is dependent
    on transfer codings and other transformations: Appendix A contains
@@ -326,10 +326,10 @@ Internet-Draft               Digest Headers                   March 2020
       Digest = "Digest" ":" OWS 1#representation-data-digest
 
    The resource is specified by the effective request URI and any
-   "validator" contained in the message.  See Section 9.7 for an example
-   of how digest relates to header fields such as Content-Location (see
-   [RFC7231] Section 3.1.4.2) while a comprehensive set of examples
-   showing the impacts of representation metadata, payload
+   "validator" contained in the message.
+
+   See Section 9.7 for an example of how digest relates to header fields
+   such as Content-Location (see [RFC7231] Section 3.1.4.2) while a
 
 
 
@@ -338,8 +338,9 @@ Polli & Pardue          Expires September 9, 2020               [Page 6]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   transformations and HTTP methods on digest is provided in Section 10
-   and Section 9.
+   comprehensive set of examples showing the impacts of representation
+   metadata, payload transformations and HTTP methods on digest is
+   provided in Section 10 and Section 9.
 
    A Digest header field MAY contain multiple representation-data-digest
    values.  This could be useful for responses expected to reside in
@@ -385,7 +386,6 @@ Internet-Draft               Digest Headers                   March 2020
    highest qvalue.
 
    Two examples of its use are
-
 
 
 
