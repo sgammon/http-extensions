@@ -134,25 +134,24 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
      7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  33
    Appendix A.  Frequently Asked Questions . . . . . . . . . . . . .  34
      A.1.  Why not JSON? . . . . . . . . . . . . . . . . . . . . . .  34
-     A.2.  Structured Fields don't "fit" my data.  . . . . . . . . .  34
-   Appendix B.  Implementation Notes . . . . . . . . . . . . . . . .  35
-   Appendix C.  Changes  . . . . . . . . . . . . . . . . . . . . . .  36
-     C.1.  Since draft-ietf-httpbis-header-structure-15  . . . . . .  36
-     C.2.  Since draft-ietf-httpbis-header-structure-14  . . . . . .  36
-     C.3.  Since draft-ietf-httpbis-header-structure-13  . . . . . .  37
-     C.4.  Since draft-ietf-httpbis-header-structure-12  . . . . . .  37
+   Appendix B.  Implementation Notes . . . . . . . . . . . . . . . .  34
+   Appendix C.  Changes  . . . . . . . . . . . . . . . . . . . . . .  35
+     C.1.  Since draft-ietf-httpbis-header-structure-15  . . . . . .  35
+     C.2.  Since draft-ietf-httpbis-header-structure-14  . . . . . .  35
+     C.3.  Since draft-ietf-httpbis-header-structure-13  . . . . . .  36
+     C.4.  Since draft-ietf-httpbis-header-structure-12  . . . . . .  36
      C.5.  Since draft-ietf-httpbis-header-structure-11  . . . . . .  37
      C.6.  Since draft-ietf-httpbis-header-structure-10  . . . . . .  37
-     C.7.  Since draft-ietf-httpbis-header-structure-09  . . . . . .  38
-     C.8.  Since draft-ietf-httpbis-header-structure-08  . . . . . .  38
+     C.7.  Since draft-ietf-httpbis-header-structure-09  . . . . . .  37
+     C.8.  Since draft-ietf-httpbis-header-structure-08  . . . . . .  37
      C.9.  Since draft-ietf-httpbis-header-structure-07  . . . . . .  38
-     C.10. Since draft-ietf-httpbis-header-structure-06  . . . . . .  39
-     C.11. Since draft-ietf-httpbis-header-structure-05  . . . . . .  39
+     C.10. Since draft-ietf-httpbis-header-structure-06  . . . . . .  38
+     C.11. Since draft-ietf-httpbis-header-structure-05  . . . . . .  38
      C.12. Since draft-ietf-httpbis-header-structure-04  . . . . . .  39
      C.13. Since draft-ietf-httpbis-header-structure-03  . . . . . .  39
      C.14. Since draft-ietf-httpbis-header-structure-02  . . . . . .  39
-     C.15. Since draft-ietf-httpbis-header-structure-01  . . . . . .  40
-     C.16. Since draft-ietf-httpbis-header-structure-00  . . . . . .  40
+     C.15. Since draft-ietf-httpbis-header-structure-01  . . . . . .  39
+     C.16. Since draft-ietf-httpbis-header-structure-00  . . . . . .  39
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  40
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  40
 
@@ -162,6 +161,7 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
    onerous task; even with the guidance in Section 8.3.1 of [RFC7231],
    there are many decisions - and pitfalls - for a prospective HTTP
    field author.
+
 
 
 
@@ -1889,43 +1889,6 @@ A.1.  Why not JSON?
    Additionally, there were widely shared feelings that JSON doesn't
    "look right" in HTTP fields.
 
-A.2.  Structured Fields don't "fit" my data.
-
-   Structured Fields intentionally limits the complexity of data
-   structures, to assure that it can be processed in a performant manner
-   with little overhead.  This means that work is necessary to fit some
-   data types into them.
-
-
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 34]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
-
-
-   Sometimes, this can be achieved by creating limited substructures in
-   field values, and/or using more than one field.  For example,
-   consider:
-
-   Example-Thing: name="Widget", cost=89.2, descriptions=(foo bar)
-   Example-Description: foo; url="https://example.net"; context=123,
-                        bar; url="https://example.org"; context=456
-
-   Since the description contains an array of key/value pairs, we use a
-   List to represent them, with the token for each member of the array
-   used to identify it in the "descriptions" member of the Example-Thing
-   dictionary header.
-
-   When specifying more than one field, it's important to remember to
-   describe what a processor's behavior should be when one of the fields
-   is missing.
-
-   If you need to fit arbitrarily complex data into a field value,
-   Structured Fields is probably a poor fit for your use case.
-
 Appendix B.  Implementation Notes
 
    A generic implementation of this specification should expose the top-
@@ -1935,6 +1898,14 @@ Appendix B.  Implementation Notes
 
    For interoperability, it's important that generic implementations be
    complete and follow the algorithms closely; see Section 1.1.  To aid
+
+
+
+Nottingham & Kamp      Expires September 10, 2020              [Page 34]
+
+Internet-Draft      Structured Field Values for HTTP          March 2020
+
+
    this, a common test suite is being maintained by the community at
    https://github.com/httpwg/structured-header-tests [6].
 
@@ -1953,14 +1924,6 @@ Appendix B.  Implementation Notes
    strictly limited to the data types defined in Section 3 in every
    case.  For example, Decimals are designed to take broader input and
    round to allowed values.
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 35]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
-
 
 Appendix C.  Changes
 
@@ -1991,6 +1954,14 @@ C.2.  Since draft-ietf-httpbis-header-structure-14
 
    o  Change value of omitted parameter value to True (#995).
 
+
+
+
+Nottingham & Kamp      Expires September 10, 2020              [Page 35]
+
+Internet-Draft      Structured Field Values for HTTP          March 2020
+
+
    o  Explain more about splitting dictionaries and lists across header
       instances (#997).
 
@@ -2009,14 +1980,6 @@ C.2.  Since draft-ietf-httpbis-header-structure-14
       their values, rather than failing (#997).
 
    o  Allow "." in key (#1027).
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 36]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
-
 
    o  Check first character of key in serialisation (#1037).
 
@@ -2048,6 +2011,13 @@ C.4.  Since draft-ietf-httpbis-header-structure-12
 
    o  Don't add a trailing space in inner-list (#904).
 
+
+
+Nottingham & Kamp      Expires September 10, 2020              [Page 36]
+
+Internet-Draft      Structured Field Values for HTTP          March 2020
+
+
 C.5.  Since draft-ietf-httpbis-header-structure-11
 
    o  Allow * in key (#844).
@@ -2066,13 +2036,6 @@ C.6.  Since draft-ietf-httpbis-header-structure-10
       string (#790).
 
    o  Allow empty dictionaries and lists (#781).
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 37]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
-
 
    o  Change parameterized lists to have primary items (#797).
 
@@ -2104,6 +2067,13 @@ C.8.  Since draft-ietf-httpbis-header-structure-08
 
    o  Added "Intentionally Strict Processing" (#684).
 
+
+
+Nottingham & Kamp      Expires September 10, 2020              [Page 37]
+
+Internet-Draft      Structured Field Values for HTTP          March 2020
+
+
    o  Gave better names for referring specs to use in Parameterised
       Lists (#720).
 
@@ -2121,14 +2091,6 @@ C.9.  Since draft-ietf-httpbis-header-structure-07
       specification (#671).
 
    o  Changed "mapping" to "map" for #671.
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 38]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
-
 
    o  Don't fail if byte sequences aren't "=" padded (#658).
 
@@ -2160,6 +2122,14 @@ C.11.  Since draft-ietf-httpbis-header-structure-05
    o  Refine relationship between ABNF, parsing and serialisation
       algorithms.
 
+
+
+
+Nottingham & Kamp      Expires September 10, 2020              [Page 38]
+
+Internet-Draft      Structured Field Values for HTTP          March 2020
+
+
 C.12.  Since draft-ietf-httpbis-header-structure-04
 
    o  Remove identifiers from item.
@@ -2177,14 +2147,6 @@ C.14.  Since draft-ietf-httpbis-header-structure-02
    o  Split Numbers into Integers and Floats.
 
    o  Define number parsing.
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 39]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
-
 
    o  Tighten up binary parsing and give it an explicit end delimiter.
 
@@ -2213,6 +2175,17 @@ C.16.  Since draft-ietf-httpbis-header-structure-00
 
    o  Change h1_blob delimiter to ":" since "'" is valid t_char
 
+
+
+
+
+
+
+Nottingham & Kamp      Expires September 10, 2020              [Page 39]
+
+Internet-Draft      Structured Field Values for HTTP          March 2020
+
+
 Acknowledgements
 
    Many thanks to Matthew Kerwin for his detailed feedback and careful
@@ -2229,17 +2202,6 @@ Authors' Addresses
 
    Email: mnot@mnot.net
    URI:   https://www.mnot.net/
-
-
-
-
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 40]
-
-Internet-Draft      Structured Field Values for HTTP          March 2020
 
 
    Poul-Henning Kamp
@@ -2275,22 +2237,4 @@ Internet-Draft      Structured Field Values for HTTP          March 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Nottingham & Kamp      Expires September 10, 2020              [Page 41]
+Nottingham & Kamp      Expires September 10, 2020              [Page 40]
