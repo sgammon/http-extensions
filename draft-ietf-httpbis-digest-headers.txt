@@ -289,9 +289,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    The representation digest is an integrity mechanism for HTTP
    resources which uses a checksum that is calculated independently of
-   the payload body and message body.  It is calculated using the
-   representation data (see [RFC7231]), that can be fully or partially
-   contained in the message body, or not contained at all:
+   the payload body and message body.  It uses the representation data
+   (see [RFC7231]), that can be fully or partially contained in the
+   message body, or not contained at all:
 
       representation-data := Content-Encoding( Content-Type( bits ) )
 
@@ -309,8 +309,7 @@ Internet-Draft               Digest Headers                   March 2020
                                    <encoded digest output>
 
    The checksum is computed using one of the "digest-algorithms" listed
-   in Section 5 and then encoded in a format specific to the "digest-
-   algorithm".
+   in Section 5 and then encoded in the associated format.
 
    The example below shows the "sha-256" digest-algorithm which uses
    base64 encoding.
@@ -328,8 +327,9 @@ Internet-Draft               Digest Headers                   March 2020
    The resource is specified by the effective request URI and any
    "validator" contained in the message.
 
-   See Section 9.7 for an example of how digest relates to header fields
-   such as Content-Location (see [RFC7231] Section 3.1.4.2) while a
+   The relationship between Content-Location (see [RFC7231]
+   Section 3.1.4.2) and Digest is demonstrated in Section 9.7.  A
+   comprehensive set of examples showing the impacts of representation
 
 
 
@@ -338,16 +338,15 @@ Polli & Pardue         Expires September 10, 2020               [Page 6]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   comprehensive set of examples showing the impacts of representation
    metadata, payload transformations and HTTP methods on digest is
-   provided in Section 10 and Section 9.
+   provided in Section 9 and Section 10.
 
    A Digest header field MAY contain multiple representation-data-digest
    values.  This could be useful for responses expected to reside in
    caches shared by users with different browsers, for example.
 
    A recipient MAY ignore any or all of the representation-data-digests
-   in a Digest header field.  This allows the recipient to chose which
+   in a Digest header field.  This allows the recipient to choose which
    digest-algorithm(s) to use for validation instead of verifying every
    received representation-data-digest.
 
@@ -389,6 +388,7 @@ Internet-Draft               Digest Headers                   March 2020
 
 
 
+
 Polli & Pardue         Expires September 10, 2020               [Page 7]
 
 Internet-Draft               Digest Headers                   March 2020
@@ -400,7 +400,7 @@ Internet-Draft               Digest Headers                   March 2020
 5.  Digest Algorithm Values
 
    Digest algorithm values are used to indicate a specific digest
-   computation.  For some algorithms, one or more parameters may be
+   computation.  For some algorithms, one or more parameters can be
    supplied.
 
       digest-algorithm = token
@@ -534,15 +534,14 @@ Internet-Draft               Digest Headers                   March 2020
 
 6.  Use of Digest when acting on resources
 
-   POST and PATCH requests may appear to convey partial representations
+   POST and PATCH requests can appear to convey partial representations
    but are semantically acting on resources.  The enclosed
    representation, including its metadata refers to that action.
 
    In these requests the representation digest MUST be computed on the
-   representation-data of that action.
-
-   This is the only possible choice because representation digest
-   requires complete representation metadata (see Section 2).
+   representation-data of that action.  This is the only possible choice
+   because representation digest requires complete representation
+   metadata (see Section 2).
 
    In responses,
 
@@ -552,8 +551,9 @@ Internet-Draft               Digest Headers                   March 2020
 
    o  if there is a referenced resource "Digest" MUST be computed on the
       selected representation of the referenced resource even if that is
-      different from the target resource.  That may or may not result in
-      computing "Digest" on the enclosed representation.
+      different from the target resource.  That might or might not
+      result in computing "Digest" on the enclosed representation.
+
 
 
 
@@ -562,20 +562,17 @@ Polli & Pardue         Expires September 10, 2020              [Page 10]
 Internet-Draft               Digest Headers                   March 2020
 
 
-   The latter case might be done accordingly to the HTTP semantics of
-   the given method, for example using the "Content-Location" header
-   field.
-
-   Differently from "Content-Location", which is representation
-   metadata, the "Location" header field does not affect "Digest".
+   The latter case might be done according to the HTTP semantics of the
+   given method, for example using the "Content-Location" header field.
+   In contrast, the "Location" header field does not affect "Digest"
+   because it is not representation metadata.
 
 6.1.  Digest and PATCH
 
    In PATCH requests the representation digest MUST be computed on the
-   patch document.
-
-   This is because the representation metadata refers to the patch
-   document and not to the target resource (see Section 2 of [RFC5789]).
+   patch document because the representation metadata refers to the
+   patch document and not to the target resource (see Section 2 of
+   [RFC5789]).
 
    In PATCH responses the representation digest MUST be computed on the
    selected representation of the patched resource.
@@ -587,7 +584,7 @@ Internet-Draft               Digest Headers                   March 2020
 7.  Deprecate Negotiation of Content-MD5
 
    This RFC deprecates the negotiation of Content-MD5 as it has been
-   obsoleted by [RFC7231]
+   obsoleted by [RFC7231].
 
 8.  Relationship to Subresource Integrity (SRI)
 
@@ -599,7 +596,7 @@ Internet-Draft               Digest Headers                   March 2020
 
    SRI allows a first-party authority to declare an integrity assertion
    on a resource served by a first or third party authority.  This is
-   done via the "integrity" attribute that can added to "script" or
+   done via the "integrity" attribute that can be added to "script" or
    "link" HTML elements.  Therefore, the integrity assertion is always
    made out-of-band to the resource fetch.  In contrast, the "Digest"
    header field is supplied in-band alongside the selected
@@ -609,6 +606,9 @@ Internet-Draft               Digest Headers                   March 2020
    This contrast is interesting because on one hand self-assertion is
    less likely to be affected by coordination problems such as the
    first-party holding stale information about the third party, but on
+   the other hand the self-assertion is only as trustworthy as the
+   authority that provided it.
+
 
 
 
@@ -617,9 +617,6 @@ Polli & Pardue         Expires September 10, 2020              [Page 11]
 
 Internet-Draft               Digest Headers                   March 2020
 
-
-   the other hand the self-assertion is only as trustworthy as the
-   authority that provided it.
 
    The SRI "integrity" attribute contains a cryptographic hash algorithm
    and digest value which is similar to "representation-data-digest"
@@ -650,22 +647,25 @@ Internet-Draft               Digest Headers                   March 2020
 
 8.1.  Supporting Both SRI and Representation Digest
 
-   The SRI and Representation Digest mechanism are different and
+   The SRI and Representation Digest mechanisms are different and
    complementary but one is not capable of replacing the other because
-   they have have different threat, security and implementation
-   properties.
+   they have different threat, security and implementation properties.
 
    A user agent that supports both mechanisms is expected to apply the
    rules specified for each but since the two mechanisms are
    independent, the ordering is not important.  However, a user agent
    supporting both could benefit from performing representation digest
-   validation first because the it does not require a conversion to into
+   validation first because it does not always require a conversion into
    identity encoding.
 
    There is a chance that a user agent supporting both mechanisms may
    find one validates successfully while the other fails.  This document
    specifies no requirements or guidance for user agents that experience
    such cases.
+
+
+
+
 
 
 
@@ -1185,14 +1185,14 @@ Internet-Draft               Digest Headers                   March 2020
    representation, it explicitly depends on the "representation
    metadata" (eg. the values of "Content-Type", "Content-Encoding" etc).
    A signature that protects "Digest" but not other "representation
-   metadata" may expose the communication to tampering.  For example, an
+   metadata" can expose the communication to tampering.  For example, an
    actor could manipulate the "Content-Type" field-value and cause a
    digest validation failure at the recipient, preventing the
    application from accessing the representation.  Such an attack
    consumes the resources of both endpoints.  See also Section 11.5.
 
    "Digest" SHOULD always be used over a connection which provides
-   integrity at transport layer that protects HTTP header fields.
+   integrity at the transport layer that protects HTTP header fields.
 
    A "Digest" header field using NOT RECOMMENDED digest-algorithms
    SHOULD NOT be used in signatures.
@@ -1631,10 +1631,10 @@ Internet-Draft               Digest Headers                   March 2020
    Content-Encoding: gzip
 
 
-   Finally the semantics of an HTTP response may decouple the effective
-   request URI from the enclosed representation.  In the example
-   response below, the "Content-Location" header field indicates that
-   the enclosed representation refers to the resource available at
+   Finally the semantics of an HTTP response might decouple the
+   effective request URI from the enclosed representation.  In the
+   example response below, the "Content-Location" header field indicates
+   that the enclosed representation refers to the resource available at
    "/authors/123".
 
    Request:
