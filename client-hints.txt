@@ -550,10 +550,10 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 7.11.  Since -10
 
-   o  PR 1072: LC feedback from Julian Reschke
-
-
-
+   o  PR 1072: LC feedback from Julian Reschke.
+   o  PR 1080: Improve list style.
+   o  PR 1082: Remove section mentioning Variants.
+   o  PR 1097: Editorial feedback from mnot.
 
 
 
