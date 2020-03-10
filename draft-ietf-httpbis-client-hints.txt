@@ -5,7 +5,7 @@
 HTTP Working Group                                           I. Grigorik
 Internet-Draft                                                  Y. Weiss
 Intended status: Experimental                                     Google
-Expires: September 10, 2020                                March 9, 2020
+Expires: September 11, 2020                               March 10, 2020
 
 
                            HTTP Client Hints
@@ -53,12 +53,12 @@ Status of This Memo
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 1]
+Grigorik & Weiss       Expires September 11, 2020               [Page 1]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
-   This Internet-Draft will expire on September 10, 2020.
+   This Internet-Draft will expire on September 11, 2020.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 2]
+Grigorik & Weiss       Expires September 11, 2020               [Page 2]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 3]
+Grigorik & Weiss       Expires September 11, 2020               [Page 3]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 4]
+Grigorik & Weiss       Expires September 11, 2020               [Page 4]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 5]
+Grigorik & Weiss       Expires September 11, 2020               [Page 5]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 6]
+Grigorik & Weiss       Expires September 11, 2020               [Page 6]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -346,9 +346,10 @@ Internet-Draft              HTTP Client Hints                 March 2020
    Such features SHOULD take into account the following aspects of the
    information exposed:
 
-   o  Entropy
 
-      *  Exposing highly granular data can be used to help identify
+
+      Entropy:
+         Exposing highly granular data can be used to help identify
          users across multiple requests to different origins.  Reducing
          the set of header field values that can be expressed, or
          restricting them to an enumerated range where the advertised
@@ -356,15 +357,13 @@ Internet-Draft              HTTP Client Hints                 March 2020
          current value, can improve privacy and reduce risk of
          linkability by ensuring that the same value is sent by multiple
          users.
-   o  Sensitivity
-
-      *  The feature SHOULD NOT expose user sensitive information.  To
+      Sensitivity:
+         The feature SHOULD NOT expose user sensitive information.  To
          that end, information available to the application, but gated
          behind specific user actions (e.g. a permission prompt or user
          activation) SHOULD NOT be exposed as a Client Hint.
-   o  Change over time
-
-      *  The feature SHOULD NOT expose user information that changes
+      Change over time:
+         The feature SHOULD NOT expose user information that changes
          over time, unless the state change itself is also exposed (e.g.
          through JavaScript callbacks).
 
@@ -386,15 +385,15 @@ Internet-Draft              HTTP Client Hints                 March 2020
       Client Hints header fields.
    o  Implementers MAY provide user choice mechanisms so that users can
       balance privacy concerns with bandwidth limitations.  However,
+      implementers SHOULD also be aware that explaining the privacy
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 7]
+Grigorik & Weiss       Expires September 11, 2020               [Page 7]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
-      implementers SHOULD also be aware that explaining the privacy
       implications of passive fingerprinting to users can be
       challenging.
    o  Implementations specific to certain use cases or threat models MAY
@@ -445,7 +444,8 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 8]
+
+Grigorik & Weiss       Expires September 11, 2020               [Page 8]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -501,7 +501,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020               [Page 9]
+Grigorik & Weiss       Expires September 11, 2020               [Page 9]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
 
-Grigorik & Weiss       Expires September 10, 2020              [Page 10]
+Grigorik & Weiss       Expires September 11, 2020              [Page 10]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -581,9 +581,9 @@ Acknowledgements
               <https://html.spec.whatwg.org/>.
 
    [I-D.ietf-httpbis-header-structure]
-              Nottingham, M. and P. Kamp, "Structured Headers for HTTP",
-              draft-ietf-httpbis-header-structure-14 (work in progress),
-              January 2020.
+              Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", draft-ietf-httpbis-header-structure-16 (work in
+              progress), March 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -613,7 +613,7 @@ Acknowledgements
 
 
 
-Grigorik & Weiss       Expires September 10, 2020              [Page 11]
+Grigorik & Weiss       Expires September 11, 2020              [Page 11]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
@@ -669,4 +669,4 @@ Authors' Addresses
 
 
 
-Grigorik & Weiss       Expires September 10, 2020              [Page 12]
+Grigorik & Weiss       Expires September 11, 2020              [Page 12]
