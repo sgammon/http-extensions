@@ -89,14 +89,14 @@ Table of Contents
      4.1.  Information Exposure  . . . . . . . . . . . . . . . . . .   6
      4.2.  Deployment and Security Risks . . . . . . . . . . . . . .   8
      4.3.  Abuse Detection . . . . . . . . . . . . . . . . . . . . .   8
-   5.  Cost of Sending Hints . . . . . . . . . . . . . . . . . . . .   9
+   5.  Cost of Sending Hints . . . . . . . . . . . . . . . . . . . .   8
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
      6.1.  Accept-CH . . . . . . . . . . . . . . . . . . . . . . . .   9
    7.  Changes . . . . . . . . . . . . . . . . . . . . . . . . . . .   9
      7.1.  Since -00 . . . . . . . . . . . . . . . . . . . . . . . .   9
      7.2.  Since -01 . . . . . . . . . . . . . . . . . . . . . . . .   9
      7.3.  Since -02 . . . . . . . . . . . . . . . . . . . . . . . .   9
-     7.4.  Since -03 . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.4.  Since -03 . . . . . . . . . . . . . . . . . . . . . . . .   9
      7.5.  Since -04 . . . . . . . . . . . . . . . . . . . . . . . .  10
      7.6.  Since -05 . . . . . . . . . . . . . . . . . . . . . . . .  10
      7.7.  Since -06 . . . . . . . . . . . . . . . . . . . . . . . .  10
@@ -104,7 +104,7 @@ Table of Contents
      7.9.  Since -08 . . . . . . . . . . . . . . . . . . . . . . . .  10
      7.10. Since -09 . . . . . . . . . . . . . . . . . . . . . . . .  10
      7.11. Since -10 . . . . . . . . . . . . . . . . . . . . . . . .  10
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  11
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  10
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
 
 
@@ -115,7 +115,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
 
      9.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  12
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  11
      9.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
@@ -346,26 +346,21 @@ Internet-Draft              HTTP Client Hints                 March 2020
    Such features SHOULD take into account the following aspects of the
    information exposed:
 
-
-
-      Entropy:
-         Exposing highly granular data can be used to help identify
-         users across multiple requests to different origins.  Reducing
-         the set of header field values that can be expressed, or
-         restricting them to an enumerated range where the advertised
-         value is close but is not an exact representation of the
-         current value, can improve privacy and reduce risk of
-         linkability by ensuring that the same value is sent by multiple
-         users.
-      Sensitivity:
-         The feature SHOULD NOT expose user sensitive information.  To
-         that end, information available to the application, but gated
-         behind specific user actions (e.g. a permission prompt or user
-         activation) SHOULD NOT be exposed as a Client Hint.
-      Change over time:
-         The feature SHOULD NOT expose user information that changes
-         over time, unless the state change itself is also exposed (e.g.
-         through JavaScript callbacks).
+   o  Entropy - Exposing highly granular data can be used to help
+      identify users across multiple requests to different origins.
+      Reducing the set of header field values that can be expressed, or
+      restricting them to an enumerated range where the advertised value
+      is close but is not an exact representation of the current value,
+      can improve privacy and reduce risk of linkability by ensuring
+      that the same value is sent by multiple users.
+   o  Sensitivity - The feature SHOULD NOT expose user sensitive
+      information.  To that end, information available to the
+      application, but gated behind specific user actions (e.g. a
+      permission prompt or user activation) SHOULD NOT be exposed as a
+      Client Hint.
+   o  Change over time - The feature SHOULD NOT expose user information
+      that changes over time, unless the state change itself is also
+      exposed (e.g. through JavaScript callbacks).
 
    Different features will be positioned in different points in the
    space between low-entropy, non-sensitive and static information (e.g.
@@ -386,6 +381,11 @@ Internet-Draft              HTTP Client Hints                 March 2020
    o  Implementers MAY provide user choice mechanisms so that users can
       balance privacy concerns with bandwidth limitations.  However,
       implementers SHOULD also be aware that explaining the privacy
+      implications of passive fingerprinting to users can be
+      challenging.
+   o  Implementations specific to certain use cases or threat models MAY
+      avoid transmitting some or all of Client Hints header fields.  For
+
 
 
 
@@ -394,10 +394,6 @@ Grigorik & Weiss       Expires September 12, 2020               [Page 7]
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
-      implications of passive fingerprinting to users can be
-      challenging.
-   o  Implementations specific to certain use cases or threat models MAY
-      avoid transmitting some or all of Client Hints header fields.  For
       example, avoid transmission of header fields that can carry higher
       risks of linkability.
 
@@ -438,9 +434,13 @@ Internet-Draft              HTTP Client Hints                 March 2020
    and from those without.  This might be used to reveal which Client
    Hints are in use, allowing researchers to further analyze that use.
 
+5.  Cost of Sending Hints
 
-
-
+   While HTTP header compression schemes reduce the cost of adding HTTP
+   header fields, sending Client Hints to the server incurs an increase
+   in request byte size.  Servers SHOULD take that into account when
+   opting in to receive Client Hints, and SHOULD NOT opt-in to receive
+   hints unless they are to be used for content adaptation purposes.
 
 
 
@@ -449,14 +449,6 @@ Grigorik & Weiss       Expires September 12, 2020               [Page 8]
 
 Internet-Draft              HTTP Client Hints                 March 2020
 
-
-5.  Cost of Sending Hints
-
-   While HTTP header compression schemes reduce the cost of adding HTTP
-   header fields, sending Client Hints to the server incurs an increase
-   in request byte size.  Servers SHOULD take that into account when
-   opting in to receive Client Hints, and SHOULD NOT opt-in to receive
-   hints unless they are to be used for content adaptation purposes.
 
    Due to request byte size increase, features relying on this document
    to define Client Hints MAY consider restricting sending those hints
@@ -498,14 +490,6 @@ Internet-Draft              HTTP Client Hints                 March 2020
    o  Issue 239: Updated reference to CR-css-values-3
    o  Issue 240: Updated reference for Network Information API
    o  Issue 241: Consistency in IANA considerations
-
-
-
-Grigorik & Weiss       Expires September 12, 2020               [Page 9]
-
-Internet-Draft              HTTP Client Hints                 March 2020
-
-
    o  Issue 250: Clarified Accept-CH
 
 7.4.  Since -03
@@ -513,6 +497,14 @@ Internet-Draft              HTTP Client Hints                 March 2020
    o  Issue 284: Extended guidance for Accept-CH
    o  Issue 308: Editorial cleanup
    o  Issue 306: Define Accept-CH-Lifetime
+
+
+
+
+Grigorik & Weiss       Expires September 12, 2020               [Page 9]
+
+Internet-Draft              HTTP Client Hints                 March 2020
+
 
 7.5.  Since -04
 
@@ -554,6 +546,14 @@ Internet-Draft              HTTP Client Hints                 March 2020
    o  PR 1080: Improve list style.
    o  PR 1082: Remove section mentioning Variants.
    o  PR 1097: Editorial feedback from mnot.
+   o  PR 1131: Remove unused references.
+   o  PR 1132: Remove nested list.
+
+Acknowledgements
+
+   Thanks to Mark Nottingham, Julian Reschke, Chris Bentzel, Ben
+   Greenstein, Tarun Bansal, Roy Fielding, Vasiliy Faronov, Ted Hardie,
+
 
 
 
@@ -562,12 +562,6 @@ Grigorik & Weiss       Expires September 12, 2020              [Page 10]
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
-   o  PR 1131: Remove unused references.
-
-Acknowledgements
-
-   Thanks to Mark Nottingham, Julian Reschke, Chris Bentzel, Ben
-   Greenstein, Tarun Bansal, Roy Fielding, Vasiliy Faronov, Ted Hardie,
    Jonas Sicking, Martin Thomson, and numerous other members of the IETF
    HTTP Working Group for invaluable help and feedback.
 
@@ -607,17 +601,6 @@ Acknowledgements
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-
-
-
-
-Grigorik & Weiss       Expires September 12, 2020              [Page 11]
-
-Internet-Draft              HTTP Client Hints                 March 2020
-
-
 9.2.  Informative References
 
    [RFC6265]  Barth, A., "HTTP State Management Mechanism", RFC 6265,
@@ -626,6 +609,14 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
    [UA-CH]    West, M. and Y. Weiss, "User Agent Client Hints", n.d.,
               <https://wicg.github.io/ua-client-hints/>.
+
+
+
+
+Grigorik & Weiss       Expires September 12, 2020              [Page 11]
+
+Internet-Draft              HTTP Client Hints                 March 2020
+
 
 9.3.  URIs
 
@@ -649,6 +640,15 @@ Authors' Addresses
 
    Email: yoav@yoav.ws
    URI:   https://blog.yoav.ws/
+
+
+
+
+
+
+
+
+
 
 
 
