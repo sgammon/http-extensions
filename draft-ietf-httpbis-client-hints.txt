@@ -116,6 +116,7 @@ Internet-Draft              HTTP Client Hints                 March 2020
 
      A.10. Since -09 . . . . . . . . . . . . . . . . . . . . . . . .  11
      A.11. Since -10 . . . . . . . . . . . . . . . . . . . . . . . .  11
+     A.12. Since -11 . . . . . . . . . . . . . . . . . . . . . . . .  12
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
@@ -160,7 +161,6 @@ Internet-Draft              HTTP Client Hints                 March 2020
    causes performance concerns (because it creates "bloat" in requests),
    as well as privacy issues; passively providing such information
    allows servers to silently fingerprint the user agent.
-
 
 
 
@@ -618,6 +618,10 @@ Grigorik & Weiss       Expires September 12, 2020              [Page 11]
 Internet-Draft              HTTP Client Hints                 March 2020
 
 
+A.12.  Since -11
+
+   o  PR 1134: Re-insert back section.
+
 Acknowledgements
 
    Thanks to Mark Nottingham, Julian Reschke, Chris Bentzel, Ben
@@ -639,10 +643,6 @@ Authors' Addresses
 
    Email: yoav@yoav.ws
    URI:   https://blog.yoav.ws/
-
-
-
-
 
 
 
