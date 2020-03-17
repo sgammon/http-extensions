@@ -213,7 +213,7 @@ The definitions "representation", "selected representation", "representation
 data", "representation metadata", and "payload body" in this document are to be
 interpreted as described in [RFC7230] and [RFC7231].
 
-The definition "validator" in this document is to be interpreted as described in
+The definition "validator fields" in this document is to be interpreted as described in
 Section 7.2 of [RFC7231].
 
 # Representation Digest {#representation-digest}
@@ -260,7 +260,7 @@ It can be used in both request and response.
    Digest = "Digest" ":" OWS 1#representation-data-digest
 ~~~
 
-The resource is specified by the effective request URI and any `validator`
+The resource is specified by the effective request URI and any `validator fields`
 contained in the message.
 
 The relationship between Content-Location (see [RFC7231] Section 3.1.4.2)
